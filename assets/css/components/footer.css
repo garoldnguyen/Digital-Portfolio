@@ -3,7 +3,15 @@
     background: var(--footer-bg);
     color: var(--footer-text);
     text-align: center;
-    padding: 20px 0;
-    font-family: 'Nunito', sans-serif;
+    padding: 40px 0;
+    font-family: var(--font-primary);
     border-top: 1px solid var(--border-color);
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.7rem;
+    font-weight: 400;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
 }

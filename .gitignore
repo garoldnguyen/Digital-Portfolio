@@ -37,3 +37,6 @@ npm-debug.log*
 # Build outputs
 dist/
 build/
+
+# Firebase
+.firebase/

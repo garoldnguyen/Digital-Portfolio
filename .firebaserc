@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "digital-portfolio-dc046"
+  },
+  "targets": {
+    "digital-portfolio-dc046": {
+      "hosting": {
+        "quannguyen47": [
+          "quannguyen47"
+        ],
+        "default": [
+          "digital-portfolio-dc046"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

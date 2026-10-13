@@ -1,0 +1,34 @@
+{
+  "hosting": [
+    {
+      "target": "quannguyen47",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "package.json",
+        "package-lock.json",
+        "skills-lock.json",
+        "README.md",
+        "icons-demo.html"
+      ],
+      "cleanUrls": true
+    },
+    {
+      "target": "default",
+      "public": ".",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**",
+        "package.json",
+        "package-lock.json",
+        "skills-lock.json",
+        "README.md",
+        "icons-demo.html"
+      ],
+      "cleanUrls": true
+    }
+  ]
+}

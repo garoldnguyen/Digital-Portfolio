@@ -1,12 +1,9 @@
-/* Personal Projects Section - Minimalist Terminal Portal */
+/* Projects Section - Inline Slideshow */
 .projects {
     padding: 120px 0;
     background: var(--bg-primary);
     position: relative;
     overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 /* Subtle Grid Background */
@@ -18,203 +15,332 @@
     width: 100%;
     height: 100%;
     background-image:
-        linear-gradient(rgba(0, 255, 65, 0.03) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(0, 255, 65, 0.03) 1px, transparent 1px);
+        linear-gradient(rgba(var(--accent-rgb), 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(var(--accent-rgb), 0.03) 1px, transparent 1px);
     background-size: 30px 30px;
     pointer-events: none;
     mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
     -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
 }
 
-.project-portal-wrapper {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+/* Slideshow Container */
+.projects-slideshow {
     position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 90px;
     z-index: 10;
 }
 
-/* Minimalist Terminal Card */
-.portal-card {
+/* Viewport that clips overflow */
+.slideshow-viewport {
+    overflow: hidden;
+    border-radius: 6px;
     position: relative;
-    background: rgba(255, 255, 255, 0.85);
-    /* Light Mode: Light Glass */
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    /* Sharper corners for terminal look */
-    padding: 60px 80px;
-    text-align: center;
-    max-width: 700px;
-    width: 100%;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 0 1px transparent;
-    /* Reserved for hover */
 }
 
-[data-theme="dark"] .portal-card {
-    background: rgba(10, 10, 10, 0.6);
-    /* Dark Mode: Dark Glass */
-}
-
-.portal-card:hover {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 20px rgba(0, 255, 65, 0.1);
-}
-
-.portal-content {
-    position: relative;
-    z-index: 2;
+/* Track holding all slides */
+.slideshow-track {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    will-change: transform;
 }
 
-/* Terminal Icon */
-.portal-icon-wrapper {
+/* Individual Slide */
+.project-slide {
+    min-width: 100%;
+    flex-shrink: 0;
+    padding: 0 4px;
+    box-sizing: border-box;
+}
+
+/* Project Card */
+.project-card {
+    background: var(--card-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    box-shadow: var(--glass-highlight);
+    padding: 60px 50px;
+    margin: 4px;
+    text-align: center;
+    transition: box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+[data-theme="dark"] .project-card {
+    background: var(--card-bg);
+}
+
+.project-card:hover {
+    border-color: var(--accent-color);
+    box-shadow: var(--glass-highlight), 0 12px 30px var(--card-shadow);
+}
+
+/* Tag */
+.project-tag {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--nav-bg);
+    background: var(--accent-color);
+    border: 1px solid var(--accent-color);
+    border-radius: 100px;
+    padding: 6px 16px;
     margin-bottom: 25px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: rgba(0, 255, 65, 0.05);
-    border: 1px solid rgba(0, 255, 65, 0.2);
-    animation: icon-pulse 4s infinite ease-in-out;
+    letter-spacing: 1px;
+    text-transform: uppercase;
 }
 
-@keyframes icon-pulse {
-
-    0%,
-    100% {
-        box-shadow: 0 0 10px rgba(0, 255, 65, 0.1);
-    }
-
-    50% {
-        box-shadow: 0 0 20px rgba(0, 255, 65, 0.3);
-    }
-}
-
-.portal-icon {
-    font-size: 1.5rem;
-    color: var(--accent-color);
-}
-
-/* Typography */
-.portal-title {
-    font-size: 1.8rem;
-    font-weight: 500;
-    margin-bottom: 15px;
+/* Title */
+.project-card h3 {
     color: var(--text-primary);
-    font-family: 'Source Code Pro', monospace;
-    /* Monospace for terminal feel */
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    font-family: var(--font-mono);
     letter-spacing: -0.5px;
 }
 
-.portal-title::before {
+.project-card h3::before {
     content: '> ';
     color: var(--accent-color);
-    margin-right: 5px;
     opacity: 0.8;
 }
 
-.portal-description {
-    font-size: 1rem;
+/* Description */
+.project-card p {
+    font-size: 1.05rem;
     color: var(--text-secondary);
-    line-height: 1.6;
-    margin-bottom: 40px;
+    line-height: 1.7;
+    margin-bottom: 30px;
     max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
     font-family: var(--font-primary);
-    /* Use cleaner sans-serif for reading text */
+    text-wrap: balance;
 }
 
-/* Minimalist Buttons */
-.portal-actions {
+/* Tech Stack */
+.project-tech {
     display: flex;
-    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.project-tech span {
+    color: var(--accent-color);
+    background: rgba(var(--accent-rgb), 0.05);
+    padding: 6px 14px;
+    border-radius: 6px;
+    border: 1px solid rgba(var(--accent-rgb), 0.2);
+    font-weight: 500;
+}
+
+/* Links */
+.project-links {
+    display: flex;
+    gap: 16px;
     flex-wrap: wrap;
     justify-content: center;
 }
 
-.portal-btn {
+.project-links a {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 28px;
+    gap: 0.5rem;
+    padding: 10px 24px;
     border-radius: 4px;
-    /* Sharp corners */
     font-weight: 500;
     text-decoration: none;
     transition: all 0.2s ease;
-    font-size: 0.95rem;
-    font-family: 'Source Code Pro', monospace;
-    letter-spacing: 0.5px;
-    position: relative;
-    overflow: hidden;
+    font-size: 0.9rem;
+    font-family: var(--font-mono);
+    letter-spacing: 0.3px;
 }
 
-/* Primary Button: Outline Style */
-.portal-btn.primary {
+.project-links a.project-link-primary {
+    background: var(--accent-color);
+    color: var(--nav-bg);
+    border: 2px solid var(--accent-color);
+    border-radius: 6px;
+}
+
+.project-links a.project-link-primary:hover {
     background: transparent;
     color: var(--accent-color);
-    border: 1px solid var(--accent-color);
-}
-
-.portal-btn.primary:hover {
-    background: var(--accent-color);
-    color: #000;
-    /* Black text on green background */
-    box-shadow: 0 0 15px rgba(0, 255, 65, 0.4);
     transform: translateY(-2px);
 }
 
-/* Secondary Button: Ghost Style */
-.portal-btn.secondary {
+.project-links a.project-link-secondary {
     background: transparent;
     color: var(--text-secondary);
-    border: 1px solid transparent;
+    border: 2px solid var(--border-color);
+    border-radius: 6px;
 }
 
-.portal-btn.secondary:hover {
+.project-links a.project-link-secondary:hover {
     color: var(--text-primary);
-    background: var(--bg-accent);
-    /* Theme aware background */
-    border-color: var(--border-color);
+    border-color: var(--text-primary);
+    transform: translateY(-2px);
+}
+
+/* Slideshow Controls */
+.slideshow-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 20;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: var(--glass-highlight), 0 5px 15px var(--card-shadow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    padding: 0;
+}
+
+.slideshow-arrow:hover {
+    border-color: var(--accent-color);
+    color: var(--accent-color);
+    box-shadow: var(--glass-highlight), 0 5px 15px var(--card-shadow);
+}
+
+.slideshow-arrow.prev {
+    left: -20px;
+}
+
+.slideshow-arrow.prev:hover {
+    transform: translateY(-50%) translateX(-4px);
+}
+
+.slideshow-arrow.next {
+    right: -20px;
+}
+
+.slideshow-arrow.next:hover {
+    transform: translateY(-50%) translateX(4px);
+}
+
+.slideshow-arrow:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.slideshow-arrow:active {
+    transform: translateY(-50%) scale(0.9);
+    transition-duration: 0.1s;
+}
+
+/* Dot Indicators */
+.slideshow-dots {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 30px;
+}
+
+.slideshow-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--border-color);
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.slideshow-dot:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+.slideshow-dot.active {
+    background: var(--accent-color);
+    border-color: var(--accent-color);
+    transform: scale(1.3);
+}
+
+.slideshow-dot:hover:not(.active) {
+    background: var(--text-secondary);
+}
+
+/* Slide Counter */
+.slideshow-counter {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    margin-top: 15px;
+    text-align: center;
+    letter-spacing: 2px;
 }
 
 /* Mobile Responsiveness */
 @media (max-width: 992px) {
-    .portal-card {
-        padding: 40px 20px;
-        border: none;
-        /* Remove border on small screens for cleaner look */
-        background: transparent;
-        /* Seamless integration */
+    .projects-slideshow {
+        padding: 0 50px;
     }
 
-    .portal-title {
+    .project-card {
+        padding: 40px 30px;
+        border-radius: 12px;
+    }
+
+    .project-card h3 {
         font-size: 1.5rem;
     }
 
-    .portal-description {
-        font-size: 0.9rem;
-        margin-bottom: 30px;
+    .project-card p {
+        font-size: 1rem;
+        margin-bottom: 24px;
     }
 
-    .portal-actions {
+    .project-links {
         flex-direction: column;
         width: 100%;
-        gap: 15px;
+        gap: 12px;
     }
 
-    .portal-btn {
+    .project-links a {
         width: 100%;
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .projects-slideshow {
+        padding: 0 40px;
+    }
+
+    .project-card {
+        padding: 30px 20px;
+    }
+
+    .slideshow-arrow {
+        width: 36px;
+        height: 36px;
+        font-size: 0.9rem;
+    }
+
+    .slideshow-arrow.prev {
+        left: -15px;
+    }
+
+    .slideshow-arrow.next {
+        right: -15px;
     }
 }

@@ -3,9 +3,9 @@
     text-decoration: none;
     border-radius: 6px;
     font-weight: 600;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.32, 0.72, 0, 1);
     display: inline-block;
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-primary);
     font-size: 0.9rem;
     position: relative;
     overflow: hidden;
@@ -26,6 +26,11 @@
     left: 100%;
 }
 
+.btn:active {
+    transform: scale(0.97) translateY(1px);
+    transition-duration: 0.1s;
+}
+
 .btn.primary {
     background: var(--accent-color);
     color: var(--nav-bg);
@@ -37,7 +42,6 @@
     color: var(--accent-color);
     border-color: var(--accent-color);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--glow-color);
 }
 
 .btn.secondary {
@@ -50,7 +54,6 @@
     background: var(--accent-color);
     color: var(--nav-bg);
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px var(--glow-color);
 }
 
 @media (max-width: 768px) {
@@ -89,7 +92,7 @@
     opacity: 0;
     visibility: hidden;
     transform: translateY(20px);
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.32, 0.72, 0, 1);
     z-index: 998;
 }
 
@@ -102,5 +105,9 @@
 .back-to-top:hover {
     background: var(--accent-hover);
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px var(--glow-color);
+}
+
+.back-to-top:active {
+    transform: scale(0.95);
+    transition-duration: 0.1s;
 }

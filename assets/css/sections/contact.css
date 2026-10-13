@@ -31,17 +31,16 @@
     font-size: 1.5rem;
     color: var(--accent-color);
     width: 30px;
-    text-shadow: 0 0 10px var(--text-glow);
 }
 
 .contact-item h3 {
     margin-bottom: 0.25rem;
-    font-family: 'Source Code Pro', monospace;
+    font-family: var(--font-mono);
 }
 
 .contact-item p {
     color: var(--text-secondary);
-    font-family: 'Nunito', sans-serif;
+    font-family: var(--font-primary);
     word-break: break-word;
 }
 
@@ -84,7 +83,6 @@
 .social-link:hover {
     background: var(--accent-hover);
     transform: scale(1.1);
-    box-shadow: 0 5px 15px var(--glow-color);
 }
 
 @media (max-width: 768px) {

@@ -1,0 +1,134 @@
+/* Shared Terminal Window Component (used by Skills, Certificates) */
+.terminal-window {
+    max-width: 900px;
+    margin: 0 auto;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: var(--glass-highlight), 0 10px 30px -15px var(--card-shadow);
+    overflow: hidden;
+    opacity: 0;
+    transform: translateY(20px);
+}
+
+.terminal-titlebar {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 18px;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.terminal-dots {
+    display: flex;
+    gap: 7px;
+}
+
+.terminal-dots span {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+    background: var(--border-color);
+}
+
+.terminal-dots span:nth-child(1) { background: #ff5f56; opacity: 0.7; }
+.terminal-dots span:nth-child(2) { background: #ffbd2e; opacity: 0.7; }
+.terminal-dots span:nth-child(3) { background: #27c93f; opacity: 0.7; }
+
+.terminal-path {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.terminal-body {
+    padding: 28px 32px 32px;
+}
+
+.terminal-line {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+}
+
+.prompt-symbol {
+    color: var(--accent-color);
+    font-weight: 700;
+    margin-right: 6px;
+}
+
+/* Tabs */
+.terminal-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.terminal-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    padding: 10px 14px;
+    cursor: pointer;
+    transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.terminal-tab i {
+    color: var(--text-secondary);
+    transition: color 0.2s ease;
+}
+
+.terminal-tab:hover {
+    color: var(--text-primary);
+}
+
+.terminal-tab.active {
+    color: var(--accent-color);
+    border-bottom-color: var(--accent-color);
+}
+
+.terminal-tab.active i {
+    color: var(--accent-color);
+}
+
+.terminal-tab:focus-visible {
+    outline: 2px solid var(--accent-color);
+    outline-offset: 2px;
+}
+
+/* Panels */
+.terminal-panel[hidden] {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .terminal-body {
+        padding: 22px 18px 26px;
+    }
+
+    .terminal-tabs {
+        gap: 2px;
+    }
+
+    .terminal-tab {
+        font-size: 0.78rem;
+        padding: 8px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .terminal-tab {
+        font-size: 0.72rem;
+        padding: 7px 8px;
+    }
+}

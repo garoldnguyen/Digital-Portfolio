@@ -1,16 +1,18 @@
 /* Sections */
 section {
-    padding: 80px 0;
+    padding: var(--spacing-5xl) 0;
 }
 
 .section-title {
     text-align: center;
-    font-size: 2.5rem;
-    margin-bottom: 3rem;
+    font-size: var(--text-3xl);
+    margin-bottom: var(--spacing-2xl);
     color: var(--text-primary);
     position: relative;
-    font-family: 'Source Code Pro', monospace;
+    font-family: var(--font-mono);
     font-weight: 600;
+    letter-spacing: -0.5px;
+    text-wrap: balance;
 }
 
 .section-title::before {
@@ -25,23 +27,22 @@ section {
     width: 60px;
     height: 3px;
     background: var(--accent-color);
-    margin: 20px auto;
-    box-shadow: 0 0 10px var(--glow-color);
+    margin: var(--spacing-md) auto;
 }
 
 @media (max-width: 768px) {
     section {
-        padding: 50px 0;
+        padding: var(--spacing-4xl) 0;
     }
 
     .section-title {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+        font-size: var(--text-2xl);
+        margin-bottom: var(--spacing-xl);
     }
 }
 
 @media (max-width: 480px) {
     .section-title {
-        font-size: 1.8rem;
+        font-size: var(--text-xl);
     }
 }
