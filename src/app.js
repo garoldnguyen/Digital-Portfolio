@@ -4,6 +4,7 @@ import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
 import { initGlitch } from './glitch.js';
 import { initGlow } from './glow.js';
+import { initCursorType } from './cursor-type.js';
 import { initBackdrop } from './backdrop.js';
 import { initMenu } from './menu.js';
 
@@ -199,6 +200,8 @@ import { initMenu } from './menu.js';
       b.addEventListener('pointerleave', function () { bx(0); by(0); });
     });
   });
+
+  safe('cursor-type', function () { if (fine) initCursorType(); });
 
   /* ---------- hero intro ---------- */
   var fontsReady = (doc.fonts && doc.fonts.ready) ? Promise.race([doc.fonts.ready, new Promise(function (r) { setTimeout(r, 1400); })]) : Promise.resolve();
