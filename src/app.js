@@ -6,6 +6,7 @@ import { initGlitch } from './glitch.js';
 import { initGlow } from './glow.js';
 import { initBackdrop } from './backdrop.js';
 import { initMenu } from './menu.js';
+import { initPerf } from './perf.js';
 import { initWave } from './wave.js';
 
 (function () {
@@ -60,7 +61,7 @@ import { initWave } from './wave.js';
     'float noise(vec2 p){vec2 i=floor(p);vec2 f=fract(p);f=f*f*(3.-2.*f);',
     ' float a=hash(i);float b=hash(i+vec2(1.,0.));float c=hash(i+vec2(0.,1.));float d=hash(i+vec2(1.,1.));',
     ' return mix(mix(a,b,f.x),mix(c,d,f.x),f.y);}',
-    'float fbm(vec2 p){float v=0.;float a=.5;for(int i=0;i<4;i++){v+=a*noise(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
+    'float fbm(vec2 p){float v=0.;float a=.5;for(int i=0;i<3;i++){v+=a*noise(p);p=p*2.03+vec2(1.7,9.2);a*=.5;}return v;}',
     'float dust(vec2 p,float seed){vec2 id=floor(p);vec2 f=fract(p);float h=hash(id+seed);',
     ' vec2 o=vec2(hash(id+seed+3.1),hash(id+seed+7.7))*.6+.2;float d=length(f-o);',
     ' float tw=.5+.5*sin(uTime*(.8+h*2.)+h*40.);',
@@ -108,15 +109,16 @@ import { initWave } from './wave.js';
     var pr = gl.createProgram(); gl.attachShader(pr, vs); gl.attachShader(pr, fs); gl.linkProgram(pr);
     if (!gl.getProgramParameter(pr, gl.LINK_STATUS)) { c.remove(); return; }
     gl.useProgram(pr);
+    root.classList.add('gl-on');                       // the CSS light rays under this canvas are hidden by it; stop drawing them
     var buf = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf);
     gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
     var loc = gl.getAttribLocation(pr, 'p'); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
     var uRes = gl.getUniformLocation(pr, 'uRes'), uTime = gl.getUniformLocation(pr, 'uTime'),
         uMouse = gl.getUniformLocation(pr, 'uMouse'), uFade = gl.getUniformLocation(pr, 'uFade');
-    var vis = true, t0 = performance.now(), w = 2, h = 2;
+    var vis = true, t0 = performance.now(), w = 2, h = 2, lastDraw = 0;
     function size() {
       var r = hero.getBoundingClientRect();
-      var s = Math.min(window.devicePixelRatio || 1, 1) * 0.8;
+      var s = Math.min(window.devicePixelRatio || 1, 1) * 0.6;
       w = Math.max(2, Math.round(r.width * s)); h = Math.max(2, Math.round(r.height * s));
       c.width = w; c.height = h; gl.viewport(0, 0, w, h);
     }
@@ -131,7 +133,8 @@ import { initWave } from './wave.js';
     if (still) { draw(8); return; }
     if (window.IntersectionObserver) new IntersectionObserver(function (en) { vis = en[0].isIntersecting; }).observe(hero);
     (function loop() {
-      if (vis && !doc.hidden && c.isConnected) draw((performance.now() - t0) / 1000 + 6);
+      var now = performance.now();
+      if (vis && !doc.hidden && c.isConnected && now - lastDraw >= 33) { lastDraw = now; draw((now - t0) / 1000 + 6); }     // 30 frames a second is plenty for slow light
       if (c.isConnected) requestAnimationFrame(loop);
     })();
   }
@@ -146,6 +149,7 @@ import { initWave } from './wave.js';
   safe('gl', function () { initGL(false); });
 
   root.classList.add('js');
+  safe('perf', function () { initPerf(); });
   if (ST) G.registerPlugin(ST);
   if (SP) G.registerPlugin(SP);
 
@@ -342,6 +346,7 @@ import { initWave } from './wave.js';
     track.style.animation = 'none';
     var grp = track.firstElementChild, gw = grp.getBoundingClientRect().width;
     var loop = G.to(track, { x: -gw, duration: gw / 55, ease: 'none', repeat: -1 });
+    if (window.IntersectionObserver) new IntersectionObserver(function (en) { loop.paused(!en[0].isIntersecting); }).observe($('.tick'));   // it only moves while it can be seen
     var lastY = window.scrollY, cur = 1, dir = 1;
     G.ticker.add(function () {
       var y = window.scrollY, v = y - lastY; lastY = y;

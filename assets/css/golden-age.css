@@ -65,10 +65,9 @@ html.lenis,html.lenis body{height:auto}
 /* keyframes */
 @property --a{syntax:"<angle>";inherits:false;initial-value:0deg}
 @keyframes orbit{to{--a:360deg}}
-@keyframes breathe{0%,100%{filter:drop-shadow(0 0 10px rgba(228,199,119,.1))}50%{filter:drop-shadow(0 0 30px rgba(228,199,119,.34))}}
+@keyframes breathe{0%,100%{opacity:.25}50%{opacity:1}}
 @keyframes sway{0%,100%{transform:rotate(-2.4deg)}50%{transform:rotate(2.4deg)}}
 @keyframes glowp{0%,100%{opacity:.55}50%{opacity:1}}
-@keyframes chase{0%{background-position:calc(50% + 0px) 50%}33.34%{background-position:calc(50% + 20px) 50%}66.67%{background-position:calc(50% + 40px) 50%}100%{background-position:calc(50% + 0px) 50%}}
 @keyframes sheen{from{background-position:0% 0,0 0}to{background-position:100% 0,0 0}}
 @keyframes twk{0%,100%{opacity:.12}50%{opacity:1}}
 @keyframes drift{0%,100%{translate:0 0}50%{translate:0 -14px}}
@@ -79,7 +78,7 @@ html.lenis,html.lenis body{height:auto}
 @keyframes cue{0%{transform:scaleY(0);transform-origin:top}45%{transform:scaleY(1);transform-origin:top}55%{transform:scaleY(1);transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
 
 /* nav */
-.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px var(--gut);background:linear-gradient(180deg,rgba(10,21,18,.96),rgba(10,21,18,.78));-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border-bottom:1px solid rgba(201,162,75,.22);transition:padding .5s var(--ease),background .5s,box-shadow .5s}
+.nav{position:fixed;top:env(safe-area-inset-top,0px);left:0;right:0;z-index:50;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px var(--gut);background:linear-gradient(180deg,rgba(10,21,18,.96),rgba(10,21,18,.78));border-bottom:1px solid rgba(201,162,75,.22);transition:padding .5s var(--ease),background .5s,box-shadow .5s}
 .nav.scrolled{padding-block:10px;background:linear-gradient(180deg,rgba(10,21,18,.98),rgba(10,21,18,.9));box-shadow:0 10px 30px rgba(0,0,0,.35)}
 .mono{font:300 28px/1 var(--f-thin);letter-spacing:.22em;color:var(--gold-hi);text-decoration:none;padding-left:.22em}
 .links{display:flex;gap:clamp(16px,2.4vw,40px);justify-content:center}
@@ -94,12 +93,14 @@ html.lenis,html.lenis body{height:auto}
 .progress{position:absolute;left:0;right:0;bottom:-1px;height:1px;background:linear-gradient(90deg,var(--gold),var(--gold-pale));transform-origin:left;transform:scaleX(0)}
 
 /* cursor light */
-.cl{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:40;background:radial-gradient(circle,rgba(228,199,119,.11),rgba(228,199,119,0) 62%);mix-blend-mode:screen;opacity:0;transition:opacity .8s}
+.cl{position:fixed;left:0;top:0;width:560px;height:560px;margin:-280px 0 0 -280px;border-radius:50%;pointer-events:none;z-index:40;background:radial-gradient(circle,rgba(228,199,119,.11),rgba(228,199,119,0) 62%);opacity:0;transition:opacity .8s}
 .cl.on{opacity:1}
 
 /* marquee bulbs */
 .bulbs{position:relative;height:14px;margin-block:14px;background:radial-gradient(circle,#E4C777 0 3.5px,rgba(228,199,119,0) 4.5px) center/20px 14px repeat-x;filter:drop-shadow(0 0 4px rgba(228,199,119,.35))}
-.bulbs::after{content:"";position:absolute;left:0;right:0;top:-8px;bottom:-8px;pointer-events:none;background:radial-gradient(circle at 10px 50%,#FFF8DC 0 3.5px,rgba(255,236,160,.6) 4.5px,rgba(255,236,160,0) 10px) calc(50% + 0px) 50%/60px 30px repeat-x;animation:chase 1.5s steps(1,end) infinite}
+.bulbs::after{content:"";position:absolute;left:0;right:0;top:-8px;bottom:-8px;pointer-events:none;background:radial-gradient(circle at 10px 50%,#FFF8DC 0 3.5px,rgba(255,236,160,.6) 4.5px,rgba(255,236,160,0) 10px) calc(50% + 0px) 50%/60px 30px repeat-x}
+.bulbs.c1::after{background-position:calc(50% + 20px) 50%}
+.bulbs.c2::after{background-position:calc(50% + 40px) 50%}
 .bulbs.first{margin-top:calc(14px + 68px)}
 
 /* gilded type */
@@ -129,8 +130,9 @@ html.lenis,html.lenis body{height:auto}
 .hero-inner{position:relative;max-width:1200px;margin:0 auto;display:flex;flex-direction:column;align-items:center;text-align:center;gap:36px}
 .eyebrow{font:400 15px/1.7 var(--f-thin);letter-spacing:.5em;text-transform:uppercase;color:var(--gold);padding-left:.5em}
 .px{max-width:100%}
-.arch{position:relative;width:300px;max-width:100%;aspect-ratio:3/4;border-radius:999px 999px 0 0;border:1px solid var(--gold);box-shadow:inset 0 0 0 7px var(--night),inset 0 0 0 8px rgba(201,162,75,.45);background:linear-gradient(180deg,var(--arch-1),var(--night));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px;animation:breathe 6s ease-in-out infinite}
-.arch::before{content:"";position:absolute;inset:-2px;border-radius:999px 999px 0 0;padding:2px;pointer-events:none;background:conic-gradient(from var(--a),rgba(255,236,170,0) 0deg,rgba(255,236,170,0) 250deg,rgba(255,246,208,1) 330deg,rgba(255,236,170,0) 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;animation:orbit 7s linear infinite}
+.arch{position:relative;width:300px;max-width:100%;aspect-ratio:3/4;border-radius:999px 999px 0 0;border:1px solid var(--gold);box-shadow:inset 0 0 0 7px var(--night),inset 0 0 0 8px rgba(201,162,75,.45);background:linear-gradient(180deg,var(--arch-1),var(--night));display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:32px}
+.arch::after{content:"";position:absolute;inset:0;border-radius:999px 999px 0 0;pointer-events:none;box-shadow:0 0 30px rgba(228,199,119,.34);animation:breathe 6s ease-in-out infinite}
+.arch::before{content:"";position:absolute;inset:-2px;border-radius:999px 999px 0 0;padding:2px;pointer-events:none;background:conic-gradient(from var(--a),rgba(255,236,170,0) 0deg,rgba(255,236,170,0) 250deg,rgba(255,246,208,1) 330deg,rgba(255,236,170,0) 360deg);-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude;animation:orbit 7s steps(120,end) infinite}
 .qn{font:200 84px/1 var(--f-thin);letter-spacing:.08em;color:var(--gold)}
 .ph-note{font-size:13px;color:var(--dim);max-width:180px}
 .portrait{position:absolute;inset:9px;width:calc(100% - 18px);height:calc(100% - 18px);object-fit:cover;border-radius:999px 999px 0 0}
@@ -342,7 +344,7 @@ html.lenis,html.lenis body{height:auto}
 html.bd .sec{background:rgba(10,21,18,.30)}
 html.bd .sec.alt{background:rgba(15,61,51,.26)}
 html.bd .rs{background:rgba(15,61,51,.22)}
-.orb{position:fixed;left:0;top:0;width:var(--d,36px);height:var(--d,36px);margin:calc(var(--d,36px)/-2) 0 0 calc(var(--d,36px)/-2);border-radius:50%;pointer-events:none;z-index:48;opacity:0;mix-blend-mode:screen;will-change:transform,opacity;
+.orb{position:fixed;left:0;top:0;width:var(--d,36px);height:var(--d,36px);margin:calc(var(--d,36px)/-2) 0 0 calc(var(--d,36px)/-2);border-radius:50%;pointer-events:none;z-index:48;opacity:0;will-change:transform,opacity;
   background:radial-gradient(circle,rgba(255,248,224,.95) 0,rgba(255,248,224,.95) 7%,rgba(246,231,176,.55) 18%,rgba(228,199,119,.20) 42%,rgba(228,199,119,0) 70%)}
 .orb::after{content:"";position:absolute;inset:-35%;border-radius:50%;background:radial-gradient(circle,rgba(228,199,119,.22),rgba(228,199,119,0) 68%);animation:orb-tw 1.9s ease-in-out infinite alternate}
 @keyframes orb-tw{from{opacity:.35;transform:scale(.85)}to{opacity:1;transform:scale(1.1)}}
@@ -443,4 +445,10 @@ a.c-mail:hover,a.c-tel:hover{color:var(--gold-pale)}
 
 /* a ripple of words that follows the cursor over every section (prototype; drawn by src/wave.js, laptop-size windows only).
    Above the page and the cursor light, below the menu bar and the glow particles. */
-.wave{position:fixed;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:41}
+.wave{position:fixed;left:0;top:0;pointer-events:none;z-index:41;will-change:transform}
+.wave-on .cl{display:none}
+
+/* keeping the page light: nothing animates while it cannot be seen (src/perf.js puts .off on what is off screen, and html.hero-off while the hero is) */
+.off,.off::before,.off::after,.hero-off .hero *,.hero-off .hero *::before,.hero-off .hero *::after{animation-play-state:paused!important}
+/* the hero's WebGL light is opaque and covers the CSS light rays underneath completely, so while it runs the rays are not drawn at all */
+.gl-on .fan{display:none}

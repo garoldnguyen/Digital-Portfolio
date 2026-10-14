@@ -5,7 +5,9 @@
      - a slow gold-leaf shimmer: a soft diagonal band of light that glides across the lattice every ~17 seconds
      - fine gold dust, drifting upward, with a little parallax against the scroll
      - cinema finish: vignette, film grain, an almost imperceptible projector flicker
-   It is kept dim on purpose so text on top always stays readable. Drawn at 30fps and paused while the tab is hidden.
+   It is kept dim on purpose so text on top always stays readable. It is soft by nature, so it is drawn at a reduced size
+   (the browser scales it up) and at 24fps, paused while the tab is hidden, and it steps down further by itself (lower size and
+   frame rate) if the page cannot keep up, so a slower machine stays smooth instead of lagging.
    With prefers-reduced-motion (or no gsap) it is drawn once and never animates.
    If WebGL is unavailable the canvas is removed and the sections keep their original solid colours (html.bd is only set
    once the first frame is on screen).
@@ -121,7 +123,10 @@ export function initBackdrop(G, opts) {
   var U = {};
   ['uRes', 'uTime', 'uScroll', 'uDpr', 'uMotion'].forEach(function (n) { U[n] = gl.getUniformLocation(pr, n); });
 
-  var w = 2, h = 2, dpr = 1, frozen = null, t0 = performance.now(), last = 0, shown = false;
+  var LEVELS = [{ s: 0.8, f: 24 }, { s: 0.65, f: 20 }, { s: 0.5, f: 15 }, { s: 0.4, f: 12 }];      // size (relative to CSS pixels) and frames a second
+  var heroEl = document.querySelector('.hero'), heroBottom = 0;       // while the hero fills the screen it hides the backdrop completely, so nothing is drawn
+  function measureHero() { heroBottom = heroEl ? heroEl.offsetTop + heroEl.offsetHeight : 0; }
+  var level = 0, w = 2, h = 2, dpr = 1, frozen = null, t0 = performance.now(), last = 0, shown = false;
 
   function draw() {
     var t = frozen != null ? frozen : (still ? 8 : (performance.now() - t0) / 1000 + 8);
@@ -135,9 +140,10 @@ export function initBackdrop(G, opts) {
   }
   function size() {
     var r = c.getBoundingClientRect();
-    dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    dpr = Math.min(window.devicePixelRatio || 1, 1) * LEVELS[level].s;
     w = Math.max(2, Math.round(r.width * dpr)); h = Math.max(2, Math.round(r.height * dpr));
     c.width = w; c.height = h; gl.viewport(0, 0, w, h);
+    measureHero();
     draw();
   }
   c.addEventListener('webglcontextlost', function (e) { e.preventDefault(); c.remove(); root.classList.remove('bd'); });
@@ -147,8 +153,16 @@ export function initBackdrop(G, opts) {
   window.addEventListener('fx:backdrop', function (e) { frozen = Number(e.detail) || 0; draw(); });
 
   if (!still) {
+    var prev = 0, avg = 1 / 60, n = 0, wait = performance.now() + 6000, bad = 0;     // the governor starts after the intro has settled
     G.ticker.add(function (time) {
-      if (document.hidden || frozen != null || time - last < 1 / 30) return;
+      if (prev) { var d = time - prev; if (d < 0.5) avg += (d - avg) * 0.08; }
+      prev = time;
+      if (!document.hidden && performance.now() > wait && ++n >= 60) {            // about once a second: is the whole page keeping up?
+        n = 0; bad = avg > 1 / 28 ? bad + 1 : 0;
+        if (bad >= 2 && level < LEVELS.length - 1) { level++; bad = 0; wait = performance.now() + 3000; avg = 1 / 60; size(); }
+      }
+      if (document.hidden || frozen != null || time - last < 1 / LEVELS[level].f) return;
+      if (heroBottom && (window.pageYOffset || 0) + window.innerHeight <= heroBottom) return;      // the hero covers the whole screen
       last = time;
       draw();
     });

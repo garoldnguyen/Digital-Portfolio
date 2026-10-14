@@ -2,12 +2,14 @@
    spell out the skills from the page's ticker (SECURITY ARCHITECTURE, RISK AND GOVERNANCE...). A ripple flows outward from
    the cursor: on each crest the letters lift off the floor, grow a little and brighten, with a faint shadow left behind,
    then settle back into the dark. When the cursor rests the wave does not go away: it settles to a slow, faint
-   ripple where the cursor last was, and stays as a quiet background effect (about 30 frames a second while resting).
+   ripple where the cursor last was, and stays as a quiet background effect (about 20 frames a second while resting).
    Click anywhere and it blooms, gently: a soft flash, and the letters (including the
    ones the resting wave keeps in the dark) drift outward in random directions and turn a little, then float slowly back,
    along curved paths and each at its own time, into the normal wave. Every click is a little different. The click is
    never blocked: links and buttons work as usual.
-   One fixed canvas, so it follows the cursor over every section of the page. Every letter is fixed to its place on the
+   One canvas, so it follows the cursor over every section of the page. Day to day it is a small canvas (600 x 560) that
+   travels with the cursor; only while a click's bloom is going does it grow to cover the screen. It also draws the soft light
+   that follows the cursor (it replaces the separate full-screen layer that used to do that). Every letter is fixed to its place on the
    floor, and the bloom is worked out from the letter's place and the time since the click (nothing is stored per
    letter), which keeps the motion smooth.
    Decorative only: aria-hidden, no pointer events. Off for prefers-reduced-motion (app.js skips it), touch screens and
@@ -23,6 +25,7 @@ var REST = 0.55;                                       // strength of the wave w
 var RHO_B = 9;                                         // radius of a click's bloom, in letters
 var TOTAL = 8.4;                                       // seconds until the last letter is home again
 var MAX_BLASTS = 3;
+var REGION_W = 600, REGION_H = 560;                    // the small canvas that travels with the cursor (px)
 var A = 0.8944, B = 0.4472;                            // 2:1 isometric floor: a floor step (1,0) lands at (A,B) on screen, (0,1) at (-A,B)
 var PHRASE = 'SECURITY ARCHITECTURE · RISK AND GOVERNANCE · CLOUD SECURITY · APPLIED AI · THREAT MODELING · MENTORING · RESEARCH · ';
 var TINTS = [[255, 226, 140], [255, 240, 200], [255, 205, 120], [255, 236, 170]];     // flash colours: gold, pale cream, amber, light gold
@@ -42,16 +45,24 @@ export function initWave(fontsReady) {
   var ctx = cv.getContext('2d');
   if (!ctx) return;
   document.body.appendChild(cv);
+  document.documentElement.classList.add('wave-on');                                    // the CSS cursor light is not needed any more
   var q = location.search;
   var cost = /[?&]wave=cost\b/.test(q) ? (window.__wave = { frames: 0, ms: 0 }) : null;
   var flat = !/[?&]wave=upright\b/.test(q);
 
-  var W = 0, H = 0, dpr = 1, cx = 0, cy = 0, px = 0, py = 0, pres = 0, clock = 0, lastMove = -1e9, running = false, ready = false, last = 0;
+  var W = 0, H = 0, dpr = 1, ox = 0, oy = 0, lox = NaN, loy = NaN, cw = 0, ch = 0, lit = 0, inside = false, cx = 0, cy = 0, px = 0, py = 0, pres = 0, clock = 0, lastMove = -1e9, running = false, ready = false, last = 0;
   var blasts = [], seen = new Map(), list = [];
 
   function size() {
     W = window.innerWidth; H = window.innerHeight; dpr = Math.min(window.devicePixelRatio || 1, 1.5);
-    cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr);
+    cw = 0; ch = 0; fit();
+  }
+  // the canvas is small and travels with the cursor; while a bloom is going it covers the whole screen
+  function fit() {
+    var full = blasts.length > 0, nw = full ? W : Math.min(REGION_W, W), nh = full ? H : Math.min(REGION_H, H);
+    if (nw !== cw || nh !== ch) { cw = nw; ch = nh; cv.width = Math.round(cw * dpr); cv.height = Math.round(ch * dpr); cv.style.width = cw + 'px'; cv.style.height = ch + 'px'; }
+    if (full) { ox = 0; oy = 0; } else { ox = Math.round(cx - cw / 2); oy = Math.round(cy - ch / 2); }
+    if (ox !== lox || oy !== loy) { lox = ox; loy = oy; cv.style.transform = 'translate(' + ox + 'px,' + oy + 'px)'; }
   }
   function floorOf(x, y) { return [(x / A + y / B) / 2 / P, (y / B - x / A) / 2 / P]; }      // a screen point's place on the floor, in letters
 
@@ -60,8 +71,8 @@ export function initWave(fontsReady) {
     var c = Math.cos(rot), s = Math.sin(rot);
     if (flat) {
       var a = A * sc, b = B * sc, cc = -A * sc, d = B * sc;
-      ctx.setTransform(dpr * (a * c + cc * s), dpr * (b * c + d * s), dpr * (-a * s + cc * c), dpr * (-b * s + d * c), dpr * x, dpr * y);
-    } else ctx.setTransform(dpr * sc * c, dpr * sc * s, dpr * -sc * s, dpr * sc * c, dpr * x, dpr * y);
+      ctx.setTransform(dpr * (a * c + cc * s), dpr * (b * c + d * s), dpr * (-a * s + cc * c), dpr * (-b * s + d * c), dpr * (x - ox), dpr * (y - oy));
+    } else ctx.setTransform(dpr * sc * c, dpr * sc * s, dpr * -sc * s, dpr * sc * c, dpr * (x - ox), dpr * (y - oy));
   }
 
   // the cells to draw this frame: round the cursor, and round every bloom that is still going
@@ -91,12 +102,19 @@ export function initWave(fontsReady) {
   }
 
   function draw(t, ts) {
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-    ctx.clearRect(0, 0, W, H);
+    fit();
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);                         // from here on, positions are screen positions
+    if (lit > 0.01) {                                                              // the soft light that follows the cursor
+      var lg = ctx.createRadialGradient(cx, cy, 0, cx, cy, 245);
+      lg.addColorStop(0, 'rgba(228,199,119,' + (0.11 * lit).toFixed(3) + ')'); lg.addColorStop(1, 'rgba(228,199,119,0)');
+      ctx.fillStyle = lg; ctx.fillRect(cx - 245, cy - 245, 490, 490);
+    }
     ctx.font = WEIGHT + ' ' + FONT + 'px ' + FAMILY; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
     var fc = floorOf(cx, cy), fx = fc[0], fy = fc[1], b, n = 0;
     flashes(ts);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);
     seen.clear(); list.length = 0;
     gather(fx, fy, RHO);
     for (b = 0; b < blasts.length; b++) gather(blasts[b].fx, blasts[b].fy, RHO_B);
@@ -146,13 +164,13 @@ export function initWave(fontsReady) {
       else ctx.fillText(ch, 0, 0);
       n++;
     }
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.setTransform(dpr, 0, 0, dpr, -ox * dpr, -oy * dpr);
     return n;
   }
 
   function frame(now) {
     var ts = now / 1000, resting = (now - lastMove) / 1000 > 1 && !blasts.length;
-    if (resting && now - last < 33) { requestAnimationFrame(frame); return; }          // at rest about 30 frames a second is plenty
+    if (resting && now - last < 48) { requestAnimationFrame(frame); return; }          // at rest about 20 frames a second is plenty for a slow ripple
     var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
     var t0 = cost ? performance.now() : 0;
     var target = (now - lastMove) / 1000 > 1 ? REST : 1;
@@ -160,6 +178,7 @@ export function initWave(fontsReady) {
     clock += dt * (0.45 + 0.55 * pres);                                                 // the ripple slows down as the wave settles
     var e = 1 - Math.exp(-dt * 7);
     cx += (px - cx) * e; cy += (py - cy) * e;
+    lit += ((inside ? 1 : 0) - lit) * (1 - Math.exp(-dt * 2.5));
     blasts = blasts.filter(function (bl) { return ts - bl.t0 < TOTAL; });
     draw(clock, ts);
     if (cost) { cost.frames++; cost.ms += performance.now() - t0; }
@@ -178,7 +197,7 @@ export function initWave(fontsReady) {
   }
 
   window.addEventListener('pointermove', function (e) {
-    px = e.clientX; py = e.clientY;
+    px = e.clientX; py = e.clientY; inside = true;
     if (!running) { cx = px; cy = py; }
     lastMove = performance.now(); start();
   }, { passive: true });
@@ -188,7 +207,7 @@ export function initWave(fontsReady) {
     if (!running) { cx = px; cy = py; }
     lastMove = performance.now(); start(); boom(e.clientX, e.clientY);
   }, { passive: true });
-  document.documentElement.addEventListener('mouseleave', function () { lastMove = -1e9; });     // the cursor left the window: the wave settles where it was
+  document.documentElement.addEventListener('mouseleave', function () { lastMove = -1e9; inside = false; });     // the cursor left the window: the wave settles where it was
   window.addEventListener('resize', size);
   size();
 
