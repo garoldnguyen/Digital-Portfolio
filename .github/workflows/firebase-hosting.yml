@@ -1,5 +1,10 @@
 name: Deploy to Firebase Hosting on Push
 
+# Deploys main to the live site. It needs ONE repository secret, FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046
+# (a Firebase service-account key; see "Developer notes" in README.md). Until that secret exists the job finishes
+# green with a notice instead of failing, and deploys are done by hand with `firebase deploy --only hosting`.
+# Once the secret is added, this starts deploying on every push to main with no further changes.
+
 on:
   push:
     branches:
@@ -8,11 +13,18 @@ on:
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
+    env:
+      HAS_FIREBASE_KEY: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046 != '' }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Note that automatic deploys are switched off
+        if: env.HAS_FIREBASE_KEY != 'true'
+        run: echo "::notice title=Automatic deploy skipped::The repository secret FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046 is not set. Deploy by hand with firebase deploy --only hosting, or add the secret (README, Developer notes)."
+
       - name: Deploy to Firebase Hosting
+        if: env.HAS_FIREBASE_KEY == 'true'
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'

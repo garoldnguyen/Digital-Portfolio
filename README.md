@@ -85,7 +85,7 @@ A collection of personal projects focusing on utility, productivity, and enterta
 
 How this site is built, run and deployed.
 
-**What it is.** A static site: `index.html`, one stylesheet (`assets/css/golden-age.css`) and one script bundle (`assets/js/golden-age.js`). The bundle is built from `src/` with esbuild; gsap and lenis are bundled in, so nothing loads from a CDN. Firebase Analytics lives in `assets/js/analytics.js` and does nothing on localhost.
+**What it is.** A static site: `index.html`, one stylesheet (`assets/css/golden-age.css`) and one script bundle (`assets/js/golden-age.js`). The bundle is built from `src/` with esbuild; gsap and lenis are bundled in. The fonts are self-hosted in `assets/fonts/`, so the only outside request a visitor's browser makes is Firebase Analytics (`assets/js/analytics.js`, which does nothing on localhost).
 
 **Run it locally.**
 
@@ -94,7 +94,11 @@ npm install
 npm run dev     # http://localhost:3000, rebuilds the bundle as you edit src/
 ```
 
-**Build.** `npm run build` writes `assets/js/golden-age.js`. Commit the result, because the deploy has no build step. After changing the stylesheet or the bundle, bump the `?v=` number on its tag in `index.html` so browsers fetch the new file.
+**Build.** `npm run build` bundles `src/` into `assets/js/golden-age.js` and stamps `index.html` and `404.html` with a fingerprint of each file (`?v=<hash>`), so a changed file always gets a new address. It also runs by itself before every `firebase deploy` (the `predeploy` step in `firebase.json`), so a stale bundle can never go live. Commit the result: the files in the repo are exactly what gets deployed.
+
+**Caching.** Pages are always re-checked. Scripts, styles and fonts are cached for a year (safe, because their address changes when their content does); images for a week. The rules are in `firebase.json`.
+
+**Fonts.** Cormorant, Josefin Sans and Lexend (SIL Open Font License) were copied from Google Fonts by `node scripts/fonts.js`; re-run it only if the font families or weights change, then `npm run build`.
 
 **Deploy.** Preview first, then live (both need `firebase login`):
 
@@ -103,7 +107,13 @@ firebase hosting:channel:deploy my-preview --only quannguyen47 --expires 14d   #
 firebase deploy --only hosting                                                  # live: quannguyen47.web.app and digital-portfolio-dc046.web.app
 ```
 
-The GitHub workflow in `.github/workflows/firebase-hosting.yml` deploys `main` to live, but only works once the repository secret `FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046` (a Firebase service-account key) exists. Without it the run fails and nothing is deployed from GitHub. (GitHub Pages also publishes `main` automatically.)
+The deploy uploads about 30 files. If the tool reports hundreds, a hidden folder is being published: check the `ignore` list in `firebase.json`.
+
+**Automatic deploys from GitHub (optional, currently off).** `.github/workflows/firebase-hosting.yml` deploys `main` to the live site as soon as the repository secret `FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046` exists. Until then it finishes green with a notice and deploys stay manual. To switch it on:
+
+1. Firebase console, then Project settings, then Service accounts, then **Generate new private key**. This downloads a JSON file.
+2. GitHub, then this repository's Settings, then Secrets and variables, then Actions, then **New repository secret**. Name it `FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046` and paste the whole contents of the JSON file.
+3. Delete the downloaded JSON file. The key can deploy to your project, so keep it out of the repo and out of chats.
 
 **Security headers.** `firebase.json` sets a Content-Security-Policy and related headers on every response. If you add an external script, font, image host or API, add its address to the policy or the browser will block it. Inline `<script>` and `style=""` attributes are not allowed: put code in a file and styles in the stylesheet.
 

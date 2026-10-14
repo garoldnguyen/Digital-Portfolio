@@ -4,7 +4,7 @@
   "description": "[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/quanng47/)\r [![Email](https://img.shields.io/badge/Email-Contact_Me-EA4335?style=flat-square&logo=gmail)](mailto:garoldnguyen@gmail.com)\r [![Location](https://img.shields.io/badge/Location-Ho_Chi_Minh_City,_VN-4285F4?style=flat-square&logo=google-maps)](https://goo.gl/maps/generic)",
   "main": "index.js",
   "scripts": {
-    "build": "esbuild src/app.js --bundle --minify --format=iife --target=es2019 --legal-comments=none --outfile=assets/js/golden-age.js",
+    "build": "node scripts/build.js",
     "dev": "esbuild src/app.js --bundle --format=iife --target=es2019 --outfile=assets/js/golden-age.js --servedir=. --serve=3000",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
