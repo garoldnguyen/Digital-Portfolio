@@ -201,6 +201,7 @@ import { initWave } from './wave.js';
     });
   });
 
+
   /* ---------- hero intro ---------- */
   var fontsReady = (doc.fonts && doc.fonts.ready) ? Promise.race([doc.fonts.ready, new Promise(function (r) { setTimeout(r, 1400); })]) : Promise.resolve();
   fontsReady.then(function () {
