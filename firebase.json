@@ -12,7 +12,8 @@
         "skills-lock.json",
         "README.md",
         "icons-demo.html",
-        "src/**"
+        "src/**",
+        "**/.*/**"
       ],
       "cleanUrls": true,
       "headers": [
@@ -59,7 +60,8 @@
         "skills-lock.json",
         "README.md",
         "icons-demo.html",
-        "src/**"
+        "src/**",
+        "**/.*/**"
       ],
       "cleanUrls": true,
       "headers": [
