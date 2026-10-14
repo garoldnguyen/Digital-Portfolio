@@ -1,7 +1,8 @@
 /* Cursor wave of words (prototype, laptop screens only). Round the cursor, small gold capitals lie on an isometric floor and
    spell out the skills from the page's ticker (SECURITY ARCHITECTURE, RISK AND GOVERNANCE...). A ripple flows outward from
    the cursor: on each crest the letters lift off the floor, grow a little and brighten, with a faint shadow left behind,
-   then settle back into the dark. When the cursor rests the wave sinks away and nothing is drawn.
+   then settle back into the dark. When the cursor rests the wave does not go away: it settles to a slow, faint
+   ripple where the cursor last was, and stays as a quiet background effect (about 30 frames a second while resting).
    One fixed canvas, so it follows the cursor over every section of the page. Every letter is fixed to its place on the
    floor (nothing is random from frame to frame), which keeps the motion smooth.
    Decorative only: aria-hidden, no pointer events. Off for prefers-reduced-motion (app.js skips it), touch screens and
@@ -13,6 +14,7 @@ var P = 18;                                            // distance between lette
 var RHO = 6;                                         // radius of the wave, in letters
 var AMP = 24;                                          // how far a crest lifts a letter (px)
 var K = 1.1, SPEED = 2.2;                              // ring spacing and how fast the rings flow outward
+var REST = 0.55;                                       // strength of the wave while the cursor rests (1 = while it moves)
 var A = 0.8944, B = 0.4472;                            // 2:1 isometric floor: a floor step (1,0) lands at (A,B) on screen, (0,1) at (-A,B)
 var PHRASE = 'SECURITY ARCHITECTURE · RISK AND GOVERNANCE · CLOUD SECURITY · APPLIED AI · THREAT MODELING · MENTORING · RESEARCH · ';
 
@@ -30,7 +32,7 @@ export function initWave(fontsReady) {
   var cost = /[?&]wave=cost\b/.test(q) ? (window.__wave = { frames: 0, ms: 0 }) : null;
   var flat = !/[?&]wave=upright\b/.test(q);
 
-  var W = 0, H = 0, dpr = 1, cx = 0, cy = 0, px = 0, py = 0, pres = 0, lastMove = -1e9, running = false, ready = false, last = 0;
+  var W = 0, H = 0, dpr = 1, cx = 0, cy = 0, px = 0, py = 0, pres = 0, clock = 0, lastMove = -1e9, running = false, ready = false, last = 0;
   var cells = [];                                                  // the letters of this frame, back to front
 
   function size() {
@@ -76,27 +78,28 @@ export function initWave(fontsReady) {
   }
 
   function frame(now) {
-    if (!running) return;
+    var resting = (now - lastMove) / 1000 > 1;
+    if (resting && now - last < 33) { requestAnimationFrame(frame); return; }          // at rest about 30 frames a second is plenty
     var dt = Math.min(0.05, (now - last) / 1000 || 0.016); last = now;
-    var t0 = cost ? performance.now() : 0, idle = (now - lastMove) / 1000;
-    var target = idle < 1 ? 1 : 0;
-    pres += (target - pres) * (1 - Math.exp(-dt * (target > pres ? 4 : 1.8)));
+    var t0 = cost ? performance.now() : 0;
+    var target = resting ? REST : 1;
+    pres += (target - pres) * (1 - Math.exp(-dt * (target > pres ? 4 : 1.4)));
+    clock += dt * (0.45 + 0.55 * pres);                                                 // the ripple slows down as the wave settles
     var e = 1 - Math.exp(-dt * 7);
     cx += (px - cx) * e; cy += (py - cy) * e;
-    draw(now / 1000);
+    draw(clock);
     if (cost) { cost.frames++; cost.ms += performance.now() - t0; }
-    if (pres < 0.01 && idle > 1) { running = false; ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.clearRect(0, 0, cv.width, cv.height); return; }   // nothing left to show: stop drawing
     requestAnimationFrame(frame);
   }
-  function start() { if (running || !ready) return; running = true; last = performance.now(); requestAnimationFrame(frame); }
+  function start() { if (running || !ready) return; running = true; last = performance.now(); requestAnimationFrame(frame); }   // runs for good once the cursor has moved; the browser pauses it in a hidden tab
   if (cost) cost.peek = function () { return { pres: pres, running: running, idle: performance.now() - lastMove }; };
 
   window.addEventListener('pointermove', function (e) {
     px = e.clientX; py = e.clientY;
-    if (pres < 0.02 && !running) { cx = px; cy = py; }
+    if (!running) { cx = px; cy = py; }
     lastMove = performance.now(); start();
   }, { passive: true });
-  document.documentElement.addEventListener('mouseleave', function () { lastMove = -1e9; });     // the cursor left the window: let the wave settle
+  document.documentElement.addEventListener('mouseleave', function () { lastMove = -1e9; });     // the cursor left the window: the wave settles where it was
   window.addEventListener('resize', size);
   size();
 
