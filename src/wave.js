@@ -3,7 +3,7 @@
    the cursor: on each crest the letters lift off the floor, grow a little and brighten, with a faint shadow left behind,
    then settle back into the dark. When the cursor rests the wave does not go away: it settles to a slow, faint
    ripple where the cursor last was, and stays as a quiet background effect (about 30 frames a second while resting).
-   Click anywhere and it blooms, gently: a soft flash, a faint ring across the floor, and the letters (including the
+   Click anywhere and it blooms, gently: a soft flash, and the letters (including the
    ones the resting wave keeps in the dark) drift outward in random directions and turn a little, then float slowly back,
    along curved paths and each at its own time, into the normal wave. Every click is a little different. The click is
    never blocked: links and buttons work as usual.
@@ -21,7 +21,7 @@ var AMP = 24;                                          // how far a crest lifts 
 var K = 1.1, SPEED = 2.2;                              // ring spacing and how fast the rings flow outward
 var REST = 0.55;                                       // strength of the wave while the cursor rests (1 = while it moves)
 var RHO_B = 9;                                         // radius of a click's bloom, in letters
-var TOTAL = 7.2;                                       // seconds until the last letter is home again
+var TOTAL = 8.4;                                       // seconds until the last letter is home again
 var MAX_BLASTS = 3;
 var A = 0.8944, B = 0.4472;                            // 2:1 isometric floor: a floor step (1,0) lands at (A,B) on screen, (0,1) at (-A,B)
 var PHRASE = 'SECURITY ARCHITECTURE · RISK AND GOVERNANCE · CLOUD SECURITY · APPLIED AI · THREAT MODELING · MENTORING · RESEARCH · ';
@@ -32,8 +32,7 @@ function rowShift(j) { var h = (j * 2654435761) >>> 0; return (h >>> 7) % PHRASE
 function rand(a, b) { return a + Math.random() * (b - a); }
 function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 function smooth(v) { v = clamp(v, 0, 1); return v * v * (3 - 2 * v); }
-function easeOut(p) { return 1 - Math.pow(1 - clamp(p, 0, 1), 3); }
-function easeInOut(p) { p = clamp(p, 0, 1); return p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; }
+function soft(p) { p = clamp(p, 0, 1); return p * p * p * (p * (p * 6 - 15) + 10); }      // 0 to 1 with no jerk at either end (zero speed and zero acceleration)
 function unit(i, j, seed, k) { var h = ((i * 73856093) ^ (j * 19349663) ^ (seed * 83492791) ^ (k * 2654435761)) >>> 0; h = ((h ^ (h >>> 15)) * 2246822519) >>> 0; return ((h ^ (h >>> 13)) >>> 0) / 4294967296; }
 
 export function initWave(fontsReady) {
@@ -78,27 +77,16 @@ export function initWave(fontsReady) {
     }
   }
 
-  function flashes(ts) {                                           // the soft flash and the faint rings of each bloom
+  function flashes(ts) {                                           // the soft flash of each bloom
     for (var b = 0; b < blasts.length; b++) {
       var bl = blasts[b], tau = ts - bl.t0;
-      if (tau < 0) continue;
-      var t = bl.tint;
-      if (tau < 0.9) {
-        var f = Math.pow(1 - tau / 0.9, 2), r = 60 + 190 * easeOut(tau / 0.9) * bl.S;
-        var g = ctx.createRadialGradient(bl.x, bl.y, 0, bl.x, bl.y, r);
-        g.addColorStop(0, 'rgba(255,250,225,' + (0.3 * f * bl.S).toFixed(3) + ')');
-        g.addColorStop(0.4, 'rgba(' + t[0] + ',' + t[1] + ',' + t[2] + ',' + (0.12 * f * bl.S).toFixed(3) + ')');
-        g.addColorStop(1, 'rgba(' + t[0] + ',' + t[1] + ',' + t[2] + ',0)');
-        ctx.fillStyle = g; ctx.fillRect(bl.x - r, bl.y - r, r * 2, r * 2);
-      }
-      for (var k = 0; k < bl.rings; k++) {                           // rings that spread across the floor (ellipses, seen from the side)
-        var tr = tau - k * 0.2;
-        if (tr < 0 || tr > 1.6) continue;
-        var rr = 250 * bl.S * easeOut(tr / 1.6) * (1 - k * 0.25);
-        ctx.lineWidth = 1.5 * (1 - tr / 1.6) + 0.4;
-        ctx.strokeStyle = 'rgba(' + t[0] + ',' + t[1] + ',' + t[2] + ',' + (0.3 * Math.pow(1 - tr / 1.6, 1.5)).toFixed(3) + ')';
-        ctx.beginPath(); ctx.ellipse(bl.x, bl.y, rr * 1.2649, rr * 0.6325, 0, 0, 6.2832); ctx.stroke();
-      }
+      if (tau < 0 || tau > 1.1) continue;
+      var t = bl.tint, f = soft(tau / 0.18) * Math.pow(1 - soft(tau / 1.1), 1.5), r = 70 + 190 * soft(tau / 1.1) * bl.S;
+      var g = ctx.createRadialGradient(bl.x, bl.y, 0, bl.x, bl.y, r);
+      g.addColorStop(0, 'rgba(255,250,225,' + (0.26 * f * bl.S).toFixed(3) + ')');
+      g.addColorStop(0.45, 'rgba(' + t[0] + ',' + t[1] + ',' + t[2] + ',' + (0.1 * f * bl.S).toFixed(3) + ')');
+      g.addColorStop(1, 'rgba(' + t[0] + ',' + t[1] + ',' + t[2] + ',0)');
+      ctx.fillStyle = g; ctx.fillRect(bl.x - r, bl.y - r, r * 2, r * 2);
     }
   }
 
@@ -135,26 +123,26 @@ export function initWave(fontsReady) {
         var envB = smooth(1 - gb / RHO_B);
         var h1 = unit(i, j, bl.seed, 1), h2 = unit(i, j, bl.seed, 2), h3 = unit(i, j, bl.seed, 3);
         var ang = Math.atan2(Y - bl.y, X - bl.x) + (h1 - 0.5) * 1.9, maxd = (28 + 120 * h2) * bl.S * (0.5 + 0.5 * envB);
-        var out = easeOut(tau / (0.55 + 0.45 * h3));                                   // drifting out: unhurried
-        var back = easeInOut((tau - (1.1 + 1.6 * h1)) / (2.6 + 1.8 * h2));             // floating home: slower still, each letter in its own time
-        var dist = maxd * out * (1 - back), frac = out * (1 - back);
-        var wob = (h3 - 0.5) * 0.7 * maxd * Math.sin(3.1416 * back);                   // the way home curves
+        var tOut = 0.9 + 0.6 * h3, r0 = 1.7 + 1.3 * h1, tBack = 3.0 + 1.8 * h2;     // out unhurried, a little hang, then home slowly: each letter in its own time
+        var back = soft((tau - r0) / tBack), frac = soft(tau / tOut) * (1 - back);   // 0 -> 1 -> 0, smooth all the way
+        var dist = maxd * frac;
+        var wob = (h3 - 0.5) * 0.7 * maxd * Math.sin(3.1416 * back);                  // the way home curves
         dx += Math.cos(ang) * dist - Math.sin(ang) * wob; dy += Math.sin(ang) * dist + Math.cos(ang) * wob - 22 * frac * (0.4 + h3);
         rot += (h2 - 0.5) * 3 * frac;
-        var flash = Math.max(0, 1 - tau / 0.7) * envB;
-        fl = Math.max(fl, flash, frac * 0.7 * envB);
-        a = Math.max(a, (flash * 0.6 + frac * 0.6) * envB);
-        hn = Math.max(hn, 0.7 * flash, 0.55 * frac * envB);
+        var pulse = soft(tau / 0.3) * (1 - soft((tau - 0.3) / 1.0)) * envB;            // the flash lights the letters, then lets go
+        fl = Math.max(fl, pulse, frac * 0.7 * envB);
+        a = Math.max(a, (pulse * 0.5 + frac * 0.6) * envB);
+        hn = Math.max(hn, 0.7 * pulse, 0.55 * frac * envB);
         sc += 0.3 * frac;
       }
       a = Math.min(1, a);
       var col = 'rgba(' + Math.round(214 + 41 * hn) + ',' + Math.round(178 + 62 * hn) + ',' + Math.round(92 + 98 * hn) + ',';
-      if (hn > 0.2 && fl < 0.15) {                                                     // the shadow it leaves on the floor
-        setLetter(X, Y, 0.9, 0); ctx.fillStyle = col + (0.2 * a * hn).toFixed(3) + ')'; ctx.fillText(ch, 0, 0);
-      }
+      var sh = 0.2 * a * soft((hn - 0.1) / 0.25) * (1 - soft(fl / 0.3));              // the shadow it leaves on the floor, fading in and out
+      if (sh > 0.004) { setLetter(X, Y, 0.9, 0); ctx.fillStyle = col + sh.toFixed(3) + ')'; ctx.fillText(ch, 0, 0); }
       setLetter(X + dx, Y - lift + dy, sc, rot);
       ctx.fillStyle = col + (a * (0.22 + 0.78 * hn)).toFixed(3) + ')';
-      if (hn > 0.62) { ctx.shadowColor = 'rgba(255,224,140,.85)'; ctx.shadowBlur = 6; ctx.fillText(ch, 0, 0); ctx.shadowBlur = 0; }
+      var glow = soft((hn - 0.5) / 0.3);                                               // the glow on the brightest letters grows with their brightness
+      if (glow > 0.03) { ctx.shadowColor = 'rgba(255,224,140,' + (0.85 * glow).toFixed(2) + ')'; ctx.shadowBlur = 6 * glow; ctx.fillText(ch, 0, 0); ctx.shadowBlur = 0; }
       else ctx.fillText(ch, 0, 0);
       n++;
     }
@@ -180,13 +168,13 @@ export function initWave(fontsReady) {
   function start() { if (running || !ready) return; running = true; last = performance.now(); requestAnimationFrame(frame); }   // runs for good once the cursor has moved; the browser pauses it in a hidden tab
   if (cost) cost.peek = function () { return { pres: pres, running: running, idle: performance.now() - lastMove, blasts: blasts.length }; };
 
-  // a click: soft flash, faint rings, and a bloom that is a little different every time (strength, colour, rings, a second softer bloom now and then)
+  // a click: a soft flash and a bloom that is a little different every time (strength, colour, direction of every letter, a second softer bloom now and then)
   function boom(x, y) {
     if (!ready) return;
     var now = performance.now() / 1000, f = floorOf(x, y), S = rand(0.8, 1.2), tint = TINTS[Math.floor(Math.random() * TINTS.length)];
     if (blasts.length >= MAX_BLASTS) blasts.shift();
-    blasts.push({ x: x, y: y, fx: f[0], fy: f[1], t0: now, S: S, seed: 1 + Math.floor(Math.random() * 100000), tint: tint, rings: 1 + Math.floor(Math.random() * 2) });
-    if (Math.random() < 0.2) blasts.push({ x: x, y: y, fx: f[0], fy: f[1], t0: now + rand(0.18, 0.3), S: S * 0.55, seed: 1 + Math.floor(Math.random() * 100000), tint: TINTS[Math.floor(Math.random() * TINTS.length)], rings: 1 });
+    blasts.push({ x: x, y: y, fx: f[0], fy: f[1], t0: now, S: S, seed: 1 + Math.floor(Math.random() * 100000), tint: tint });
+    if (Math.random() < 0.2) blasts.push({ x: x, y: y, fx: f[0], fy: f[1], t0: now + rand(0.18, 0.3), S: S * 0.55, seed: 1 + Math.floor(Math.random() * 100000), tint: TINTS[Math.floor(Math.random() * TINTS.length)] });
   }
 
   window.addEventListener('pointermove', function (e) {
