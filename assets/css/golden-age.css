@@ -378,6 +378,8 @@ html.menu-open,html.menu-open body{overflow:hidden}
 #works .row{justify-content:center}
 #works .w50{flex:1 1 100%}
 #works .wt{font-size:clamp(26px,2.4vw,34px)}
+/* the description takes up any spare height, so the tag line and the links line up across all the cards */
+#works .wd{flex:1 1 auto}
 @media (min-width:700px){#works .w50{flex:0 1 calc((100% - 32px)/2)}}
 @media (min-width:1180px){#works .w50{flex:0 1 calc((100% - 64px)/3)}}
 
