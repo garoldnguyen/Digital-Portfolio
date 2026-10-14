@@ -177,7 +177,6 @@ html.lenis,html.lenis body{height:auto}
 .plate{width:76px;height:76px;border-radius:50%;border:1px solid var(--gold);color:var(--gold-hi);display:grid;place-items:center;margin-bottom:6px;box-shadow:inset 0 0 0 5px var(--ring-bg),inset 0 0 0 6px rgba(201,162,75,.45)}
 .plate svg{width:34px;height:34px}
 .wt{margin:0;font:500 clamp(28px,3.4vw,42px)/1.15 var(--f-display);text-transform:uppercase;letter-spacing:.1em;color:var(--gold-hi)}
-.wd{margin:0;font-size:16px;color:var(--ink);max-width:44ch}
 .links2{display:flex;gap:32px;flex-wrap:wrap;justify-content:center;padding-top:8px}
 
 /* research */
@@ -378,8 +377,7 @@ html.menu-open,html.menu-open body{overflow:hidden}
 #works .row{justify-content:center}
 #works .w50{flex:1 1 100%}
 #works .wt{font-size:clamp(26px,2.4vw,34px)}
-/* the description takes up any spare height, so the tag line and the links line up across all the cards */
-#works .wd{flex:1 1 auto}
+#works .small{margin-top:auto}   /* tags and links stay on one shared line even when the titles wrap differently */
 @media (min-width:700px){#works .w50{flex:0 1 calc((100% - 32px)/2)}}
 @media (min-width:1180px){#works .w50{flex:0 1 calc((100% - 64px)/3)}}
 
