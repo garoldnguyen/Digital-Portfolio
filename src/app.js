@@ -6,6 +6,7 @@ import { initGlitch } from './glitch.js';
 import { initGlow } from './glow.js';
 import { initBackdrop } from './backdrop.js';
 import { initMenu } from './menu.js';
+import { initWave } from './wave.js';
 
 (function () {
   'use strict';
@@ -228,6 +229,8 @@ import { initMenu } from './menu.js';
       }
     });
   });
+
+  safe('wave', function () { initWave(fontsReady); });   // a ripple of words that follows the cursor on every page (prototype, laptop screens)
 
   if (!ST) return;
   ST.config({ ignoreMobileResize: true });
