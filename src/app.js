@@ -5,6 +5,7 @@ import Lenis from 'lenis';
 import { initGlitch } from './glitch.js';
 import { initGlow } from './glow.js';
 import { initBackdrop } from './backdrop.js';
+import { initMenu } from './menu.js';
 
 (function () {
   'use strict';
@@ -24,17 +25,26 @@ import { initBackdrop } from './backdrop.js';
     toastTimer = setTimeout(function () { toast.classList.remove('on'); }, 2000);
   }
   safe('copy', function () {
-    $$('[data-copy]').forEach(function (b) {
+    $$('[data-copy], [data-copy-target]').forEach(function (b) {
       b.addEventListener('click', function () {
-        var v = b.getAttribute('data-copy');
+        var src = b.getAttribute('data-copy-target') ? $(b.getAttribute('data-copy-target')) : null;
+        var v = src ? src.textContent.trim() : b.getAttribute('data-copy');
+        var msg = b.getAttribute('data-toast') || ('Copied ' + v);
         var fail = function () {
-          var s = b.previousElementSibling;
+          var s = src || b.previousElementSibling;
           if (s) { var r = doc.createRange(); r.selectNodeContents(s); var sel = getSelection(); sel.removeAllRanges(); sel.addRange(r); }
           say('Selected. Press Ctrl+C or Cmd+C to copy.');
         };
-        try { navigator.clipboard.writeText(v).then(function () { say('Copied ' + v); }, fail); } catch (e) { fail(); }
+        try { navigator.clipboard.writeText(v).then(function () { say(msg); }, fail); } catch (e) { fail(); }
       });
     });
+  });
+
+  /* ---------- mobile menu, and the skip link (both must work with reduced motion too) ---------- */
+  safe('menu', function () { initMenu(); });
+  safe('skip', function () {
+    var sk = $('.skip'), main = $('#main');
+    if (sk && main) sk.addEventListener('click', function () { setTimeout(function () { main.focus({ preventScroll: true }); }, 0); });
   });
 
   /* ---------- WebGL hero light ---------- */
@@ -147,6 +157,8 @@ import { initBackdrop } from './backdrop.js';
     G.ticker.add(function (time) { lenis.raf(time * 1000); });
     G.ticker.lagSmoothing(0);
   });
+  window.addEventListener('menu:open', function () { if (lenis) lenis.stop(); });
+  window.addEventListener('menu:close', function () { if (lenis) lenis.start(); });
   doc.addEventListener('click', function (e) {
     var a = e.target.closest && e.target.closest('a[href^="#"]');
     if (!a) return;
@@ -230,7 +242,7 @@ import { initBackdrop } from './backdrop.js';
 
   /* ---------- nav ---------- */
   safe('nav', function () {
-    var nav = $('.nav'), links = $$('.links a');
+    var nav = $('.nav'), links = $$('.links a, .menu-in a[href^="#"]');
     G.to('.progress', { scaleX: 1, ease: 'none', scrollTrigger: { start: 0, end: 'max', scrub: 0.3 } });
     function slim(self) { nav.classList.toggle('scrolled', self.scroll() > 60); }
     ST.create({ start: 0, end: 'max', onUpdate: slim, onRefresh: slim });   // the bar stays with the visitor; it only slims down

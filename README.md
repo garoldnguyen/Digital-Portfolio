@@ -78,3 +78,33 @@ A collection of personal projects focusing on utility, productivity, and enterta
 ---
 
 © 2025 Nguyen Minh Quan (Garold Nguyễn). All rights reserved.
+
+---
+
+## Developer notes
+
+How this site is built, run and deployed.
+
+**What it is.** A static site: `index.html`, one stylesheet (`assets/css/golden-age.css`) and one script bundle (`assets/js/golden-age.js`). The bundle is built from `src/` with esbuild; gsap and lenis are bundled in, so nothing loads from a CDN. Firebase Analytics lives in `assets/js/analytics.js` and does nothing on localhost.
+
+**Run it locally.**
+
+```sh
+npm install
+npm run dev     # http://localhost:3000, rebuilds the bundle as you edit src/
+```
+
+**Build.** `npm run build` writes `assets/js/golden-age.js`. Commit the result, because the deploy has no build step. After changing the stylesheet or the bundle, bump the `?v=` number on its tag in `index.html` so browsers fetch the new file.
+
+**Deploy.** Preview first, then live (both need `firebase login`):
+
+```sh
+firebase hosting:channel:deploy my-preview --only quannguyen47 --expires 14d   # a temporary preview URL
+firebase deploy --only hosting                                                  # live: quannguyen47.web.app and digital-portfolio-dc046.web.app
+```
+
+The GitHub workflow in `.github/workflows/firebase-hosting.yml` deploys `main` to live, but only works once the repository secret `FIREBASE_SERVICE_ACCOUNT_DIGITAL_PORTFOLIO_DC046` (a Firebase service-account key) exists. Without it the run fails and nothing is deployed from GitHub. (GitHub Pages also publishes `main` automatically.)
+
+**Security headers.** `firebase.json` sets a Content-Security-Policy and related headers on every response. If you add an external script, font, image host or API, add its address to the policy or the browser will block it. Inline `<script>` and `style=""` attributes are not allowed: put code in a file and styles in the stylesheet.
+
+**Where things are.** Text and links: `index.html`. Section titles that swap to another word before returning (`data-alt`): `index.html` and `src/glitch.js`. Social share image: `assets/images/og-card.jpg` (1200x630). Search files: `sitemap.xml` and `robots.txt`. The 404 page is `404.html`. Effects switch themselves off for visitors who prefer reduced motion.
