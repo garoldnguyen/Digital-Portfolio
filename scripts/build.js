@@ -1,7 +1,8 @@
-/* Build: bundle src/ into assets/js/golden-age.js with esbuild, then stamp every page with a content fingerprint.
+/* Build: bundle src/pixel/ into assets/js/pixel-desktop.js with esbuild, point the pixel sprites at the real artwork
+   (scripts/pixel-assets.js), then stamp every page with a content fingerprint.
 
-   The stamp is what makes long caching safe: the pages point at /assets/js/golden-age.js?v=<hash of the file>, so a changed
-   file gets a new address automatically and nobody ever has to remember to bump a version number by hand.
+   The stamp is what makes long caching safe: the pages point at /assets/js/pixel-desktop.js?v=<hash of the file>, so a
+   changed file gets a new address automatically and nobody ever has to remember to bump a version number by hand.
 
    `npm run build` runs this. The Firebase deploy runs it too (predeploy in firebase.json), so a stale bundle can never be
    deployed. If esbuild is not installed (a fresh clone before `npm install`) it says so and carries on with the committed
@@ -10,6 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
+const pixelAssets = require('./pixel-assets.js');
 
 const root = path.join(__dirname, '..');
 const rel = f => path.join(root, f);
@@ -22,14 +24,14 @@ function bundle() {
   }
   const t0 = Date.now();
   esbuild.buildSync({
-    entryPoints: [rel('src/app.js')], bundle: true, minify: true, format: 'iife', target: 'es2019',
-    legalComments: 'none', outfile: rel('assets/js/golden-age.js')
+    entryPoints: [rel('src/pixel/main.js')], bundle: true, minify: true, format: 'iife', target: 'es2019',
+    legalComments: 'none', outfile: rel('assets/js/pixel-desktop.js')
   });
-  console.log('build: assets/js/golden-age.js bundled in ' + (Date.now() - t0) + ' ms');
+  console.log('build: assets/js/pixel-desktop.js bundled in ' + (Date.now() - t0) + ' ms');
 }
 
 function stamp() {
-  const files = ['assets/css/golden-age.css', 'assets/js/golden-age.js', 'assets/js/analytics.js'];
+  const files = ['assets/css/pixel-desktop.css', 'assets/js/pixel-desktop.js', 'assets/js/theme-init.js', 'assets/js/analytics.js'];
   const hashes = {};
   for (const f of files) hashes[f] = crypto.createHash('sha256').update(fs.readFileSync(rel(f)).toString('utf8').replace(/\r\n/g, '\n')).digest('hex').slice(0, 8);
   let changed = 0;
@@ -46,4 +48,5 @@ function stamp() {
 }
 
 bundle();
+pixelAssets.run();
 stamp();

@@ -85,20 +85,24 @@ A collection of personal projects focusing on utility, productivity, and enterta
 
 How this site is built, run and deployed.
 
-**What it is.** A static site: `index.html`, one stylesheet (`assets/css/golden-age.css`) and one script bundle (`assets/js/golden-age.js`). The bundle is built from `src/` with esbuild; gsap and lenis are bundled in. The fonts are self-hosted in `assets/fonts/`, so the only outside request a visitor's browser makes is Firebase Analytics (`assets/js/analytics.js`, which does nothing on localhost).
+**What it is.** A static site that works like a pixel-art desktop: each desktop icon or taskbar button opens one section as a window (`#career`, `#works`, and so on) instead of scrolling a page. It is `index.html`, one stylesheet (`assets/css/pixel-desktop.css`) and one script bundle (`assets/js/pixel-desktop.js`) built from `src/pixel/` with esbuild. Without JavaScript the sections simply stack as a normal page. The fonts are self-hosted in `assets/fonts/`, so the only outside request a visitor's browser makes is Firebase Analytics (`assets/js/analytics.js`, which does nothing on localhost).
 
 **Run it locally.**
 
 ```sh
 npm install
-npm run dev     # http://localhost:3000, rebuilds the bundle as you edit src/
+npm run dev     # http://localhost:3000, rebuilds the bundle as you edit src/pixel/
 ```
 
-**Build.** `npm run build` bundles `src/` into `assets/js/golden-age.js` and stamps `index.html` and `404.html` with a fingerprint of each file (`?v=<hash>`), so a changed file always gets a new address. It also runs by itself before every `firebase deploy` (the `predeploy` step in `firebase.json`), so a stale bundle can never go live. Commit the result: the files in the repo are exactly what gets deployed.
+**Build.** `npm run build` bundles `src/pixel/` into `assets/js/pixel-desktop.js`, swaps in any real pixel art (see below) and stamps `index.html` and `404.html` with a fingerprint of each file (`?v=<hash>`), so a changed file always gets a new address. It also runs by itself before every `firebase deploy` (the `predeploy` step in `firebase.json`), so a stale bundle can never go live. Commit the result: the files in the repo are exactly what gets deployed.
+
+**Pixel art.** The 14 sprites (section icons, project sprites, heart/sun/moon) are listed in `scripts/pixel-list.js` with their sizes. Every `<img data-sprite="group/name">` in the pages shows a generated stand-in from `assets/pixel/_placeholder/` until a real file exists at `assets/pixel/group/name.png`. To add art: put the PNG there (for example `assets/pixel/icons/career.png`), then run `npm run assets` (or `npm run build`). It prints which sprites are real, which are still stand-ins, and warns when a size is wrong. After changing the list, run `npm run placeholders` to redraw the stand-ins. See `assets/pixel/README.md`.
+
+**Theme.** Light and dark live on `<html data-theme>`; the choice is saved in `localStorage` (`qn-theme`) and first comes from the system setting. `assets/js/theme-init.js` sets it before the page paints.
 
 **Caching.** Pages are always re-checked. Scripts, styles and fonts are cached for a year (safe, because their address changes when their content does); images for a week. The rules are in `firebase.json`.
 
-**Fonts.** Cormorant, Josefin Sans and Lexend (SIL Open Font License) were copied from Google Fonts by `node scripts/fonts.js`; re-run it only if the font families or weights change, then `npm run build`.
+**Fonts.** Nunito (text) and Silkscreen (tiny window titles and labels), both SIL Open Font License, were copied from Google Fonts by `npm run fonts`, which also rewrites the `@font-face` block at the top of `assets/css/pixel-desktop.css`. Re-run it only if the font families or weights change, then `npm run build`.
 
 **Deploy.** Preview first, then live (both need `firebase login`):
 
@@ -117,4 +121,4 @@ The deploy uploads about 30 files. If the tool reports hundreds, a hidden folder
 
 **Security headers.** `firebase.json` sets a Content-Security-Policy and related headers on every response. If you add an external script, font, image host or API, add its address to the policy or the browser will block it. Inline `<script>` and `style=""` attributes are not allowed: put code in a file and styles in the stylesheet.
 
-**Where things are.** Text and links: `index.html`. Section titles that swap to another word before returning (`data-alt`): `index.html` and `src/glitch.js`. Social share image: `assets/images/og-card.jpg` (1200x630). Search files: `sitemap.xml` and `robots.txt`. The 404 page is `404.html`. Effects switch themselves off for visitors who prefer reduced motion.
+**Where things are.** Text and links: `index.html` (one `section.win` per window). Window switching and the `#hash` routes: `src/pixel/router.js`. The glitch cursor (replaces the mouse arrow with a pixel arrow that glitches on fast moves and sends out corner pulses on click; from `glitch-cursor-kit/`): `src/pixel/glitch-cursor.js`. Social share image: `assets/images/og-card.jpg` (1200x630). Search files: `sitemap.xml` and `robots.txt`. The 404 page is `404.html`. The cursor is drawn in a canvas and never changes the page itself; form fields and anything marked `data-native-cursor` keep the system cursor, and with reduced motion the cursor stays still (no glitch, no pulses).
