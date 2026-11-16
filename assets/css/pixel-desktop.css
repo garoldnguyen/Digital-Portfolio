@@ -374,8 +374,16 @@ html.gc-on, html.gc-on * { cursor: none !important; }
   .js .icons { position: static; order: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); grid-template-rows: none; grid-auto-flow: row; gap: 18px 6px; width: 100%; max-width: 780px; margin: 0 auto; padding: 22px 12px 8px; justify-content: stretch; align-content: start; }
   html:not([data-view="profile"]) .icons { display: none; }
   .icon { width: auto; font-size: 13px; }
-  .tb-nav, .tb-sfx { display: none; }
-  .taskbar { padding-bottom: env(safe-area-inset-bottom); height: calc(var(--taskbar) + env(safe-area-inset-bottom)); }
+  /* the taskbar stays on screen and doubles as the app switcher: START is pinned flush left, the section tabs swipe sideways
+     next to it (the tab of the open window is scrolled into view by windows.js), so switching never needs a scroll to the bottom */
+  :root { --taskbar: 60px; }
+  .tb-sfx { display: none; }
+  .taskbar { gap: 8px; padding: 0 12px 0 0; padding-bottom: env(safe-area-inset-bottom); height: calc(var(--taskbar) + env(safe-area-inset-bottom)); overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+  .taskbar::-webkit-scrollbar { display: none; }
+  .start { position: sticky; left: 0; z-index: 2; flex: none; margin-right: 4px; padding: 5px 14px 5px 10px; }
+  .tb-nav { flex: none; gap: 8px; margin-left: 0; }
+  .tb-right { flex: none; margin-left: 0; gap: 8px; }
+  .tb { flex: none; white-space: nowrap; padding: 13px 14px; }
   .startmenu { bottom: calc(var(--taskbar) + 8px + env(safe-area-inset-bottom)); }
   .body.term { min-height: 60vh; }
   .term-out { max-height: 52vh; }
@@ -411,7 +419,7 @@ html.gc-on, html.gc-on * { cursor: none !important; }
   .line { flex-wrap: wrap; }
   .hello-row .big { width: 64px; height: 64px; }
   .start span { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
-  .start { padding: 7px 10px; }
+  .start { padding: 5px 10px; }
   .keys > div { grid-template-columns: 1fr; gap: 4px; }
 }
 @media (pointer: coarse) {

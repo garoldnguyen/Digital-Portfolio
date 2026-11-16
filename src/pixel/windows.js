@@ -110,6 +110,17 @@ export function initWindows(hooks) {
     return best;
   }
 
+  // On a phone the taskbar is a row you swipe sideways: keep the tab of the open window in view, centred when it can be.
+  const bar = document.querySelector('.taskbar');
+  const still = matchMedia('(prefers-reduced-motion: reduce)');
+  function revealTab() {
+    if (!bar || !phone.matches) return;
+    const tab = bar.querySelector('.tb[aria-current="page"]');
+    if (!tab) return;
+    const left = Math.max(0, tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2);
+    bar.scrollTo({ left, behavior: still.matches ? 'auto' : 'smooth' });
+  }
+
   function sync() {
     VIEWS.forEach(k => {
       const w = wins[k];
@@ -134,6 +145,7 @@ export function initWindows(hooks) {
     });
     const cur = active && wins[active];
     document.title = cur && cur.el.dataset.title ? cur.el.dataset.title : homeTitle;
+    revealTab();
   }
 
   function bringFront(v) {
