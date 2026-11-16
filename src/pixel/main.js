@@ -11,6 +11,7 @@ import { initBoot } from './boot.js';
 import { installGlitchCursor } from './glitch-cursor.js';
 import { initCopy } from './copy.js';
 import { initAccordions } from './accordions.js';
+import { initLang } from './i18n.js';
 
 const theme = initTheme();
 const sfx = initSfx();
@@ -29,3 +30,4 @@ ctl.boot = initBoot(ctl);
 installGlitchCursor(document.body);
 initCopy();
 initAccordions();
+initLang();

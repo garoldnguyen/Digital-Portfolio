@@ -1,6 +1,7 @@
 /* Light / dark theme. The first choice comes from assets/js/theme-init.js (saved choice, then the system setting, set
    before the page paints); this file wires the button and follows the system setting until the visitor chooses.
    It returns a small handle so the terminal, the START menu and the keyboard shortcuts can switch the theme too. */
+import { t } from './i18n.js';
 
 export function initTheme() {
   const root = document.documentElement;
@@ -9,7 +10,7 @@ export function initTheme() {
   const get = () => (root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light');
   const sync = () => {
     if (btn) btn.setAttribute('aria-pressed', String(get() === 'dark'));
-    document.querySelectorAll('[data-theme-label]').forEach(el => { el.textContent = get() === 'dark' ? 'Light theme' : 'Dark theme'; });
+    document.querySelectorAll('[data-theme-label]').forEach(el => { el.textContent = get() === 'dark' ? t('theme.light', 'Light theme') : t('theme.dark', 'Dark theme'); });
   };
   function set(next) {
     root.setAttribute('data-theme', next === 'dark' ? 'dark' : 'light');

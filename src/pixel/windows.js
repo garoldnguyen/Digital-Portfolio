@@ -5,6 +5,7 @@
    Focus mode: opening a window puts the others away (minimised, still on the taskbar) so there is one thing to look at; they come
    back when that window is closed or minimised, and Shift+click opens a window next to the others instead.
    Without JavaScript none of this runs: the sections simply stack as a normal page. */
+import { t } from './i18n.js';
 
 export const VIEWS = ['profile', 'credentials', 'career', 'works', 'research', 'honours', 'expertise', 'contact', 'terminal', 'shortcuts'];
 const HOME = 'profile';
@@ -141,7 +142,7 @@ export function initWindows(hooks) {
     document.querySelectorAll('.wb-max').forEach(b => {
       const k = b.closest('.win').id, on = !!(wins[k] && wins[k].max);
       b.setAttribute('aria-pressed', String(on));
-      b.setAttribute('aria-label', on ? 'Restore window' : 'Maximise window');
+      b.setAttribute('aria-label', on ? t('win.restore', 'Restore window') : t('win.maximise', 'Maximise window'));
     });
     const cur = active && wins[active];
     document.title = cur && cur.el.dataset.title ? cur.el.dataset.title : homeTitle;
@@ -248,7 +249,7 @@ export function initWindows(hooks) {
     const box = document.createElement('span');
     box.className = 'wbtns';
     const mk = (cls, label) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'wb ' + cls; b.setAttribute('aria-label', label); return b; };
-    const bMin = mk('wb-min', 'Minimise window'), bMax = mk('wb-max', 'Maximise window');
+    const bMin = mk('wb-min', t('win.minimise', 'Minimise window')), bMax = mk('wb-max', t('win.maximise', 'Maximise window'));
     bMax.setAttribute('aria-pressed', 'false');
     box.appendChild(bMin); box.appendChild(bMax);
     const x = bar.querySelector('.x');

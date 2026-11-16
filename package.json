@@ -9,7 +9,8 @@
     "assets": "node scripts/pixel-assets.js",
     "placeholders": "node scripts/make-placeholders.js",
     "fonts": "node scripts/fonts.js",
-    "og": "node scripts/make-og.js"
+    "og": "node scripts/make-og.js",
+    "i18n": "node scripts/i18n.js"
   },
   "repository": {
     "type": "git",
