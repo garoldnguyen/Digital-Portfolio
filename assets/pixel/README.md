@@ -4,7 +4,7 @@ Put the finished PNG for each sprite at `assets/pixel/<group>/<name>.png`, then 
 
 | File | Size |
 | --- | --- |
-| `icons/profile.png`, `icons/credentials.png`, `icons/career.png`, `icons/works.png`, `icons/research.png`, `icons/honours.png`, `icons/expertise.png`, `icons/contact.png` | 32×32 |
+| `icons/profile.png`, `icons/credentials.png`, `icons/career.png`, `icons/works.png`, `icons/research.png`, `icons/honours.png`, `icons/expertise.png`, `icons/contact.png`, `icons/terminal.png` | 32×32 |
 | `works/music.png`, `works/timer.png`, `works/gomoku.png` | 32×32 |
 | `ui/heart.png`, `ui/sun.png`, `ui/moon.png` | 16×16 |
 

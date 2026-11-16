@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light" data-view="profile">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#f6d5b8" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#241a28" media="(prefers-color-scheme: dark)">
 <title>Nguyen Minh Quan (Garold Nguyễn) - Portfolio</title>
@@ -27,8 +27,8 @@
 <link rel="preload" href="assets/fonts/nunito-latin-ba344451.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/nunito-vietnamese-61e5958c.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/silkscreen-latin-e6c72ea4.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/pixel-desktop.css?v=3aac149a">
-<script src="assets/js/theme-init.js?v=8ca5f519"></script>
+<link rel="stylesheet" href="assets/css/pixel-desktop.css?v=c7101b7e">
+<script src="assets/js/theme-init.js?v=01258494"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -58,6 +58,17 @@
 <body>
 <a class="skip" href="#main">Skip to content</a>
 
+<!-- start-up and shut-down screen (src/pixel/boot.js); shown only while <html> has the class "booting" or "off" -->
+<div class="boot" id="boot">
+  <pre class="boot-log"></pre>
+  <div class="boot-bar"><i></i></div>
+  <p class="boot-hint">Press any key or click to skip</p>
+  <div class="boot-off">
+    <p>It is now safe to close this tab.</p>
+    <button class="btn boot-on" type="button">Power on</button>
+  </div>
+</div>
+
 <div class="desktop">
 
   <!-- desktop icons: each one opens a window -->
@@ -70,6 +81,7 @@
     <a class="icon" href="#honours" data-view="honours"><span class="ico"><img class="px" data-sprite="icons/honours" src="assets/pixel/icons/honours.png?v=aebd025d" width="32" height="32" alt=""></span><span class="lb">Honours</span></a>
     <a class="icon" href="#expertise" data-view="expertise"><span class="ico"><img class="px" data-sprite="icons/expertise" src="assets/pixel/icons/expertise.png?v=bd5335d2" width="32" height="32" alt=""></span><span class="lb">Expertise</span></a>
     <a class="icon" href="#contact" data-view="contact"><span class="ico"><img class="px" data-sprite="icons/contact" src="assets/pixel/icons/contact.png?v=3f229289" width="32" height="32" alt=""></span><span class="lb">Contact</span></a>
+      <a class="icon js-only" href="#terminal" data-view="terminal"><span class="ico"><img class="px" data-sprite="icons/terminal" src="assets/pixel/_placeholder/icons-terminal.png" width="32" height="32" alt=""></span><span class="lb">Terminal</span></a>
   </nav>
 
   <main class="stage" id="main" tabindex="-1">
@@ -84,13 +96,21 @@
         <div class="intro">
           <h1 class="name" id="h-profile">Quân Nguyễn Minh</h1>
           <p class="role">Security Architect, Associate</p>
-          <p class="meta">a.k.a. Garold Nguyễn · NAB Innovation Centre Vietnam · Ho Chi Minh City</p>
+          <p class="meta">a.k.a. Garold Nguyễn, NAB Innovation Centre Vietnam, Ho Chi Minh City</p>
           <p class="lede">Specializing in cybersecurity risk assessments, governance and compliance frameworks. Industry-recognized security certifications and a degree in Artificial Intelligence from RMIT Vietnam back the work.</p>
           <ul class="stats">
             <li><b>3+</b><span>years of experience</span></li>
             <li><b>2+</b><span>professional security certificates</span></li>
           </ul>
-          <p class="cta"><a class="btn p" href="#contact" data-view="contact">Get in touch</a><a class="btn" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a></p>
+          <ul class="facts" aria-label="At a glance">
+            <li><b>Now</b><span>Security Architect, Associate at NAB Innovation Centre Vietnam, since June 2024</span></li>
+            <li><b>Certified</b><span>ISC2 SSCP and ISC2 Certified in Cybersecurity</span></li>
+            <li><b>Studied</b><span>Artificial Intelligence, RMIT Vietnam</span></li>
+            <li><b>Research</b><span>Accepted for publication, Springer CCIS (ICONIP 2026)</span></li>
+            <li><b>Honour</b><span>Young Leader for Vietnam, McKinsey &amp; Co., Oct 2025</span></li>
+          </ul>
+          <p class="cta"><a class="btn p" href="#contact" data-view="contact">Get in touch</a><a class="btn" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a><a class="btn" href="https://www.linkedin.com/in/quanng47/" target="_blank" rel="noopener">LinkedIn</a></p>
+          <p class="hint js-only muted">Tip: press <kbd>?</kbd> for keyboard shortcuts, or open the <a class="lnk" href="#terminal" data-view="terminal">terminal</a>.</p>
         </div>
       </div>
     </section>
@@ -242,7 +262,7 @@
           <article class="card"><p class="num">2</p><h3>Randomized persona injection</h3><p>Runtime prompt polymorphism neutralizes adversarial injection and jailbreak payloads.</p></article>
           <article class="card"><p class="num">3</p><h3>Post-task ephemeral teardown</h3><p>Context and memory are erased after execution, removing persistent state and balancing attack success against task success.</p></article>
         </div>
-        <p class="muted keywords">Cloud Security and Autonomous SLM Systems · Stateless SLM · Polymorphic Defense · CNAPP Automation · Zero Memory Residue</p>
+        <p class="muted keywords">Cloud Security and Autonomous SLM Systems, Stateless SLM, Polymorphic Defense, CNAPP Automation, Zero Memory Residue</p>
         <details class="more cite">
           <summary class="btn sm"><span class="t-closed">Cite this work</span><span class="t-open">Hide citation</span></summary>
           <div class="card">
@@ -358,12 +378,47 @@
       </div>
     </section>
 
+    <!-- ============ TERMINAL (needs JavaScript) ============ -->
+    <section class="win js-only" id="terminal" aria-labelledby="h-terminal" data-title="Terminal | Nguyen Minh Quan">
+      <header class="bar bar5"><span class="bar-t">terminal.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body term">
+        <h2 class="sr-only" id="h-terminal">Terminal</h2>
+        <div class="term-out" id="term-out" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0"></div>
+        <div class="tchips" role="group" aria-label="Quick commands">
+          <button type="button" data-cmd="help">help</button><button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="skills">skills</button><button type="button" data-cmd="certs">certs</button><button type="button" data-cmd="works">works</button><button type="button" data-cmd="contact">contact</button>
+        </div>
+        <form class="term-form" id="term-form" autocomplete="off">
+          <label class="ps1" for="term-in">visitor@quan:~$</label>
+          <input id="term-in" type="text" data-autofocus spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" enterkeyhint="go">
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ KEYBOARD SHORTCUTS (needs JavaScript) ============ -->
+    <section class="win js-only" id="shortcuts" aria-labelledby="h-shortcuts" data-title="Keyboard shortcuts | Nguyen Minh Quan">
+      <header class="bar bar3"><span class="bar-t">shortcuts.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-shortcuts">Keyboard shortcuts</h2>
+        <dl class="keys">
+          <div><dt><kbd>1</kbd> to <kbd>9</kbd></dt><dd>Open Profile, Credentials, Career, Works, Research, Honours, Expertise, Contact, Terminal</dd></div>
+          <div><dt><kbd>T</kbd></dt><dd>Open the terminal</dd></div>
+          <div><dt><kbd>M</kbd></dt><dd>Minimise the front window</dd></div>
+          <div><dt><kbd>F</kbd></dt><dd>Maximise or restore the front window</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>Close the front window</dd></div>
+          <div><dt><kbd>D</kbd></dt><dd>Switch between the light and dark theme</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+          <div><dt><kbd>Shift</kbd> + click</dt><dd>Open a window next to the others instead of putting them away</dd></div>
+        </dl>
+        <p class="muted">Opening a window puts the others away (they stay on the taskbar and come back when it closes). Drag a window by its title bar, resize it from the bottom-right corner, double-click the title bar to maximise it.</p>
+      </div>
+    </section>
+
   </main>
 
 
   <!-- taskbar -->
   <div class="taskbar">
-    <a class="start" href="#profile" data-view="profile"><img class="px" data-sprite="ui/heart" src="assets/pixel/ui/heart.png?v=6e3b3c35" width="16" height="16" alt=""><span>START</span></a>
+    <a class="start" href="#profile" id="start-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="startmenu"><img class="px" data-sprite="ui/heart" src="assets/pixel/ui/heart.png?v=6e3b3c35" width="16" height="16" alt=""><span>START</span></a>
     <nav class="tb-nav" aria-label="Sections">
       <a class="tb" href="#profile" data-view="profile">Profile</a>
       <a class="tb" href="#credentials" data-view="credentials">Credentials</a>
@@ -373,17 +428,39 @@
       <a class="tb" href="#honours" data-view="honours">Honours</a>
       <a class="tb" href="#expertise" data-view="expertise">Expertise</a>
       <a class="tb" href="#contact" data-view="contact">Contact</a>
+      <a class="tb js-only" href="#terminal" data-view="terminal">Terminal</a>
     </nav>
     <div class="tb-right">
+      <button class="tb-sfx js-only" id="sfx-toggle" type="button" aria-pressed="false" aria-label="Sound effects">SFX</button>
       <button class="tb-theme" id="theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme"><img class="px sun" data-sprite="ui/sun" src="assets/pixel/ui/sun.png?v=2c96a079" width="16" height="16" alt=""><img class="px moon" data-sprite="ui/moon" src="assets/pixel/ui/moon.png?v=dcaf46a6" width="16" height="16" alt=""></button>
       <a class="tb tb-cv" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">CV</a>
     </div>
   </div>
 
+  <!-- START menu (src/pixel/startmenu.js) -->
+  <div class="startmenu" id="startmenu" role="menu" aria-label="Start menu" hidden>
+    <a role="menuitem" href="#profile" data-view="profile">Profile</a>
+    <a role="menuitem" href="#credentials" data-view="credentials">Credentials</a>
+    <a role="menuitem" href="#career" data-view="career">Career</a>
+    <a role="menuitem" href="#works" data-view="works">Works</a>
+    <a role="menuitem" href="#research" data-view="research">Research</a>
+    <a role="menuitem" href="#honours" data-view="honours">Honours</a>
+    <a role="menuitem" href="#expertise" data-view="expertise">Expertise</a>
+    <a role="menuitem" href="#contact" data-view="contact">Contact</a>
+    <a role="menuitem" href="#terminal" data-view="terminal">Terminal</a>
+    <hr>
+    <a role="menuitem" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a>
+    <button role="menuitem" type="button" data-act="shortcuts" class="sm-keys">Keyboard shortcuts</button>
+    <button role="menuitem" type="button" data-act="theme"><span data-theme-label>Dark theme</span></button>
+    <button role="menuitem" type="button" data-act="sfx"><span data-sfx-label>Sound: off</span></button>
+    <hr>
+    <button role="menuitem" type="button" data-act="shutdown">Shut down&hellip;</button>
+  </div>
+
   <p class="toast" id="toast" role="status" aria-live="polite"></p>
 </div>
 
-<script src="assets/js/pixel-desktop.js?v=1841b39f" defer></script>
+<script src="assets/js/pixel-desktop.js?v=5d2bce42" defer></script>
 
 <!-- Firebase Analytics: same project and config as before, in its own file; it skips localhost -->
 <script type="module" src="assets/js/analytics.js?v=a843f794"></script>

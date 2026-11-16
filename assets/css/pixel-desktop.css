@@ -26,11 +26,12 @@
   color-scheme: light;
   --font: 'Nunito', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --pixel: 'Silkscreen', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
   --taskbar: 52px;
   --icons-w: 290px;
   --bg: #f6d5b8; --surface: #fbf1e1; --card: #ffffff; --ink: #3b2a3a; --ink2: #6b5766; --line: #3b2a3a; --shadow: #3b2a3a;
   --btn: #c8442b; --btnText: #ffffff; --link: #b3391f; --teal: #1f6f68;
-  --bar1: #e76f51; --bar2: #f4a261; --bar3: #8fd3c8; --bar4: #f2b5a7; --barText: #3b2a3a; --barBtn: #fbf1e1;  /* title bars stay pastel in both themes, so the close button keeps a light face */
+  --bar1: #e76f51; --bar2: #f4a261; --bar3: #8fd3c8; --bar4: #f2b5a7; --bar5: #cdb8ec; --barText: #2a1d2c; --barBtn: #fbf1e1;  /* title bars stay pastel in both themes, so the close button keeps a light face */
   --chip: #f4a261; --tbar: #fbf1e1; --hi: #ffe3b8;
 }
 :root[data-theme="dark"] {
@@ -69,10 +70,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .icon:hover .lb, .icon[aria-current="page"] .lb { background: var(--ink); color: var(--surface); }
 
 .stage { outline: none; }
-.js .stage {
-  position: absolute; left: var(--icons-w); right: 28px; top: 24px; bottom: calc(var(--taskbar) + 24px); z-index: 2;
-  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: minmax(0, 1fr); place-items: center;
-}
+.js .stage { position: absolute; left: var(--icons-w); right: 28px; top: 24px; bottom: calc(var(--taskbar) + 24px); z-index: 4; }   /* the area windows live in; a window's own z-index only works inside it */
 html:not(.js) .stage { padding: 24px 0 90px; }
 
 /* ---------- windows ---------- */
@@ -80,14 +78,21 @@ html:not(.js) .stage { padding: 24px 0 90px; }
   display: flex; flex-direction: column; min-height: 0; background: var(--surface); color: var(--ink);
   border: 3px solid var(--line); box-shadow: 4px 4px 0 var(--shadow);
 }
-.js .win { display: none; grid-area: 1 / 1; width: min(var(--w, 1000px), 100%); max-height: 100%; }
-.js .win.is-open { display: flex; }
+/* on a computer: absolutely placed, centred until the window manager (src/pixel/windows.js) gives it numbers */
+.js .win { display: none; position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(var(--w, 1000px), 100%); max-height: 100%; }
+.js .win.is-open:not(.is-min) { display: flex; }
+.js .win.placed { transform: none; }
+.js .win.is-max { left: 0 !important; top: 0 !important; width: 100% !important; height: 100% !important; max-height: none !important; transform: none !important; }
+.js .win:not(.is-focus) { box-shadow: 3px 3px 0 var(--shadow); }
+.js .win:not(.is-focus) .bar { filter: saturate(0.45) brightness(1.06); }
+.js .win.dragging { user-select: none; }
 html:not(.js) .win { width: min(var(--w, 1000px), calc(100% - 28px)); margin: 0 auto 28px; }
-#profile { --w: 860px; } #credentials { --w: 800px; } #career { --w: 1020px; } #works { --w: 1068px; }
-#research { --w: 1040px; } #honours { --w: 1068px; } #expertise { --w: 1040px; } #contact { --w: 760px; }
+#profile { --w: 1100px; } #credentials { --w: 800px; } #career { --w: 1020px; } #works { --w: 1068px; }
+#research { --w: 1040px; } #honours { --w: 1068px; } #expertise { --w: 1040px; } #contact { --w: 760px; } #terminal { --w: 740px; } #shortcuts { --w: 560px; }
+.js #terminal { min-height: min(420px, 100%); }
 
-.bar { flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; padding: 0 10px; background: var(--bar1); color: var(--barText); border-bottom: 3px solid var(--line); font-family: var(--pixel); font-size: 13px; letter-spacing: 0.5px; }
-.bar1 { background: var(--bar1); } .bar2 { background: var(--bar2); } .bar3 { background: var(--bar3); } .bar4 { background: var(--bar4); }
+.bar { user-select: none; flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; padding: 0 10px; background: var(--bar1); color: var(--barText); border-bottom: 3px solid var(--line); font-family: var(--pixel); font-size: 13px; letter-spacing: 0.5px; }
+.bar1 { background: var(--bar1); } .bar2 { background: var(--bar2); } .bar3 { background: var(--bar3); } .bar4 { background: var(--bar4); } .bar5 { background: var(--bar5); }
 .x { position: relative; flex: none; width: 20px; height: 20px; background: var(--barBtn); border: 2px solid var(--barText); }
 .x::before, .x::after { content: ''; position: absolute; left: 50%; top: 50%; width: 10px; height: 2px; margin: -1px 0 0 -5px; background: var(--barText); transform: rotate(45deg); }
 .x::after { transform: rotate(-45deg); }
@@ -228,6 +233,82 @@ html:not(.js) .win { width: min(var(--w, 1000px), calc(100% - 28px)); margin: 0 
 .tb-cv { background: var(--bar3); color: #3b2a3a; }
 
 
+/* ---------- window controls and resizing ---------- */
+.wbtns { display: flex; align-items: center; gap: 6px; }
+.wb { position: relative; flex: none; width: 20px; height: 20px; background: var(--barBtn); border: 2px solid var(--barText); }
+.wb:hover { background: var(--btn); }
+.wb-min::before { content: ''; position: absolute; left: 3px; right: 3px; bottom: 3px; height: 2px; background: var(--barText); }
+.wb-max::before { content: ''; position: absolute; inset: 3px; border: 2px solid var(--barText); border-top-width: 3px; }
+.wb-max[aria-pressed="true"]::before { inset: 5px 3px 3px 5px; }
+.wb-max[aria-pressed="true"]::after { content: ''; position: absolute; left: 3px; top: 3px; width: 8px; height: 6px; border: 2px solid var(--barText); border-right-width: 0; border-bottom-width: 0; }
+.grip { display: none; position: absolute; right: 0; bottom: 0; width: 18px; height: 18px; touch-action: none; background: linear-gradient(135deg, transparent 0 48%, var(--line) 48% 56%, transparent 56% 68%, var(--line) 68% 76%, transparent 76%); }
+.js .win.placed:not(.is-max) .grip { display: block; }
+
+/* ---------- small helpers ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0; }
+html:not(.js) .js-only { display: none !important; }
+kbd { display: inline-block; min-width: 22px; padding: 1px 6px; background: var(--card); border: 2px solid var(--line); box-shadow: 0 2px 0 var(--shadow); font: 700 12px/1.4 var(--mono); text-align: center; }
+
+/* ---------- at a glance (home) ---------- */
+.facts { display: grid; gap: 7px; margin: 18px 0 0; padding: 0; list-style: none; font-size: 14px; line-height: 1.4; }
+.facts li { display: grid; grid-template-columns: 84px minmax(0, 1fr); gap: 10px; }
+.facts b { padding-top: 3px; font-family: var(--pixel); font-size: 11px; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; color: var(--teal); }
+.hint { margin-top: 14px; font-size: 13px; }
+
+/* ---------- keyboard shortcuts ---------- */
+.keys { margin: 0 0 16px; }
+.keys > div { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 14px; padding: 10px 0; border-bottom: 2px solid var(--hi); }
+.keys dt { white-space: nowrap; }
+.keys dd { margin: 0; }
+
+/* ---------- terminal ---------- */
+.body.term { display: flex; flex-direction: column; gap: 0; padding: 0; overflow: hidden; background: #17101b; color: #d7ece8; font-family: var(--mono); font-size: 14px; line-height: 1.5; }
+.term-out { flex: 1 1 auto; min-height: 140px; overflow: auto; padding: 14px 16px 6px; white-space: pre-wrap; overflow-wrap: anywhere; scrollbar-color: #6a5575 transparent; }
+.tl { min-height: 1.5em; }
+.tl.dim { color: #a493ad; } .tl.err { color: #ff9d8a; } .tl.ok { color: #8fd3c8; font-weight: 700; }
+.tl a { color: #f4a261; text-decoration: underline; text-underline-offset: 3px; }
+.ps1 { color: #8fd3c8; font-weight: 700; white-space: nowrap; }
+.tchips { flex: none; display: flex; flex-wrap: wrap; gap: 8px; padding: 6px 16px 10px; }
+.tchips button { padding: 4px 10px; border: 2px solid #6a5575; color: #d7ece8; font: inherit; font-size: 13px; }
+.tchips button:hover { background: #35283a; }
+.term-form { flex: none; display: flex; align-items: center; gap: 10px; padding: 10px 16px 14px; border-top: 2px solid #35283a; }
+.term-form:focus-within { box-shadow: inset 0 0 0 2px var(--btn); }
+.term-form input { flex: 1; min-width: 0; padding: 4px 0; background: transparent; border: 0; outline: 0; color: #fff; font: inherit; caret-color: #f4a261; }
+
+/* ---------- taskbar extras and the START menu ---------- */
+.tb.is-open { box-shadow: inset 0 -4px 0 var(--bar1); }
+.tb[aria-current="page"] { box-shadow: inset 3px 3px 0 rgba(0, 0, 0, 0.18), inset 0 -4px 0 var(--bar1); }
+.tb.is-min { opacity: 0.72; }
+.icon.is-open:not([aria-current]) .lb { box-shadow: inset 0 -3px 0 var(--btn); }
+.tb-sfx { padding: 10px 10px 9px; background: var(--surface); border: 3px solid var(--line); font-family: var(--pixel); font-size: 11px; line-height: 1; }
+.tb-sfx[aria-pressed="true"] { background: var(--bar3); color: #3b2a3a; }
+.start { cursor: pointer; }
+.start[aria-expanded="true"] { background: var(--hi); }
+.startmenu { position: fixed; left: 12px; bottom: calc(var(--taskbar) + 8px); z-index: 35; min-width: 232px; max-height: calc(100vh - var(--taskbar) - 24px); max-height: calc(100dvh - var(--taskbar) - 24px); overflow: auto; padding: 6px; background: var(--surface); border: 3px solid var(--line); box-shadow: 4px 4px 0 var(--shadow); }
+.startmenu[hidden] { display: none; }
+.startmenu a, .startmenu button { display: block; width: 100%; padding: 9px 12px; text-align: left; font-weight: 700; font-size: 15px; line-height: 1.2; color: var(--ink); background: none; }
+.startmenu [role="menuitem"]:hover, .startmenu [role="menuitem"]:focus-visible { background: var(--ink); color: var(--surface); outline: none; }
+.startmenu a[aria-current="page"] { box-shadow: inset 5px 0 0 var(--btn); }
+.startmenu hr { margin: 6px 4px; border: 0; border-top: 2px solid var(--line); opacity: 0.35; }
+
+/* ---------- start-up and shut-down ---------- */
+.boot { display: none; position: fixed; inset: 0; z-index: 1000; flex-direction: column; gap: 18px; padding: 9vh 8vw; background: #120c15; color: #8fd3c8; font-family: var(--mono); }
+html.booting .boot, html.off .boot { display: flex; }
+.boot.boot-out { opacity: 0; transition: opacity 0.25s; }
+.boot-log { margin: 0; font: inherit; font-size: clamp(13px, 1.5vw, 17px); line-height: 1.6; white-space: pre-wrap; }
+.boot-bar { width: min(420px, 70vw); height: 18px; padding: 2px; border: 3px solid #8fd3c8; }
+.boot-bar i { display: block; width: 0; height: 100%; background: #f4a261; transition: width 0.18s steps(4); }
+.boot-hint { margin: auto 0 0; font-size: 13px; color: #a493ad; }
+.boot-off { display: none; }
+html.off .boot-log, html.off .boot-bar, html.off .boot-hint { display: none; }
+html.off .boot-off { display: flex; flex-direction: column; align-items: center; gap: 22px; margin: auto; text-align: center; font-size: 18px; }
+html.shutting .desktop { animation: crt-off 0.65s ease-in forwards; }
+@keyframes crt-off {
+  0% { transform: scale(1, 1); filter: brightness(1); opacity: 1; }
+  55% { transform: scale(1, 0.015); filter: brightness(2.4); opacity: 1; }
+  100% { transform: scale(0, 0.015); filter: brightness(3); opacity: 0; }
+}
+
 /* ---------- glitch cursor ---------- */
 /* the cursor layer made by src/pixel/glitch-cursor.js; gc-on is on <html> while the cursor is shown, so no element brings the system arrow back */
 .glitch-cursor { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 2147483646; }
@@ -243,6 +324,27 @@ html.gc-on, html.gc-on * { cursor: none !important; }
 .nf .big-404 { font-size: 88px; font-weight: 900; line-height: 1; color: var(--btn); }
 .nf .cta { justify-content: center; }
 
+/* ---------- the home window on a computer: a wide 16:9 window whose type and spacing follow its own width, so it looks the same
+   at any size (the window manager gives it a 16:9 frame; resize it and the content scales with it) ---------- */
+@media (min-width: 1100px) {
+  #profile { container-type: inline-size; --w: 1280px; }
+  #profile .body.home { gap: clamp(28px, 3.4cqw, 56px); padding: clamp(22px, 2.8cqw, 46px) clamp(26px, 3.2cqw, 52px); }
+  #profile .photo { width: clamp(210px, 26cqw, 440px); min-height: 0; }
+  #profile .name { font-size: clamp(38px, 4.8cqw, 84px); }
+  #profile .role { margin-top: 0.4cqw; font-size: clamp(18px, 2cqw, 34px); }
+  #profile .meta { margin-top: 0.4cqw; font-size: clamp(13px, 1.25cqw, 21px); }
+  #profile .lede { margin-top: clamp(10px, 1.4cqw, 26px); font-size: clamp(14px, 1.4cqw, 23px); }
+  #profile .stats { margin-top: clamp(12px, 1.6cqw, 28px); gap: 1.2cqw 4cqw; }
+  #profile .stats b { font-size: clamp(30px, 3.2cqw, 56px); }
+  #profile .stats span { font-size: clamp(12px, 1.15cqw, 19px); }
+  #profile .facts { margin-top: clamp(12px, 1.6cqw, 28px); gap: clamp(6px, 0.8cqw, 15px); font-size: clamp(13px, 1.25cqw, 20px); line-height: 1.5; }
+  #profile .facts li { grid-template-columns: clamp(84px, 8.6cqw, 148px) minmax(0, 1fr); gap: clamp(12px, 1.4cqw, 24px); }
+  #profile .facts b { padding-top: 0.3cqw; font-size: clamp(10px, 0.9cqw, 14px); }
+  #profile .cta { margin-top: clamp(14px, 1.8cqw, 32px); gap: 1.2cqw 1.6cqw; }
+  #profile .cta .btn { padding: clamp(11px, 1.1cqw, 18px) clamp(16px, 1.6cqw, 28px); font-size: clamp(14px, 1.2cqw, 19px); }
+  #profile .hint { margin-top: clamp(20px, 2.3cqw, 38px); font-size: clamp(12px, 1cqw, 16px); }
+}
+
 /* ---------- smaller screens ---------- */
 @media (max-height: 860px) {
   .js .icons { grid-template-rows: repeat(4, max-content); gap: 14px 10px; }
@@ -256,25 +358,52 @@ html.gc-on, html.gc-on * { cursor: none !important; }
   .tb { padding: 10px 10px; }
 }
 @media (max-width: 1099px) {
-  /* phone and tablet: the page scrolls, the app grid sits under the intro, an opened window fills the width */
-  .js .desktop { position: static; display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; overflow: visible; padding-bottom: calc(var(--taskbar) + 20px); }
-  .js .stage { position: static; display: block; order: 1; padding: 18px 14px 0; }
-  .js .win { width: auto; max-width: 780px; margin: 0 auto; max-height: none; }
+  /* phone and tablet: one window at a time like an app. The page scrolls, the home screen is the intro with the app grid under
+     it, an opened app fills the width with a title bar that stays at the top, and START opens the menu that switches app. */
+  .js .desktop { position: static; display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; overflow: visible; padding-bottom: calc(var(--taskbar) + 20px + env(safe-area-inset-bottom)); }
+  .js .stage { position: static; display: block; order: 1; padding: 14px 12px 0; }
+  .js .win { position: static !important; transform: none !important; width: auto !important; height: auto !important; max-height: none !important; max-width: 780px; margin: 0 auto; }
+  .js .win.is-open { display: flex; }
+  .js .win.is-min { display: flex; }
+  .js .win:not(.is-focus) .bar { filter: none; }
+  .js .bar { position: sticky; top: 0; z-index: 3; min-height: 44px; }
+  .wb, .grip { display: none !important; }
+  .x { width: 34px; height: 34px; }
+  .x::before, .x::after { width: 16px; margin: -1px 0 0 -8px; }
   .body { overflow: visible; }
-  .js .icons { position: static; order: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(96px, 1fr)); grid-template-rows: none; grid-auto-flow: row; gap: 20px 8px; width: 100%; max-width: 780px; margin: 0 auto; padding: 22px 14px 8px; justify-content: stretch; align-content: start; }
+  .js .icons { position: static; order: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); grid-template-rows: none; grid-auto-flow: row; gap: 18px 6px; width: 100%; max-width: 780px; margin: 0 auto; padding: 22px 12px 8px; justify-content: stretch; align-content: start; }
   html:not([data-view="profile"]) .icons { display: none; }
-  .icon { width: auto; }
-  .tb-nav { display: none; }
-  .body.home { flex-direction: column; }
-  .photo { width: 100%; max-width: 340px; height: 400px; min-height: 0; margin: 0 auto; align-self: center; }
-  .name { font-size: 42px; }
+  .icon { width: auto; font-size: 13px; }
+  .tb-nav, .tb-sfx { display: none; }
+  .taskbar { padding-bottom: env(safe-area-inset-bottom); height: calc(var(--taskbar) + env(safe-area-inset-bottom)); }
+  .startmenu { bottom: calc(var(--taskbar) + 8px + env(safe-area-inset-bottom)); }
+  .body.term { min-height: 60vh; }
+  .term-out { max-height: 52vh; }
+  /* home: the photo sits beside the name, everything else runs full width under them */
+  .body.home { display: grid; grid-template-columns: 104px minmax(0, 1fr); gap: 4px 16px; padding: 18px; align-items: start; }
+  .intro { display: contents; }
+  .photo { grid-column: 1; grid-row: 1 / span 3; width: 104px; height: 150px; min-height: 0; margin: 0; align-self: start; }
+  .name { grid-column: 2; font-size: 30px; align-self: end; }
+  .role { grid-column: 2; margin-top: 2px; font-size: 18px; }
+  .meta { grid-column: 2; font-size: 13px; }
+  .lede, .stats, .facts, .cta, .hint { grid-column: 1 / -1; }
+  .lede { margin-top: 18px; }
+  .stats { margin-top: 16px; gap: 12px 28px; }
+  .stats b { font-size: 36px; }
+  .facts li { grid-template-columns: 78px minmax(0, 1fr); }
+  .hint { display: none; }
+}
+@media (min-width: 700px) and (max-width: 1099px) {
+  .body.home { grid-template-columns: 180px minmax(0, 1fr); gap: 4px 24px; padding: 24px; }
+  .photo { width: 180px; height: 250px; }
+  .name { font-size: 40px; }
+  .role { font-size: 21px; }
+  .meta { font-size: 15px; }
 }
 @media (max-width: 699px) {
   .body { padding: 20px 18px 24px; }
-  .body.home { padding: 18px; }
   .h2, .paper-t { font-size: 30px; }
-  .name { font-size: 36px; }
-  .role { font-size: 19px; }
+  .role { font-size: 17px; }
   .c-mail { font-size: 19px; }
   .acc .chip { min-width: 0; }
   .acc summary { flex-wrap: wrap; gap: 8px 12px; padding: 12px 14px; }
@@ -283,6 +412,14 @@ html.gc-on, html.gc-on * { cursor: none !important; }
   .hello-row .big { width: 64px; height: 64px; }
   .start span { display: none; }
   .start { padding: 7px 10px; }
+  .keys > div { grid-template-columns: 1fr; gap: 4px; }
+}
+@media (pointer: coarse) {
+  .btn.sm, .tchips button, .startmenu a, .startmenu button { min-height: 44px; }
+  .tb-theme { height: 42px; }
+}
+@media (hover: none) {
+  .hint, .sm-keys { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }

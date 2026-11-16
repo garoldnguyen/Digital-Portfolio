@@ -1,0 +1,5 @@
+# Security contact for quannguyen47.web.app (RFC 9116). Served at /.well-known/security.txt
+Contact: mailto:garoldnguyen@gmail.com
+Expires: 2027-11-16T00:00:00.000Z
+Preferred-Languages: en, vi
+Canonical: https://quannguyen47.web.app/.well-known/security.txt

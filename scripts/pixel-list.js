@@ -11,6 +11,7 @@ module.exports = [
   { name: 'icons/honours', w: 32, h: 32 },
   { name: 'icons/expertise', w: 32, h: 32 },
   { name: 'icons/contact', w: 32, h: 32 },
+  { name: 'icons/terminal', w: 32, h: 32 },
   { name: 'works/music', w: 32, h: 32 },
   { name: 'works/timer', w: 32, h: 32 },
   { name: 'works/gomoku', w: 32, h: 32 },

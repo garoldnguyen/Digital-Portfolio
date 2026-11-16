@@ -23,6 +23,8 @@ export function initCopy() {
     if (!ok) throw new Error('copy not available');
   }
 
+  document.addEventListener('desktop:toast', e => say(String(e.detail || '')));     // other parts of the desktop (the terminal) can show a message too
+
   document.addEventListener('click', e => {
     const b = e.target.closest && e.target.closest('[data-copy], [data-copy-target]');
     if (!b) return;
