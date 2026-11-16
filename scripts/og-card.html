@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<title>og-card</title>
+<!-- The source of assets/images/og-card.jpg (the picture shown when the site is shared). Rendered by scripts/make-og.js at 1200x630.
+     It reuses the site's stylesheet for the fonts and colours; not part of the deployed site (scripts/ is ignored). -->
+<link rel="stylesheet" href="../assets/css/pixel-desktop.css">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; background: #f6d5b8; }
+  .stage-og { position: relative; width: 1200px; height: 630px; overflow: hidden; background:
+    linear-gradient(rgba(59,42,58,.05) 1px, transparent 1px) 0 0 / 100% 24px, linear-gradient(90deg, rgba(59,42,58,.05) 1px, transparent 1px) 0 0 / 24px 100%, #f6d5b8; }
+  .col { position: absolute; left: 40px; top: 52px; display: grid; gap: 22px; }
+  .ic { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 96px; font-weight: 700; font-size: 15px; color: #3b2a3a; }
+  .ic img { width: 64px; height: 64px; }
+  .win-og { position: absolute; left: 200px; top: 46px; width: 900px; border: 4px solid #3b2a3a; background: #fbf1e1; box-shadow: 8px 8px 0 #3b2a3a; }
+  .win-og .bar { min-height: 40px; font-size: 16px; padding: 0 14px; }
+  .inner { display: flex; gap: 36px; padding: 30px 34px 34px; }
+  .pic { flex: none; width: 250px; height: 340px; border: 4px solid #3b2a3a; box-shadow: 5px 5px 0 #3b2a3a; background: url('../assets/images/portrait-plaza.jpg') 50% 12% / cover; }
+  .txt { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  .nm { font-size: 56px; line-height: 1.04; font-weight: 800; color: #3b2a3a; letter-spacing: -1px; }
+  .rl { margin-top: 14px; font-size: 30px; font-weight: 800; color: #1f6f68; }
+  .mt { margin-top: 8px; font-size: 20px; color: #6b5766; }
+  .chips { display: flex; gap: 12px; margin-top: 26px; }
+  .chips .chip { font-size: 15px; padding: 8px 12px; }
+  .tk { position: absolute; left: 0; right: 0; bottom: 0; height: 52px; display: flex; align-items: center; gap: 14px; padding: 0 14px; background: #fbf1e1; border-top: 4px solid #3b2a3a; }
+  .tk .start { font-size: 15px; }
+  .tk .url { margin-left: auto; font-family: var(--pixel); font-size: 15px; color: #3b2a3a; }
+  .arrow { position: absolute; left: 1004px; top: 318px; width: 39px; height: 54px; image-rendering: pixelated; }
+</style>
+</head>
+<body>
+<div class="stage-og">
+  <div class="col">
+    <div class="ic"><img class="px" src="../assets/pixel/icons/credentials.png" alt=""><span>Credentials</span></div>
+    <div class="ic"><img class="px" src="../assets/pixel/icons/career.png" alt=""><span>Career</span></div>
+    <div class="ic"><img class="px" src="../assets/pixel/icons/research.png" alt=""><span>Research</span></div>
+    <div class="ic"><img class="px" src="../assets/pixel/icons/works.png" alt=""><span>Works</span></div>
+  </div>
+  <div class="win-og">
+    <header class="bar"><span class="bar-t">hello.exe</span></header>
+    <div class="inner">
+      <div class="pic"></div>
+      <div class="txt">
+        <div class="nm">Quân Nguyễn Minh</div>
+        <div class="rl">Security Architect, Associate</div>
+        <div class="mt">NAB Innovation Centre Vietnam, Ho Chi Minh City</div>
+        <div class="chips"><span class="chip">ISC2 SSCP</span><span class="chip">ISC2 CC</span><span class="chip">AI, RMIT VIETNAM</span></div>
+      </div>
+    </div>
+  </div>
+  <img class="arrow" src="../glitch-cursor-kit/assets/pixel/cursor/arrow.png" alt="">
+  <div class="tk"><span class="start"><img class="px" src="../assets/pixel/ui/heart.png" width="32" height="32" alt=""><span>START</span></span><span class="url">quannguyen47.web.app</span></div>
+</div>
+</body>
+</html>

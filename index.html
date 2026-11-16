@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="light" data-view="profile">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#0A1512">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6d5b8" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#241a28" media="(prefers-color-scheme: dark)">
 <title>Nguyen Minh Quan (Garold Nguyễn) - Portfolio</title>
 <meta name="description" content="Portfolio of Nguyen Minh Quan, a Security Architect, Associate and Software Engineer showcasing projects, skills, and experience.">
 <link rel="canonical" href="https://quannguyen47.web.app/">
@@ -21,12 +22,13 @@
 <meta name="twitter:title" content="Nguyen Minh Quan (Garold Nguyễn) - Security Architect, Associate Portfolio">
 <meta name="twitter:description" content="Portfolio of Nguyen Minh Quan, a Security Architect, Associate and Software Engineer showcasing projects, skills, and experience.">
 <meta name="twitter:image" content="https://quannguyen47.web.app/assets/images/og-card.jpg">
-<link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg?v=2">
-<link rel="preload" href="assets/fonts/josefin-sans-latin-21efe155.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/josefin-sans-vietnamese-f4d19d0a.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/cormorant-latin-766e1b19.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/lexend-latin-b7e7538f.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/css/golden-age.css?v=9fd905ac">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/images/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/nunito-latin-ba344451.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/nunito-vietnamese-61e5958c.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/silkscreen-latin-e6c72ea4.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/css/pixel-desktop.css?v=835eff80">
+<script src="assets/js/theme-init.js?v=01258494"></script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -39,7 +41,7 @@
     "name": "NAB Innovation Centre Vietnam"
   },
   "url": "https://quannguyen47.web.app/",
-  "image": "https://quannguyen47.web.app/assets/images/portrait.jpg",
+  "image": "https://quannguyen47.web.app/assets/images/portrait-plaza.jpg",
   "sameAs": [
     "https://www.linkedin.com/in/quanng47/",
     "https://www.facebook.com/koderqq/",
@@ -55,200 +57,220 @@
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
-<div class="veil" aria-hidden="true"></div>
 
-<header class="nav">
-  <a class="mono" href="#top" aria-label="Back to top">QN</a>
-  <nav class="links" aria-label="Sections"><a href="#profile">Profile</a><a href="#credentials">Credentials</a><a href="#career">Career</a><a href="#works">Works</a><a href="#research">Research</a><a href="#honours">Honours</a><a href="#contact">Contact</a></nav>
-  <div class="nav-end">
-    <a class="btn o sm" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">CV</a>
-    <button class="menu-btn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="menu"><i></i><i></i><i></i></button>
+<!-- start-up and shut-down screen (src/pixel/boot.js); shown only while <html> has the class "booting" or "off" -->
+<div class="boot" id="boot">
+  <pre class="boot-log"></pre>
+  <div class="boot-bar"><i></i></div>
+  <p class="boot-hint">Press any key or click to skip</p>
+  <div class="boot-off">
+    <p>It is now safe to close this tab.</p>
+    <button class="btn boot-on" type="button">Power on</button>
   </div>
-  <i class="progress" aria-hidden="true"></i>
-</header>
-<nav class="menu" id="menu" aria-label="Menu" inert>
-  <div class="menu-in">
-    <a href="#profile">Profile</a>
-    <a href="#credentials">Credentials</a>
-    <a href="#career">Career</a>
-    <a href="#works">Works</a>
-    <a href="#research">Research</a>
-    <a href="#honours">Honours</a>
-    <a href="#contact">Contact</a>
-    <a class="menu-cv" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a>
-    <p class="menu-note">Ho Chi Minh City, Vietnam</p>
-  </div>
-</nav>
-<div class="cl" aria-hidden="true"></div>
-<div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-<main id="main" tabindex="-1">
-<div class="bulbs first" aria-hidden="true"></div>
-
-<section class="hero" id="top">
-  <div class="fan" aria-hidden="true"><div class="rays"></div><div class="rays r2"></div><div class="glowp"></div></div>
-  <canvas id="gl" aria-hidden="true"></canvas>
-  <div class="hero-inner">
-    <div class="eyebrow hi-label">Portfolio</div>
-    <div class="px"><div class="hi-arch"><div class="arch"><img id="portrait" class="portrait" alt="Portrait of Quân Nguyễn Minh" width="300" height="400" src="assets/images/portrait.jpg?v=20261013" fetchpriority="high" decoding="async"></div></div></div>
-    <h1 class="name" id="name">Quân Nguyễn Minh</h1>
-    <div class="divider hi-div" aria-hidden="true"><i></i><b></b><i></i></div>
-    <p class="role hi-role">Security Architect, Associate</p>
-    <p class="alias hi-alias">Garold Nguyễn</p>
-    <div class="cta-row hi-cta">
-      <a class="btn p glow mag" href="#contact">Get in touch</a>
-      <a class="btn o mag" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a>
-    </div>
-    <div class="cue" aria-hidden="true"></div>
-  </div>
-</section>
-
-<div class="tick" aria-hidden="true">
-  <div class="tick-track"><div class="tick-grp"><span>Security Architecture</span><i class="mi"></i><span>Risk and Governance</span><i class="mi"></i><span>Cloud Security</span><i class="mi"></i><span>Applied AI</span><i class="mi"></i><span>Threat Modeling</span><i class="mi"></i><span>Mentoring</span><i class="mi"></i><span>Research</span><i class="mi"></i></div><div class="tick-grp"><span>Security Architecture</span><i class="mi"></i><span>Risk and Governance</span><i class="mi"></i><span>Cloud Security</span><i class="mi"></i><span>Applied AI</span><i class="mi"></i><span>Threat Modeling</span><i class="mi"></i><span>Mentoring</span><i class="mi"></i><span>Research</span><i class="mi"></i></div></div>
 </div>
 
-<section class="sec alt" id="profile">
-  <div class="wrap n tac">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Identity">Profile</h2><i class="ln r"></i></div>
-    <p class="lede a rv">Security Architect, Associate at NAB Innovation Centre Vietnam, specializing in cybersecurity risk assessments, governance and compliance frameworks. Industry-recognized security certifications and a degree in Artificial Intelligence from RMIT Vietnam back the work.</p>
-    <p class="lede b rv">Leadership development, mentoring and knowledge sharing matter just as much: using curiosity and expertise to help others solve challenges, grow professionally and achieve their goals.</p>
-    <div class="row c">
-      <div class="frame stat rv"><div class="big"><span data-count="3" data-suf="+">3+</span></div><div class="small">Years of experience</div></div>
-      <div class="frame stat rv"><div class="big"><span data-count="2" data-suf="+">2+</span></div><div class="small">Professional security certificates</div></div>
-    </div>
-  </div>
-</section>
+<div class="desktop">
 
-<section class="sec" id="credentials">
-  <div class="wrap">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Clearance">Credentials</h2><i class="ln r"></i></div>
-    <div class="row">
-        <div class="frame pad rv w50">
-          <div class="abbr">SSCP</div>
-          <div class="cert-name">ISC2 Systems Security Certified Practitioner</div>
-          <div class="mid">Issued 4 April 2026</div>
-          <a class="lnk" href="https://drive.google.com/file/d/1hbL229sTzkrU-RBPxmjZDqLRrKSquIr2/view?usp=sharing" target="_blank" rel="noopener">View credential</a>
-        </div>
-        <div class="frame pad rv w50">
-          <div class="abbr">CC</div>
-          <div class="cert-name">ISC2 Certified in Cybersecurity</div>
-          <div class="mid">Issued 17 June 2025</div>
-          <a class="lnk" href="https://drive.google.com/file/d/1blT-b8I6MQIpM4RoC39ZV7mYL-l90Swu/view?usp=sharing" target="_blank" rel="noopener">View credential</a>
-        </div>
-    </div>
-  </div>
-</section>
+  <!-- desktop icons: each one opens a window -->
+  <nav class="icons" aria-label="Desktop">
+    <a class="icon" href="#profile" data-view="profile"><span class="ico"><img class="px" data-sprite="icons/profile" src="assets/pixel/icons/profile.png?v=785aa0d6" width="32" height="32" alt=""></span><span class="lb">Profile</span></a>
+    <a class="icon" href="#credentials" data-view="credentials"><span class="ico"><img class="px" data-sprite="icons/credentials" src="assets/pixel/icons/credentials.png?v=4f6d1ffd" width="32" height="32" alt=""></span><span class="lb">Credentials</span></a>
+    <a class="icon" href="#career" data-view="career"><span class="ico"><img class="px" data-sprite="icons/career" src="assets/pixel/icons/career.png?v=f0990f8b" width="32" height="32" alt=""></span><span class="lb">Career</span></a>
+    <a class="icon" href="#works" data-view="works"><span class="ico"><img class="px" data-sprite="icons/works" src="assets/pixel/icons/works.png?v=174ea9eb" width="32" height="32" alt=""></span><span class="lb">Works</span></a>
+    <a class="icon" href="#research" data-view="research"><span class="ico"><img class="px" data-sprite="icons/research" src="assets/pixel/icons/research.png?v=5bbcb8c1" width="32" height="32" alt=""></span><span class="lb">Research</span></a>
+    <a class="icon" href="#honours" data-view="honours"><span class="ico"><img class="px" data-sprite="icons/honours" src="assets/pixel/icons/honours.png?v=aebd025d" width="32" height="32" alt=""></span><span class="lb">Honours</span></a>
+    <a class="icon" href="#expertise" data-view="expertise"><span class="ico"><img class="px" data-sprite="icons/expertise" src="assets/pixel/icons/expertise.png?v=bd5335d2" width="32" height="32" alt=""></span><span class="lb">Expertise</span></a>
+    <a class="icon" href="#contact" data-view="contact"><span class="ico"><img class="px" data-sprite="icons/contact" src="assets/pixel/icons/contact.png?v=3f229289" width="32" height="32" alt=""></span><span class="lb">Contact</span></a>
+      <a class="icon js-only" href="#terminal" data-view="terminal"><span class="ico"><img class="px" data-sprite="icons/terminal" src="assets/pixel/_placeholder/icons-terminal.png" width="32" height="32" alt=""></span><span class="lb">Terminal</span></a>
+  </nav>
 
-<section class="sec alt" id="career">
-  <div class="wrap n">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Missions">Career</h2><i class="ln r"></i></div>
-    <div class="tl">
-      <div class="tl-rail" aria-hidden="true"><div class="tl-fill"></div></div>
-        <article class="frame job rv">
-          <i class="node"></i>
-          <div class="kicker">June 2024 to present</div>
-          <h3>Security Architect, Associate</h3>
-          <p class="co">NAB Innovation Centre Vietnam</p>
-          <div class="mid">Security Advisory &amp; Architecture</div>
-          <div class="bul">
-            <div class="brow"><i class="dia"></i><p>Leads end-to-end security architecture and risk governance for the Business Transaction Banking domain, as primary security architect for asset lifecycle changes and technology modernization projects.</p></div>
-            <div class="brow"><i class="dia"></i><p>Reviews proposed solutions to find security risks, vulnerabilities and control gaps across applications, infrastructure, cloud and integration platforms.</p></div>
-            <div class="brow"><i class="dia"></i><p>Collaborates with senior stakeholders and project teams to influence secure design decisions and improve security posture.</p></div>
-            <div class="brow"><i class="dia"></i><p>Advises stakeholders on security domains including SIEM, vulnerability management, secure communications, data protection and monitoring.</p></div>
-            <div class="brow"><i class="dia"></i><p>Performs security due diligence for infrastructure using the STRIDE framework, and ensures compliance across frameworks and regulatory requirements under NAB policies.</p></div>
-            <div class="brow"><i class="dia"></i><p>Conducts SaaS cloud service risk assessments for vendor onboarding and renewals.</p></div>
-            <div class="brow"><i class="dia"></i><p>Assesses and retires obsolete assets, improving the division’s Tech Modernization Score and removing legacy vulnerability vectors.</p></div>
-            <div class="brow"><i class="dia"></i><p>Designs conceptual and logical security architectures aligned with enterprise security standards, governance frameworks and risk appetite.</p></div>
-            <div class="brow"><i class="dia"></i><p>Trains and mentors Security Advisory interns in enterprise security frameworks, threat modeling and day-to-day risk assessment.</p></div>
-          </div>
-        </article>
-        <article class="frame job rv">
-          <i class="node"></i>
-          <div class="kicker">February to September 2024</div>
-          <h3>AI Consultant, Researcher</h3>
-          <p class="co">De Heus Myanmar</p>
-          <div class="mid">Project-based, AI adoption in broiler farming</div>
-          <div class="bul">
-            <div class="brow"><i class="dia"></i><p>Contributed to a 7-month AI adoption roadmap and designed a 6-phase strategy for bringing machine learning into broiler farming operations.</p></div>
-            <div class="brow"><i class="dia"></i><p>Built and compared many algorithms to forecast broiler weight from environmental and feed data, reaching 99.57% accuracy.</p></div>
-            <div class="brow"><i class="dia"></i><p>Created an interactive Streamlit dashboard with real-time predictions and data visualization for agricultural decisions.</p></div>
-            <div class="brow"><i class="dia"></i><p>Delivered a four-year detailed roadmap that suggests a 15% reduction in broiler deaths through better environmental monitoring and control.</p></div>
-          </div>
-        </article>
-        <article class="frame job rv">
-          <i class="node"></i>
-          <div class="kicker">November 2023 to May 2024</div>
-          <h3>Infrastructure Technical Support Engineer</h3>
-          <p class="co">ItechWX Limited Company</p>
-          <div class="mid">Vietnam, Microsoft System Center and Azure</div>
-          <div class="bul">
-            <div class="brow"><i class="dia"></i><p>Guided global customers through deployment, configuration and fault remediation of Microsoft System Center (Orchestrator, Configuration Manager, Operations Manager) and Azure VM environments, using PowerShell to speed up incident resolution.</p></div>
-            <div class="brow"><i class="dia"></i><p>Restored interrupted data pipelines and tuned SQL Server and SSRS configurations to keep automated reporting and ETL running.</p></div>
-            <div class="brow"><i class="dia"></i><p>Administered on-premises Active Directory (Windows and Linux) and Azure services through PowerShell automation.</p></div>
-            <div class="brow"><i class="dia"></i><p>Served as primary technical contact for critical incidents at Fortune 500-level customers, with an SLA resolution rate above 90% and a perfect 5/5 satisfaction score from the Vietnam Microsoft System Center team.</p></div>
-          </div>
-        </article>
-    </div>
-  </div>
-</section>
+  <main class="stage" id="main" tabindex="-1">
 
-<section class="sec" id="works">
-  <div class="wrap">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Case files">Selected works</h2><i class="ln r"></i></div>
-    <div class="row">
-        <div class="frame pad2 rv w50">
-          <div class="plate"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M24 44V17l22-5v28"/><ellipse cx="19" cy="45" rx="6" ry="4.5"/><ellipse cx="41" cy="40" rx="6" ry="4.5"/></svg></div>
-          <div class="kicker">Music</div>
-          <h3 class="wt">Music Note Detector</h3>
-          <div class="small">Python, Flask, Librosa</div>
-          <div class="links2"><a class="lnk" href="https://music-note-detector.fly.dev/" target="_blank" rel="noopener">Live demo</a><a class="lnk" href="https://github.com/garoldnguyen/Music-Note-Detector-Flask" target="_blank" rel="noopener">Source</a></div>
+    <!-- ============ PROFILE (home) ============ -->
+    <section class="win is-open" id="profile" aria-labelledby="h-profile" data-title="Nguyen Minh Quan (Garold Nguyễn) - Portfolio">
+      <header class="bar"><span class="bar-t">hello.exe</span></header>
+      <div class="body home">
+        <figure class="photo">
+          <img src="assets/images/portrait-plaza.jpg" width="632" height="1020" alt="Portrait of Quân Nguyễn Minh in a charcoal jacket and amber glasses" fetchpriority="high" decoding="async">
+        </figure>
+        <div class="intro">
+          <h1 class="name" id="h-profile">Quân Nguyễn Minh</h1>
+          <p class="role">Security Architect, Associate</p>
+          <p class="meta">a.k.a. Garold Nguyễn, NAB Innovation Centre Vietnam, Ho Chi Minh City</p>
+          <p class="lede">Specializing in cybersecurity risk assessments, governance and compliance frameworks. Industry-recognized security certifications and a degree in Artificial Intelligence from RMIT Vietnam back the work.</p>
+          <ul class="stats">
+            <li><b>3+</b><span>years of experience</span></li>
+            <li><b>2+</b><span>professional security certificates</span></li>
+          </ul>
+          <ul class="facts" aria-label="At a glance">
+            <li><b>Now</b><span>Security Architect, Associate at NAB Innovation Centre Vietnam, since June 2024</span></li>
+            <li><b>Certified</b><span>ISC2 SSCP and ISC2 Certified in Cybersecurity</span></li>
+            <li><b>Studied</b><span>Artificial Intelligence, RMIT Vietnam</span></li>
+            <li><b>Research</b><span>Accepted for publication, Springer CCIS (ICONIP 2026)</span></li>
+            <li><b>Honour</b><span>Young Leader for Vietnam, McKinsey &amp; Co., Oct 2025</span></li>
+          </ul>
+          <p class="cta"><a class="btn p" href="#contact" data-view="contact">Get in touch</a><a class="btn" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a><a class="btn" href="https://www.linkedin.com/in/quanng47/" target="_blank" rel="noopener">LinkedIn</a></p>
+          <p class="hint js-only muted">Tip: press <kbd>?</kbd> for keyboard shortcuts, or open the <a class="lnk" href="#terminal" data-view="terminal">terminal</a>.</p>
         </div>
-        <div class="frame pad2 rv w50">
-          <div class="plate"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="32" cy="36" r="19"/><path d="M32 36V23M32 36l8 5M26 11h12M32 11v6"/></svg></div>
-          <div class="kicker">Productivity</div>
-          <h3 class="wt">Fokus Pomodoro</h3>
-          <div class="small">TypeScript, Vite, Web Audio API</div>
-          <div class="links2"><a class="lnk" href="https://garoldnguyen.github.io/fokus-pomodoro/" target="_blank" rel="noopener">Live demo</a><a class="lnk" href="https://github.com/garoldnguyen/fokus-pomodoro" target="_blank" rel="noopener">Source</a></div>
-        </div>
-        <div class="frame pad2 rv w50">
-          <div class="plate"><svg viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10V54M42 10V54M10 22H54M10 42H54"/><circle cx="22" cy="22" r="5.5" fill="currentColor"/><circle cx="42" cy="22" r="5.5"/><circle cx="42" cy="42" r="5.5" fill="currentColor"/></svg></div>
-          <div class="kicker">Game</div>
-          <h3 class="wt">Gomoku Tales</h3>
-          <div class="small">JavaScript, Three.js, Cloudflare Workers</div>
-          <div class="links2"><a class="lnk" href="https://gomoku-tales.programmerquannguyen.workers.dev/" target="_blank" rel="noopener">Play</a><a class="lnk" href="https://github.com/garoldnguyen/gomoku-tales" target="_blank" rel="noopener">Source</a></div>
-        </div>
-    </div>
-  </div>
-</section>
-
-<section class="rs" id="research">
-  <div class="bulbs" aria-hidden="true"></div>
-  <div class="rs-in">
-    <div class="ghost" aria-hidden="true">2026</div>
-    <div class="rs-wrap">
-      <div class="eyebrow eyebrow-lg rv">Now showing, research</div>
-      <h2 class="rs-t gild rv">Ephemeral Polymorphic Defense</h2>
-      <p class="rs-s rv">A Preliminary Study of Small Language Model Agents for Cloud Security Automation</p>
-      <div class="rv">Quan Nguyen (co-first author), Thach Ngo (co-first author), et al.</div>
-      <div class="rv rs-acc">Accepted for publication, Springer CCIS (ICONIP 2026)</div>
-      <div class="small rv">Cloud Security and Autonomous SLM Systems</div>
-      <p class="lede rv rs-lede">The paper proposes a lightweight, stateless Small Language Model architecture built into Cloud-Native Application Protection Platforms to automate real-time security remediation. Randomized persona injection helps resist adversarial prompt injection, and post-task memory teardown leaves no persistent state behind.</p>
-      <div class="mech-row">
-          <div class="mech frame rv"><div class="big">1</div><h3>Demand-driven ingestion</h3><p>Remediation triggers instantiate stateless SLM agents on demand inside micro-isolated runtimes.</p></div>
-          <div class="mech frame rv"><div class="big">2</div><h3>Randomized persona injection</h3><p>Runtime prompt polymorphism neutralizes adversarial injection and jailbreak payloads.</p></div>
-          <div class="mech frame rv"><div class="big">3</div><h3>Post-task ephemeral teardown</h3><p>Context and memory are erased after execution, removing persistent state and balancing attack success against task success.</p></div>
       </div>
-      <div class="tags rv"><span>Stateless SLM</span><span>Polymorphic Defense</span><span>CNAPP Automation</span><span>Zero Memory Residue</span></div>
-      <div class="cite rv">
-        <div class="cite-head">Cite this work</div>
-        <p class="cite-text" id="cite-text">Ngo, T., Nguyen, Q., et al. (2026). Ephemeral Polymorphic Defense: A Preliminary Study of Small Language Model Agents for Cloud Security Automation. Communications in Computer and Information Science (CCIS), Springer. Accepted for publication.</p>
-        <div class="cite-actions">
-          <button class="copy" type="button" data-copy-target="#cite-text" data-toast="Citation copied">Copy citation</button>
-          <button class="copy" type="button" data-copy-target="#bibtex" data-toast="BibTeX copied">Copy BibTeX</button>
+    </section>
+
+    <!-- ============ CREDENTIALS ============ -->
+    <section class="win" id="credentials" aria-labelledby="h-credentials" data-title="Credentials | Nguyen Minh Quan">
+      <header class="bar bar2"><span class="bar-t">credentials.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-credentials">Credentials</h2>
+        <div class="cred-grid">
+          <article class="card cred">
+            <img class="px big" data-sprite="icons/credentials" src="assets/pixel/icons/credentials.png?v=4f6d1ffd" width="32" height="32" alt="">
+            <p class="abbr">SSCP</p>
+            <h3 class="cert">ISC2 Systems Security Certified Practitioner</h3>
+            <p class="muted">Issued 4 April 2026</p>
+            <a class="lnk" href="https://drive.google.com/file/d/1hbL229sTzkrU-RBPxmjZDqLRrKSquIr2/view?usp=sharing" target="_blank" rel="noopener">View credential</a>
+          </article>
+          <article class="card cred">
+            <img class="px big" data-sprite="icons/credentials" src="assets/pixel/icons/credentials.png?v=4f6d1ffd" width="32" height="32" alt="">
+            <p class="abbr">CC</p>
+            <h3 class="cert">ISC2 Certified in Cybersecurity</h3>
+            <p class="muted">Issued 17 June 2025</p>
+            <a class="lnk" href="https://drive.google.com/file/d/1blT-b8I6MQIpM4RoC39ZV7mYL-l90Swu/view?usp=sharing" target="_blank" rel="noopener">View credential</a>
+          </article>
         </div>
-        <details class="bib">
-          <summary>View BibTeX</summary>
-          <pre id="bibtex" tabindex="0"><code>@inproceedings{ngo2026ephemeral,
+      </div>
+    </section>
+
+    <!-- ============ CAREER ============ -->
+    <section class="win" id="career" aria-labelledby="h-career" data-title="Career | Nguyen Minh Quan">
+      <header class="bar bar3"><span class="bar-t">career.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-career">Career</h2>
+        <div class="stack">
+          <article class="card">
+            <div class="job-head">
+              <div>
+                <h3 class="job-t">Security Architect, Associate</h3>
+                <p class="job-co">NAB Innovation Centre Vietnam</p>
+                <p class="muted">Security Advisory &amp; Architecture</p>
+              </div>
+              <span class="chip">JUNE 2024 TO PRESENT</span>
+            </div>
+            <ul class="bul">
+              <li>Leads end-to-end security architecture and risk governance for the Business Transaction Banking domain, as primary security architect for asset lifecycle changes and technology modernization projects.</li>
+              <li>Reviews proposed solutions to find security risks, vulnerabilities and control gaps across applications, infrastructure, cloud and integration platforms.</li>
+              <li>Collaborates with senior stakeholders and project teams to influence secure design decisions and improve security posture.</li>
+            </ul>
+            <details class="more">
+              <summary class="btn sm"><span class="t-closed">Show all 9</span><span class="t-open">Show less</span></summary>
+              <ul class="bul">
+                <li>Advises stakeholders on security domains including SIEM, vulnerability management, secure communications, data protection and monitoring.</li>
+                <li>Performs security due diligence for infrastructure using the STRIDE framework, and ensures compliance across frameworks and regulatory requirements under NAB policies.</li>
+                <li>Conducts SaaS cloud service risk assessments for vendor onboarding and renewals.</li>
+                <li>Assesses and retires obsolete assets, improving the division’s Tech Modernization Score and removing legacy vulnerability vectors.</li>
+                <li>Designs conceptual and logical security architectures aligned with enterprise security standards, governance frameworks and risk appetite.</li>
+                <li>Trains and mentors Security Advisory interns in enterprise security frameworks, threat modeling and day-to-day risk assessment.</li>
+              </ul>
+            </details>
+          </article>
+          <article class="card">
+            <div class="job-head">
+              <div>
+                <h3 class="job-t">AI Consultant, Researcher</h3>
+                <p class="job-co">De Heus Myanmar</p>
+                <p class="muted">Project-based, AI adoption in broiler farming</p>
+              </div>
+              <span class="chip">FEB TO SEPT 2024</span>
+            </div>
+            <ul class="bul">
+              <li>Contributed to a 7-month AI adoption roadmap and designed a 6-phase strategy for bringing machine learning into broiler farming operations.</li>
+              <li>Built and compared many algorithms to forecast broiler weight from environmental and feed data, reaching 99.57% accuracy.</li>
+            </ul>
+            <details class="more">
+              <summary class="btn sm"><span class="t-closed">Show all 4</span><span class="t-open">Show less</span></summary>
+              <ul class="bul">
+                <li>Created an interactive Streamlit dashboard with real-time predictions and data visualization for agricultural decisions.</li>
+                <li>Delivered a four-year detailed roadmap that suggests a 15% reduction in broiler deaths through better environmental monitoring and control.</li>
+              </ul>
+            </details>
+          </article>
+          <article class="card">
+            <div class="job-head">
+              <div>
+                <h3 class="job-t">Infrastructure Technical Support Engineer</h3>
+                <p class="job-co">ItechWX Limited Company</p>
+                <p class="muted">Vietnam, Microsoft System Center and Azure</p>
+              </div>
+              <span class="chip">NOV 2023 TO MAY 2024</span>
+            </div>
+            <ul class="bul">
+              <li>Guided global customers through deployment, configuration and fault remediation of Microsoft System Center (Orchestrator, Configuration Manager, Operations Manager) and Azure VM environments, using PowerShell to speed up incident resolution.</li>
+              <li>Restored interrupted data pipelines and tuned SQL Server and SSRS configurations to keep automated reporting and ETL running.</li>
+            </ul>
+            <details class="more">
+              <summary class="btn sm"><span class="t-closed">Show all 4</span><span class="t-open">Show less</span></summary>
+              <ul class="bul">
+                <li>Administered on-premises Active Directory (Windows and Linux) and Azure services through PowerShell automation.</li>
+                <li>Served as primary technical contact for critical incidents at Fortune 500-level customers, with an SLA resolution rate above 90% and a perfect 5/5 satisfaction score from the Vietnam Microsoft System Center team.</li>
+              </ul>
+            </details>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ WORKS ============ -->
+    <section class="win" id="works" aria-labelledby="h-works" data-title="Selected works | Nguyen Minh Quan">
+      <header class="bar bar4"><span class="bar-t">selected_works.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-works">Selected works</h2>
+        <div class="works">
+          <article class="card">
+            <div class="tile t4"><img class="px" data-sprite="works/music" src="assets/pixel/works/music.png?v=2b173595" width="32" height="32" alt=""></div>
+            <p class="kicker"><span class="chip">MUSIC</span></p>
+            <h3 class="w-t">Music Note Detector</h3>
+            <p class="muted">Python, Flask, Librosa</p>
+            <p class="links"><a class="lnk" href="https://music-note-detector.fly.dev/" target="_blank" rel="noopener">Live demo</a><a class="lnk" href="https://github.com/garoldnguyen/Music-Note-Detector-Flask" target="_blank" rel="noopener">Source</a></p>
+          </article>
+          <article class="card">
+            <div class="tile t3"><img class="px" data-sprite="works/timer" src="assets/pixel/works/timer.png?v=8ce84663" width="32" height="32" alt=""></div>
+            <p class="kicker"><span class="chip">PRODUCTIVITY</span></p>
+            <h3 class="w-t">Fokus Pomodoro</h3>
+            <p class="muted">TypeScript, Vite, Web Audio API</p>
+            <p class="links"><a class="lnk" href="https://garoldnguyen.github.io/fokus-pomodoro/" target="_blank" rel="noopener">Live demo</a><a class="lnk" href="https://github.com/garoldnguyen/fokus-pomodoro" target="_blank" rel="noopener">Source</a></p>
+          </article>
+          <article class="card">
+            <div class="tile t2"><img class="px" data-sprite="works/gomoku" src="assets/pixel/works/gomoku.png?v=b08f2866" width="32" height="32" alt=""></div>
+            <p class="kicker"><span class="chip">GAME</span></p>
+            <h3 class="w-t">Gomoku Tales</h3>
+            <p class="muted">JavaScript, Three.js, Cloudflare Workers</p>
+            <p class="links"><a class="lnk" href="https://gomoku-tales.programmerquannguyen.workers.dev/" target="_blank" rel="noopener">Play</a><a class="lnk" href="https://github.com/garoldnguyen/gomoku-tales" target="_blank" rel="noopener">Source</a></p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RESEARCH ============ -->
+    <section class="win" id="research" aria-labelledby="h-research" data-title="Research | Nguyen Minh Quan">
+      <header class="bar bar1"><span class="bar-t">research.pdf</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2 paper-t" id="h-research">Ephemeral Polymorphic Defense</h2>
+        <p class="paper-s">A Preliminary Study of Small Language Model Agents for Cloud Security Automation</p>
+        <p class="muted">Quan Nguyen (co-first author), Thach Ngo (co-first author), et al.</p>
+        <p class="accepted"><span class="chip">ACCEPTED FOR PUBLICATION</span><b>Springer CCIS (ICONIP 2026)</b></p>
+        <p class="abstract">The paper proposes a lightweight, stateless Small Language Model architecture built into Cloud-Native Application Protection Platforms to automate real-time security remediation. Randomized persona injection helps resist adversarial prompt injection, and post-task memory teardown leaves no persistent state behind.</p>
+        <div class="mech">
+          <article class="card"><p class="num">1</p><h3>Demand-driven ingestion</h3><p>Remediation triggers instantiate stateless SLM agents on demand inside micro-isolated runtimes.</p></article>
+          <article class="card"><p class="num">2</p><h3>Randomized persona injection</h3><p>Runtime prompt polymorphism neutralizes adversarial injection and jailbreak payloads.</p></article>
+          <article class="card"><p class="num">3</p><h3>Post-task ephemeral teardown</h3><p>Context and memory are erased after execution, removing persistent state and balancing attack success against task success.</p></article>
+        </div>
+        <p class="muted keywords">Cloud Security and Autonomous SLM Systems, Stateless SLM, Polymorphic Defense, CNAPP Automation, Zero Memory Residue</p>
+        <details class="more cite">
+          <summary class="btn sm"><span class="t-closed">Cite this work</span><span class="t-open">Hide citation</span></summary>
+          <div class="card">
+            <p id="cite-text">Ngo, T., Nguyen, Q., et al. (2026). Ephemeral Polymorphic Defense: A Preliminary Study of Small Language Model Agents for Cloud Security Automation. Communications in Computer and Information Science (CCIS), Springer. Accepted for publication.</p>
+            <p class="row"><button class="btn sm" type="button" data-copy-target="#cite-text" data-toast="Citation copied">Copy citation</button><button class="btn sm" type="button" data-copy-target="#bibtex" data-toast="BibTeX copied">Copy BibTeX</button></p>
+            <details class="bib">
+              <summary>View BibTeX</summary>
+              <pre tabindex="0"><code id="bibtex">@inproceedings{ngo2026ephemeral,
   title={Ephemeral Polymorphic Defense: A Preliminary Study of Small Language Model Agents for Cloud Security Automation},
   author={Ngo, Thach and Nguyen, Quan and others},
   booktitle={International Conference on Neural Information Processing (ICONIP 2026)},
@@ -257,96 +279,190 @@
   year={2026},
   note={Accepted for publication}
 }</code></pre>
+            </details>
+          </div>
         </details>
       </div>
+    </section>
+
+    <!-- ============ HONOURS ============ -->
+    <section class="win" id="honours" aria-labelledby="h-honours" data-title="Leadership and honours | Nguyen Minh Quan">
+      <header class="bar bar3"><span class="bar-t">honours.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-honours">Leadership and honours</h2>
+        <p class="muted intro-p">Leadership development, mentoring and knowledge sharing matter just as much: using curiosity and expertise to help others solve challenges, grow professionally and achieve their goals.</p>
+        <div class="stack tight">
+          <details class="acc" name="honours" open>
+            <summary><span class="chip">OCT 2025</span><span class="acc-t"><b>Young Leader for Vietnam</b><span>Organized by McKinsey &amp; Co.</span></span></summary>
+            <div class="card acc-b">
+              <p>Selected as a Young Leader for Vietnam, recognized for leadership potential and commitment to driving positive change. Took part in intensive leadership development workshops and networking sessions.</p>
+              <a class="lnk" href="https://drive.google.com/file/d/19KMoWuSRRxhv3fAP7fZSu9NZVgwyW9ww/view" target="_blank" rel="noopener">View document</a>
+            </div>
+          </details>
+          <details class="acc" name="honours">
+            <summary><span class="chip">JULY 2025</span><span class="acc-t"><b>VP Bank Technology Hackathon Finale</b><span>In collaboration with AWS</span></span></summary>
+            <div class="card acc-b">
+              <p>Cloud-native AI solution architecture and development with dual-engine processing, Vietnamese NLP and banking-grade security. Delivered solo in 4 days.</p>
+              <ul class="metrics">
+                <li><b>98%</b><span>accuracy in risk classification</span></li>
+                <li><b>87.3%</b><span>transaction pattern detection accuracy</span></li>
+                <li><b>&lt;300ms</b><span>response time</span></li>
+                <li><b>90%</b><span>less manual review time</span></li>
+              </ul>
+              <p class="muted">AWS Bedrock, SageMaker, RDS, EventBridge, Cognito, WAF. Python, Docker. Neo4J, MySQL. LightGBM, XGBoost. Vietnamese NLP.</p>
+              <a class="lnk" href="https://drive.google.com/file/d/1EErBJwpkP92j_Vr6-GFoDcfLgsIYnXJg/view?usp=sharing" target="_blank" rel="noopener">View document</a>
+            </div>
+          </details>
+          <details class="acc" name="honours">
+            <summary><span class="chip">NOV 2024</span><span class="acc-t"><b>Mentor, RMIT Emerging Leaders Project 2024</b><span>RMIT</span></span></summary>
+            <div class="card acc-b">
+              <p>Guided participants building a prototype focused on sustainability under the UN-SDG framework, with deep-dive technical and security support. Voted Best Mentor by participants.</p>
+              <a class="lnk" href="https://drive.google.com/file/d/1rFZdaTVdENJnG74uRCGAFjHP9QJrtT01/view?usp=sharing" target="_blank" rel="noopener">View document</a>
+            </div>
+          </details>
+          <details class="acc" name="honours">
+            <summary><span class="chip">RMIT CAPSTONE</span><span class="acc-t"><b>Honour Industry Award</b><span>Client: De Heus Myanmar, agricultural technology</span></span></summary>
+            <div class="card acc-b">
+              <p>Recognition for a capstone project on a four-year AI adoption roadmap: transformation strategy, timeline and milestones, cost analysis and ROI projections, and risk assessment with mitigation plans.</p>
+              <a class="lnk" href="https://drive.google.com/file/d/1nfsaUjjAcYNsRrb042ZB3KzUC136DvgU/view?usp=sharing" target="_blank" rel="noopener">View document</a>
+            </div>
+          </details>
+          <details class="acc" name="honours">
+            <summary><span class="chip">OCT 2023</span><span class="acc-t"><b>Guest Speaker, RMIT Technology Club</b><span>RMIT Technology Club</span></span></summary>
+            <div class="card acc-b">
+              <p>Mentored SSET students on academic success: course structure, study techniques and keeping a strong GPA while balancing university life.</p>
+              <a class="lnk" href="https://drive.google.com/file/d/17Uo9yMjiXGbPlpl6i-NAf_P7NRTWNg_O/view?usp=sharing" target="_blank" rel="noopener">View document</a>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ EXPERTISE ============ -->
+    <section class="win" id="expertise" aria-labelledby="h-expertise" data-title="Expertise | Nguyen Minh Quan">
+      <header class="bar bar4"><span class="bar-t">expertise.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-expertise">Expertise</h2>
+        <div class="cols">
+          <section>
+            <h3 class="col-t">Security frameworks</h3>
+            <ul class="bul plain"><li>ISO 27001</li><li>NIST CSF</li><li>NIST RMF</li><li>PCI-DSS</li><li>APRA CPS 230/234</li><li>STRIDE</li></ul>
+          </section>
+          <section>
+            <h3 class="col-t">Security domains</h3>
+            <ul class="bul plain"><li>Enterprise Security Architecture</li><li>Application Security</li><li>Shift-Left CI/CD Pipelines</li><li>IAM</li><li>Multi-Cloud Security</li><li>Security SDLC</li><li>OWASP</li></ul>
+          </section>
+          <section>
+            <h3 class="col-t">AI and engineering</h3>
+            <ul class="bul plain"><li>Applied ML for Security</li><li>SageMaker</li><li>Bedrock</li><li>Security Automation</li><li>Python</li><li>PowerShell</li><li>Data Analytics</li><li>SQL</li><li>Neo4J</li></ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="win" id="contact" aria-labelledby="h-contact" data-title="Contact | Nguyen Minh Quan">
+      <header class="bar bar2"><span class="bar-t">contact.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <div class="hello-row">
+          <img class="px big" data-sprite="icons/contact" src="assets/pixel/icons/contact.png?v=3f229289" width="32" height="32" alt="">
+          <h2 class="h2" id="h-contact">Say hello</h2>
+        </div>
+        <div class="stack tight">
+          <div class="card line"><a class="c-mail" href="mailto:garoldnguyen@gmail.com">garoldnguyen@gmail.com</a><button class="btn sm" type="button" data-copy="garoldnguyen@gmail.com" data-toast="Email copied">Copy</button></div>
+          <div class="card line"><a class="c-tel" href="tel:+84905472003">+84 905 47 2003</a><button class="btn sm" type="button" data-copy="+84 905 47 2003" data-toast="Phone number copied">Copy</button></div>
+          <p class="muted">Ho Chi Minh City, Vietnam</p>
+        </div>
+        <p class="cta"><a class="btn" href="https://www.linkedin.com/in/quanng47/" target="_blank" rel="noopener">LinkedIn</a><a class="btn" href="https://www.facebook.com/koderqq/" target="_blank" rel="noopener">Facebook</a><a class="btn p" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a></p>
+        <p class="muted legal">© 2026 Nguyen Minh Quan (Garold Nguyễn). All rights reserved.</p>
+      </div>
+    </section>
+
+    <!-- ============ TERMINAL (needs JavaScript) ============ -->
+    <section class="win js-only" id="terminal" aria-labelledby="h-terminal" data-title="Terminal | Nguyen Minh Quan">
+      <header class="bar bar5"><span class="bar-t">terminal.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body term">
+        <h2 class="sr-only" id="h-terminal">Terminal</h2>
+        <div class="term-out" id="term-out" role="log" aria-live="polite" aria-label="Terminal output" tabindex="0"></div>
+        <div class="tchips" role="group" aria-label="Quick commands">
+          <button type="button" data-cmd="help">help</button><button type="button" data-cmd="whoami">whoami</button><button type="button" data-cmd="skills">skills</button><button type="button" data-cmd="certs">certs</button><button type="button" data-cmd="works">works</button><button type="button" data-cmd="contact">contact</button>
+        </div>
+        <form class="term-form" id="term-form" autocomplete="off">
+          <label class="ps1" for="term-in">visitor@quan:~$</label>
+          <input id="term-in" type="text" data-autofocus spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" enterkeyhint="go">
+        </form>
+      </div>
+    </section>
+
+    <!-- ============ KEYBOARD SHORTCUTS (needs JavaScript) ============ -->
+    <section class="win js-only" id="shortcuts" aria-labelledby="h-shortcuts" data-title="Keyboard shortcuts | Nguyen Minh Quan">
+      <header class="bar bar3"><span class="bar-t">shortcuts.exe</span><a class="x" href="#profile" aria-label="Close window"></a></header>
+      <div class="body">
+        <h2 class="h2" id="h-shortcuts">Keyboard shortcuts</h2>
+        <dl class="keys">
+          <div><dt><kbd>1</kbd> to <kbd>9</kbd></dt><dd>Open Profile, Credentials, Career, Works, Research, Honours, Expertise, Contact, Terminal</dd></div>
+          <div><dt><kbd>T</kbd></dt><dd>Open the terminal</dd></div>
+          <div><dt><kbd>M</kbd></dt><dd>Minimise the front window</dd></div>
+          <div><dt><kbd>F</kbd></dt><dd>Maximise or restore the front window</dd></div>
+          <div><dt><kbd>Esc</kbd></dt><dd>Close the front window</dd></div>
+          <div><dt><kbd>D</kbd></dt><dd>Switch between the light and dark theme</dd></div>
+          <div><dt><kbd>?</kbd></dt><dd>Show this list</dd></div>
+          <div><dt><kbd>Shift</kbd> + click</dt><dd>Open a window next to the others instead of putting them away</dd></div>
+        </dl>
+        <p class="muted">Opening a window puts the others away (they stay on the taskbar and come back when it closes). Drag a window by its title bar, resize it from the bottom-right corner, double-click the title bar to maximise it.</p>
+      </div>
+    </section>
+
+  </main>
+
+
+  <!-- taskbar -->
+  <div class="taskbar">
+    <a class="start" href="#profile" id="start-btn" aria-haspopup="menu" aria-expanded="false" aria-controls="startmenu"><img class="px" data-sprite="ui/heart" src="assets/pixel/ui/heart.png?v=6e3b3c35" width="16" height="16" alt=""><span>START</span></a>
+    <nav class="tb-nav" aria-label="Sections">
+      <a class="tb" href="#profile" data-view="profile">Profile</a>
+      <a class="tb" href="#credentials" data-view="credentials">Credentials</a>
+      <a class="tb" href="#career" data-view="career">Career</a>
+      <a class="tb" href="#works" data-view="works">Works</a>
+      <a class="tb" href="#research" data-view="research">Research</a>
+      <a class="tb" href="#honours" data-view="honours">Honours</a>
+      <a class="tb" href="#expertise" data-view="expertise">Expertise</a>
+      <a class="tb" href="#contact" data-view="contact">Contact</a>
+      <a class="tb js-only" href="#terminal" data-view="terminal">Terminal</a>
+    </nav>
+    <div class="tb-right">
+      <button class="tb-sfx js-only" id="sfx-toggle" type="button" aria-pressed="false" aria-label="SFX, sound effects">SFX</button>
+      <button class="tb-theme" id="theme-toggle" type="button" aria-pressed="false" aria-label="Dark theme"><img class="px sun" data-sprite="ui/sun" src="assets/pixel/ui/sun.png?v=2c96a079" width="16" height="16" alt=""><img class="px moon" data-sprite="ui/moon" src="assets/pixel/ui/moon.png?v=dcaf46a6" width="16" height="16" alt=""></button>
+      <a class="tb tb-cv" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">CV</a>
     </div>
   </div>
-  <div class="bulbs" aria-hidden="true"></div>
-</section>
 
-<section class="sec" id="honours">
-  <div class="wrap">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Recognition">Leadership and honours</h2><i class="ln r"></i></div>
-    <div class="row">
-        <div class="frame pad rv w100">
-          <div class="hn-date">October 2025</div>
-          <h3 class="hn-t">Young Leader for Vietnam</h3>
-          <div class="small">Organized by McKinsey &amp; Co.</div>
-          <p class="hn-p">Selected as a Young Leader for Vietnam, recognized for leadership potential and commitment to driving positive change. Took part in intensive leadership development workshops and networking sessions.</p>
-          <a class="lnk lnk-end" href="https://drive.google.com/file/d/19KMoWuSRRxhv3fAP7fZSu9NZVgwyW9ww/view" target="_blank" rel="noopener">View document</a>
-        </div>
-        <div class="frame pad rv w100">
-          <div class="hn-date">July 2025</div>
-          <h3 class="hn-t">VP Bank Technology Hackathon Finale</h3>
-          <div class="small">In collaboration with AWS</div>
-          <p class="hn-p">Cloud-native AI solution architecture and development with dual-engine processing, Vietnamese NLP and banking-grade security. Delivered solo in 4 days.</p>
-          <div class="medals">
-            <div class="medal"><b data-count="98" data-suf="%">98%</b><span>accuracy in risk classification</span></div>
-            <div class="medal"><b data-count="87.3" data-dec="1" data-suf="%">87.3%</b><span>transaction pattern detection accuracy</span></div>
-            <div class="medal"><b data-count="300" data-pre="&lt;" data-suf="ms">&lt;300ms</b><span>response time</span></div>
-            <div class="medal"><b data-count="90" data-suf="%">90%</b><span>less manual review time</span></div>
-          </div>
-          <p class="stack">AWS Bedrock, SageMaker, RDS, EventBridge, Cognito, WAF. Python, Docker. Neo4J, MySQL. LightGBM, XGBoost. Vietnamese NLP.</p>
-          <a class="lnk lnk-end" href="https://drive.google.com/file/d/1EErBJwpkP92j_Vr6-GFoDcfLgsIYnXJg/view?usp=sharing" target="_blank" rel="noopener">View document</a>
-        </div>
-        <div class="frame pad rv w50">
-          <div class="hn-date">November 2024</div>
-          <h3 class="hn-t">Mentor, RMIT Emerging Leaders Project 2024</h3>
-          <div class="small">RMIT</div>
-          <p class="hn-p">Guided participants building a prototype focused on sustainability under the UN-SDG framework, with deep-dive technical and security support. Voted Best Mentor by participants.</p>
-          <a class="lnk lnk-end" href="https://drive.google.com/file/d/1rFZdaTVdENJnG74uRCGAFjHP9QJrtT01/view?usp=sharing" target="_blank" rel="noopener">View document</a>
-        </div>
-        <div class="frame pad rv w50">
-          <div class="hn-date">RMIT capstone</div>
-          <h3 class="hn-t">Honour Industry Award</h3>
-          <div class="small">Client: De Heus Myanmar, agricultural technology</div>
-          <p class="hn-p">Recognition for a capstone project on a four-year AI adoption roadmap: transformation strategy, timeline and milestones, cost analysis and ROI projections, and risk assessment with mitigation plans.</p>
-          <a class="lnk lnk-end" href="https://drive.google.com/file/d/1nfsaUjjAcYNsRrb042ZB3KzUC136DvgU/view?usp=sharing" target="_blank" rel="noopener">View document</a>
-        </div>
-        <div class="frame pad rv w100">
-          <div class="hn-date">October 2023</div>
-          <h3 class="hn-t">Guest Speaker, RMIT Technology Club</h3>
-          <div class="small">RMIT Technology Club</div>
-          <p class="hn-p">Mentored SSET students on academic success: course structure, study techniques and keeping a strong GPA while balancing university life.</p>
-          <a class="lnk lnk-end" href="https://drive.google.com/file/d/17Uo9yMjiXGbPlpl6i-NAf_P7NRTWNg_O/view?usp=sharing" target="_blank" rel="noopener">View document</a>
-        </div>
-    </div>
+  <!-- START menu (src/pixel/startmenu.js) -->
+  <div class="startmenu" id="startmenu" role="menu" aria-label="Start menu" hidden>
+    <a role="menuitem" href="#profile" data-view="profile">Profile</a>
+    <a role="menuitem" href="#credentials" data-view="credentials">Credentials</a>
+    <a role="menuitem" href="#career" data-view="career">Career</a>
+    <a role="menuitem" href="#works" data-view="works">Works</a>
+    <a role="menuitem" href="#research" data-view="research">Research</a>
+    <a role="menuitem" href="#honours" data-view="honours">Honours</a>
+    <a role="menuitem" href="#expertise" data-view="expertise">Expertise</a>
+    <a role="menuitem" href="#contact" data-view="contact">Contact</a>
+    <a role="menuitem" href="#terminal" data-view="terminal">Terminal</a>
+    <hr>
+    <a role="menuitem" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a>
+    <button role="menuitem" type="button" data-act="shortcuts" class="sm-keys">Keyboard shortcuts</button>
+    <button role="menuitem" type="button" data-act="theme"><span data-theme-label>Dark theme</span></button>
+    <button role="menuitem" type="button" data-act="sfx"><span data-sfx-label>Sound: off</span></button>
+    <hr>
+    <button role="menuitem" type="button" data-act="shutdown">Shut down&hellip;</button>
   </div>
-</section>
 
-<section class="sec alt" id="toolkit">
-  <div class="wrap">
-    <div class="sh"><i class="ln l"></i><h2 class="h2 gild" data-alt="Arsenal">Expertise</h2><i class="ln r"></i></div>
-    <div class="row row-wide">
-        <div class="tk-col rv"><h3>Security frameworks</h3><div class="tk">ISO 27001</div><div class="tk">NIST CSF</div><div class="tk">NIST RMF</div><div class="tk">PCI-DSS</div><div class="tk">APRA CPS 230/234</div><div class="tk">STRIDE</div></div>
-        <div class="tk-col rv"><h3>Security domains</h3><div class="tk">Enterprise Security Architecture</div><div class="tk">Application Security</div><div class="tk">Shift-Left CI/CD Pipelines</div><div class="tk">IAM</div><div class="tk">Multi-Cloud Security</div><div class="tk">Security SDLC</div><div class="tk">OWASP</div></div>
-        <div class="tk-col rv"><h3>AI and engineering</h3><div class="tk">Applied ML for Security</div><div class="tk">SageMaker</div><div class="tk">Bedrock</div><div class="tk">Security Automation</div><div class="tk">Python</div><div class="tk">PowerShell</div><div class="tk">Data Analytics</div><div class="tk">SQL</div><div class="tk">Neo4J</div></div>
-    </div>
-  </div>
-</section>
+  <p class="toast" id="toast" role="status" aria-live="polite"></p>
+</div>
 
-<section class="contact" id="contact">
-  <div class="fan" aria-hidden="true"><div class="rays"></div><div class="rays r2"></div><div class="glowp"></div></div>
-  <div class="c-in">
-    <div class="c-line rv"><a class="c-mail" id="mail" href="mailto:garoldnguyen@gmail.com">garoldnguyen@gmail.com</a><button class="copy" type="button" data-copy="garoldnguyen@gmail.com">Copy</button></div>
-    <div class="c-meta rv">
-      <span class="c-line"><a id="tel" class="c-tel" href="tel:+84905472003">+84 905 47 2003</a><button class="copy" type="button" data-copy="+84 905 47 2003">Copy</button></span>
-      <span>Ho Chi Minh City, Vietnam</span>
-    </div>
-    <div class="cta-row rv">
-      <a class="btn o mag" href="https://www.linkedin.com/in/quanng47/" target="_blank" rel="noopener">LinkedIn</a>
-      <a class="btn o mag" href="https://www.facebook.com/koderqq/" target="_blank" rel="noopener">Facebook</a>
-      <a class="btn p mag" href="assets/docs/Quan%20-%20CV.pdf" target="_blank" rel="noopener">Download CV</a>
-    </div>
-    <div class="legal">© 2026 Nguyen Minh Quan (Garold Nguyễn). All rights reserved.</div>
-  </div>
-</section>
-<div class="bulbs" aria-hidden="true"></div>
-</main>
+<script src="assets/js/pixel-desktop.js?v=850f0f7e" defer></script>
 
-<script src="assets/js/golden-age.js?v=dbb46384"></script>
-
-<!-- Firebase Analytics: same project and config as before, now in its own file; it skips localhost -->
+<!-- Firebase Analytics: same project and config as before, in its own file; it skips localhost -->
 <script type="module" src="assets/js/analytics.js?v=a843f794"></script>
 </body>
 </html>
