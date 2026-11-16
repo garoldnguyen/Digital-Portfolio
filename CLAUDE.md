@@ -4,7 +4,7 @@ Quân Nguyễn Minh's portfolio: a static site styled as a pixel-art desktop (ea
 
 ## Ground rules
 
-- Do not commit, push or deploy unless the user asks. The live site is built from `main`; the pixel desktop is developed on the `pixel-desktop` branch.
+- Do not commit, push or deploy unless the user asks. The live site is built from `main`. The pixel desktop was merged into `main` and deployed on 2026-11-16 (PR #1); the `pixel-desktop` branch is kept but is no longer where work happens. Deploys are done by hand (`firebase deploy --only hosting`, see README) because the GitHub workflow has no Firebase secret yet. Work on a branch, check it on a preview channel, and merge to `main` only when the user says so.
 - The audience is recruiters plus the user's general personal brand. Content (career, research, honours, credentials, contact) is the user's real data: do not invent or reword claims.
 - The user asks to be consulted before decisions about design direction. Propose options rather than rebuilding blind.
 
