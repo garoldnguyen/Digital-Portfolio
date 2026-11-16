@@ -12,6 +12,7 @@ const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const pixelAssets = require('./pixel-assets.js');
+const i18n = require('./i18n.js');
 
 const root = path.join(__dirname, '..');
 const rel = f => path.join(root, f);
@@ -50,3 +51,4 @@ function stamp() {
 bundle();
 pixelAssets.run();
 stamp();
+i18n.run();       // last: vi/index.html is made from the stamped index.html, so both pages carry the same fingerprints

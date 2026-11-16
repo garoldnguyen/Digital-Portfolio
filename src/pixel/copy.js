@@ -1,5 +1,6 @@
 /* "Copy" buttons: data-copy="text" copies that text, data-copy-target="#id" copies the text of that element.
    A small message (data-toast) confirms it; the message sits in a polite live region so screen readers hear it. */
+import { t } from './i18n.js';
 
 export function initCopy() {
   const toast = document.getElementById('toast');
@@ -31,6 +32,6 @@ export function initCopy() {
     let text = b.getAttribute('data-copy');
     if (text === null) { const t = document.querySelector(b.getAttribute('data-copy-target')); text = t ? t.textContent.trim() : ''; }
     if (!text) return;
-    write(text).then(() => say(b.getAttribute('data-toast') || 'Copied'), () => say('Could not copy, please select the text'));
+    write(text).then(() => say(b.getAttribute('data-toast') || t('copy.done', 'Copied')), () => say(t('copy.fail', 'Could not copy, please select the text')));
   });
 }

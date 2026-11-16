@@ -1,6 +1,7 @@
 /* Tiny 8-bit sound effects made with the Web Audio API (no audio files). Off until the visitor turns it on with the SFX
    button, the START menu, the terminal (sfx on) or nothing at all: the choice is remembered. Browsers only allow sound
    after a click or key press, so the audio engine is created the first time a sound is asked for after that. */
+import { t } from './i18n.js';
 
 const NOTES = {
   open: [[660, 0.06], [880, 0.08]],
@@ -47,7 +48,7 @@ export function initSfx() {
 
   function sync() {
     if (btn) btn.setAttribute('aria-pressed', String(on));
-    document.querySelectorAll('[data-sfx-label]').forEach(el => { el.textContent = on ? 'Sound: on' : 'Sound: off'; });
+    document.querySelectorAll('[data-sfx-label]').forEach(el => { el.textContent = on ? t('sfx.on', 'Sound: on') : t('sfx.off', 'Sound: off'); });
   }
   function set(next) {
     on = !!next;
