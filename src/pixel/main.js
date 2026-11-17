@@ -31,3 +31,5 @@ installGlitchCursor(document.body);
 initCopy();
 initAccordions();
 initLang();
+// motion is switched on only after the first screen is up (two frames), so the first window and the page itself never animate on load
+requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('motion')));

@@ -90,6 +90,12 @@ html:not(.js) .win { width: min(var(--w, 1000px), calc(100% - 28px)); margin: 0 
 #profile { --w: 1100px; } #credentials { --w: 800px; } #career { --w: 1020px; } #works { --w: 1068px; }
 #research { --w: 1040px; } #honours { --w: 1068px; } #expertise { --w: 1040px; } #contact { --w: 760px; } #terminal { --w: 740px; } #shortcuts { --w: 560px; }
 .js #terminal { min-height: min(420px, 100%); }
+/* The home window gets, in CSS, the size windows.js will give it (a 16:9 frame that fits the stage, never shorter than its content), so the first frame
+   of the page, and a page transition, show no jump when the script runs. */
+@media (min-width: 1100px) {
+  .js .stage { container-type: size; }
+  .js #profile:not(.placed) { width: min(calc(100cqw - 32px), calc((100cqh - 8px) * 16 / 9), 1560px); aspect-ratio: 16 / 9; }
+}
 
 .bar { user-select: none; flex: none; display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 34px; padding: 0 10px; background: var(--bar1); color: var(--barText); border-bottom: 3px solid var(--line); font-family: var(--pixel); font-size: 13px; letter-spacing: 0.5px; }
 .bar1 { background: var(--bar1); } .bar2 { background: var(--bar2); } .bar3 { background: var(--bar3); } .bar4 { background: var(--bar4); } .bar5 { background: var(--bar5); }
@@ -434,6 +440,52 @@ html.gc-on, html.gc-on * { cursor: none !important; }
 @media (hover: none) {
   .hint, .sm-keys { display: none; }
 }
+/* ---------- motion ---------- */
+/* Smooth, quick movement: a window rises a few pixels and scales up from 96% as it fades in (ease-out, 0.22s) and leaves faster (ease-in, 0.14s); the START
+   menu does the same on a smaller scale. A minimised window flies down to its taskbar tab and comes back from it (src/pixel/windows.js sets --fly-x, --fly-y,
+   --fly-s and --dur for that). Only opacity and the individual transform properties (translate, scale) change, so it all runs on the compositor and stays
+   smooth even when the main thread is busy. `display` is in the exit's transition list (allow-discrete) so the window stays until it has played out.
+   html.motion is added by src/pixel/main.js once the first screen is up, so nothing animates on load. Browsers that cannot do this (no @starting-style or
+   allow-discrete) simply show and hide as before. */
+:root { --ease-out: cubic-bezier(0.16, 1, 0.3, 1); --ease-in: cubic-bezier(0.4, 0, 1, 1); }
+@media (min-width: 1100px) {
+  .motion .win.is-open:not(.is-min) { transition: opacity calc(var(--dur, 0.22s) * 0.8) var(--ease-out), scale var(--dur, 0.22s) var(--ease-out), translate var(--dur, 0.22s) var(--ease-out); }
+  .motion .win:not(.is-open), .motion .win.is-min {
+    opacity: 0; pointer-events: none; scale: var(--fly-s, 0.97); translate: var(--fly-x, 0px) var(--fly-y, 8px);
+    transition: opacity var(--dur, 0.14s) var(--ease-in), scale var(--dur, 0.14s) var(--ease-in), translate var(--dur, 0.14s) var(--ease-in), display var(--dur, 0.14s) allow-discrete;
+  }
+  @starting-style {
+    .motion .win.is-open:not(.is-min) { opacity: 0; scale: var(--fly-s, 0.96); translate: var(--fly-x, 0px) var(--fly-y, 12px); }
+  }
+}
+.motion .startmenu { transition: opacity 0.16s var(--ease-out), translate 0.16s var(--ease-out), display 0.16s allow-discrete; }
+.motion .startmenu[hidden] { display: none; opacity: 0; translate: 0 8px; pointer-events: none; transition-timing-function: var(--ease-in); transition-duration: 0.12s; }
+@starting-style {
+  .motion .startmenu:not([hidden]) { opacity: 0; translate: 0 10px; }
+}
+/* small feedback on controls: colours ease, buttons press in */
+.btn, .tb, .x, .wb, .tchips button, .startmenu a, .startmenu button, .icon .lb { transition: background-color 0.12s, color 0.12s, filter 0.12s, opacity 0.12s; }
+.btn:active { translate: 2px 2px; box-shadow: 1px 1px 0 var(--shadow); }
+
+/* ---------- page transitions (View Transitions) ---------- */
+/* Between the two languages (and any same-site page) the browser cross-fades the old page into the new one instead of a blank reload; on a phone
+   windows.js wraps the app switch in document.startViewTransition the same way. The taskbar has its own name, so it stays put while the page changes.
+   Browsers without the API just load or switch as before. */
+@view-transition { navigation: auto; }
+.taskbar { view-transition-name: taskbar; }
+::view-transition-old(root) { animation: vt-out 0.16s ease-in both; }
+::view-transition-new(root) { animation: vt-in 0.24s ease-out both; }
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(10px); } }
+@keyframes vt-fade { from { opacity: 0; } }
+
+/* Reduced motion: nothing slides, hops or flies; windows, the menu and page changes keep a very short fade so the change is still seen. */
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+  .motion .startmenu { translate: none !important; scale: none !important; transition: opacity 0.1s linear, display 0.1s allow-discrete !important; }
+  ::view-transition-old(root) { animation: vt-out 0.1s linear both; }
+  ::view-transition-new(root) { animation: vt-fade 0.1s linear both; }
+}
+@media (prefers-reduced-motion: reduce) and (min-width: 1100px) {
+  .motion .win { translate: none !important; scale: none !important; transition: opacity 0.1s linear, display 0.1s allow-discrete !important; }
 }

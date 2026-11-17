@@ -62,6 +62,10 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
             }
           ]
         },
@@ -71,6 +75,10 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
             }
           ]
         },
@@ -80,6 +88,23 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
+            }
+          ]
+        },
+        {
+          "source": "/speculation.json",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/speculationrules+json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=3600"
             }
           ]
         },
@@ -183,6 +208,10 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
             }
           ]
         },
@@ -192,6 +221,10 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
             }
           ]
         },
@@ -201,6 +234,23 @@
             {
               "key": "Cache-Control",
               "value": "no-cache"
+            },
+            {
+              "key": "Speculation-Rules",
+              "value": "\"/speculation.json\""
+            }
+          ]
+        },
+        {
+          "source": "/speculation.json",
+          "headers": [
+            {
+              "key": "Content-Type",
+              "value": "application/speculationrules+json"
+            },
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=3600"
             }
           ]
         },

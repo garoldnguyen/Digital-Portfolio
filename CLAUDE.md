@@ -13,6 +13,7 @@ Quân Nguyễn Minh's portfolio: a static site styled as a pixel-art desktop (ea
 - **CSP is strict** (`firebase.json`): `style-src 'self'`, `img-src 'self'`, no inline `<script>`, no `style=""` attributes in HTML, no `data:` images. Styles go in `assets/css/pixel-desktop.css`; JS may set styles through the CSSOM (`el.style.top = …`, Web Animations API). Fonts are self-hosted.
 - **The page must work without JavaScript.** `theme-init.js` adds the class `js` to `<html>`; only then does the layout become a fixed desktop. Without it, the sections stack as a normal page.
 - **Pixel art stays crisp**: `image-rendering: pixelated`, sizes in whole multiples of the native size.
+- **Motion is native and compositor-only**: animate `opacity` and the individual `translate`/`scale` properties, never `top`/`left`/`width`. Nothing may animate on load (`html.motion` gates it), a window's stored size must be read with `offsetWidth`/`offsetHeight` (a rectangle includes the scale of an opening animation), and every effect needs a reduced-motion answer (a 0.1s fade, no movement) and a no-support fallback (instant). Details in `README.md`, "Motion".
 - Respect `prefers-reduced-motion` and touch: the glitch cursor (`src/pixel/glitch-cursor.js`, from `glitch-cursor-kit/`) hides the system arrow and draws a pixel arrow in a canvas; it keeps the system cursor over form fields and `[data-native-cursor]`, goes still for reduced motion, and also reacts to touch (the kit's own design).
 
 ## Layout of the code
