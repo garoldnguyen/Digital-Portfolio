@@ -68,8 +68,8 @@ export function initWindows(hooks) {
     if (w.placed || phone.matches) return;
     const el = w.el, s = stageSize();
     const mine = saved()[v];
-    const natural = el.getBoundingClientRect();
-    let width = natural.width, height = Math.min(natural.height, s.h);
+    // offset sizes, not getBoundingClientRect: the rectangle includes the scale of an opening animation
+    let width = el.offsetWidth, height = Math.min(el.offsetHeight, s.h);
     let l, t;
     if (mine && isFinite(mine.l) && isFinite(mine.w)) {
       width = clamp(mine.w, MIN_W, s.w); height = clamp(mine.h || height, MIN_H, s.h);
@@ -77,7 +77,7 @@ export function initWindows(hooks) {
     } else if (v === HOME) {                                                 // the home window opens big, in a 16:9 frame (never shorter than its content needs)
       width = Math.min(s.w - 32, (s.h - 8) * 16 / 9, 1560);
       el.style.width = Math.round(width) + 'px'; el.style.height = 'auto';
-      const need = el.getBoundingClientRect().height;
+      const need = el.offsetHeight;
       height = Math.min(s.h, Math.max(Math.round(width * 9 / 16), need));
       l = (s.w - width) / 2; t = (s.h - height) / 2;
     } else {
@@ -97,6 +97,7 @@ export function initWindows(hooks) {
     ['left', 'top', 'width', 'height', 'maxHeight', 'zIndex'].forEach(p => { el.style[p] = ''; });
     el.classList.remove('placed', 'is-max', 'is-min', 'is-focus', 'dragging');
     w.placed = false; w.max = false; w.min = false;
+    clearFly(v);
   }
 
   // ---- state ----
@@ -120,6 +121,47 @@ export function initWindows(hooks) {
     if (!tab) return;
     const left = Math.max(0, tab.offsetLeft - (bar.clientWidth - tab.offsetWidth) / 2);
     bar.scrollTo({ left, behavior: still.matches ? 'auto' : 'smooth' });
+  }
+
+  // ---- motion ----
+  // Minimising hops the window down to its taskbar tab and restoring brings it back from there. The stylesheet reads four variables
+  // (--fly-x, --fly-y, --fly-s, --dur) for the far end of that; without them a window just rises in and sinks out a few pixels.
+  const FLY = ['--fly-x', '--fly-y', '--fly-s', '--dur'];
+  const tabOf = v => bar && bar.querySelector('.tb[data-view="' + v + '"]');
+  function clearFly(v) {
+    const w = wins[v];
+    if (!w) return;
+    FLY.forEach(p => w.el.style.removeProperty(p));
+    w.tucked = false;
+  }
+  function setFly(v, box) {                                                  // box: where the window is (or will be) on screen; false when there is nothing to fly to
+    const tab = tabOf(v), s = wins[v].el.style;
+    if (!tab || !box || still.matches || phone.matches || ![box.left, box.top, box.width, box.height].every(isFinite)) { clearFly(v); return false; }
+    const r = tab.getBoundingClientRect();
+    s.setProperty('--fly-x', Math.round(r.left + r.width / 2 - (box.left + box.width / 2)) + 'px');
+    s.setProperty('--fly-y', Math.round(r.top + r.height / 2 - (box.top + box.height / 2)) + 'px');
+    s.setProperty('--fly-s', '0.1');
+    s.setProperty('--dur', '0.32s');
+    return true;
+  }
+  // where a window that is not showing will appear (its saved numbers, or the whole stage when maximised)
+  function boxOf(v) {
+    const w = wins[v], el = w.el, s = stage.getBoundingClientRect();
+    if (w.max) return { left: s.left, top: s.top, width: s.width, height: s.height };
+    if (!w.placed) return null;
+    return { left: s.left + parseFloat(el.style.left), top: s.top + parseFloat(el.style.top), width: parseFloat(el.style.width), height: parseFloat(el.style.height) };
+  }
+  // maximise and restore: the window grows or shrinks from its old rectangle to its new one (translate and scale only, the layout has already changed)
+  function glide(el, first) {
+    if (still.matches || !el.animate) return;
+    const last = el.getBoundingClientRect();
+    if (!last.width || !last.height) return;
+    const dx = first.left - last.left, dy = first.top - last.top, sx = first.width / last.width, sy = first.height / last.height;
+    if (Math.abs(dx) < 1 && Math.abs(dy) < 1 && Math.abs(sx - 1) < 0.005 && Math.abs(sy - 1) < 0.005) return;
+    el.animate(
+      [{ transformOrigin: '0 0', translate: dx + 'px ' + dy + 'px', scale: sx + ' ' + sy }, { transformOrigin: '0 0', translate: '0px 0px', scale: '1 1' }],
+      { duration: 240, easing: 'cubic-bezier(0.22, 1, 0.36, 1)' }
+    );
   }
 
   function sync() {
@@ -169,20 +211,34 @@ export function initWindows(hooks) {
       const w = wins[k];
       if (k === v || !w || !w.open || w.min) return;
       w.min = true;
+      clearFly(k);                                                           // put away by another window: a quiet fade, not the hop to the taskbar
       if (list.indexOf(k) < 0) list.push(k);
     });
   }
   function restoreHidden(v) {
     const list = hidden[v] || [];
     hidden[v] = [];
-    list.forEach(k => { const w = wins[k]; if (w && w.open && w.min) w.min = false; });
+    list.forEach(k => { const w = wins[k]; if (w && w.open && w.min) { w.min = false; clearFly(k); } });
   }
 
+  // On a phone, switching app is a view transition (a short cross-fade with a small rise); elsewhere, or without the API, it is instant.
+  const canMorph = typeof document.startViewTransition === 'function';
   function openView(v, opts) {
     opts = opts || {};
+    if (!wins[v]) return;
+    if (canMorph && phone.matches && !opts.instant && document.visibilityState === 'visible') {
+      const vt = document.startViewTransition(() => showView(v, opts));
+      vt.ready.catch(() => { /* skipped by a newer switch: the new state is applied anyway */ });
+      return;
+    }
+    showView(v, opts);
+  }
+
+  function showView(v, opts) {
     const w = wins[v];
-    if (!w) return;
     const wasShown = w.open && !w.min;
+    const fromTab = !phone.matches && w.open && w.min && w.tucked;            // minimised by the user: comes back from its taskbar tab
+    if (fromTab) { const box = boxOf(v); if (!(box && setFly(v, box))) clearFly(v); else w.tucked = false; } else clearFly(v);
     if (phone.matches) VIEWS.forEach(k => { if (wins[k]) { wins[k].open = k === v; wins[k].min = false; } });
     w.open = true; w.min = false;
     if (!phone.matches && !opts.alongside) hideOthers(v);
@@ -214,6 +270,7 @@ export function initWindows(hooks) {
     if (v === HOME) { minimise(v); return; }
     if (phone.matches) { navigate(HOME); return; }
     w.open = false; w.min = false; w.max = false;
+    clearFly(v);
     unplaceKeep(v);
     if (hooks.onClose) hooks.onClose(v);
     restoreHidden(v);
@@ -226,6 +283,7 @@ export function initWindows(hooks) {
   function minimise(v) {
     const w = wins[v];
     if (!w || !w.open || phone.matches) return;
+    w.tucked = setFly(v, w.el.getBoundingClientRect());                       // hop down to the taskbar tab
     w.min = true;
     if (hooks.onMinimise) hooks.onMinimise(v);
     restoreHidden(v);
@@ -237,8 +295,10 @@ export function initWindows(hooks) {
     const w = wins[v];
     if (!w || phone.matches) return;
     freeze(v);
+    const first = w.el.getBoundingClientRect();
     w.max = !w.max;
     sync();
+    glide(w.el, first);
     if (hooks.onMinimise) hooks.onMinimise(v);
   }
 
@@ -336,12 +396,12 @@ export function initWindows(hooks) {
     if (phone.matches) {                                                    // to a phone: one window, no geometry
       const keep = active || HOME;
       VIEWS.forEach(k => { if (wins[k]) { unplace(k); wins[k].open = k === keep; } });
-      openView(keep);
+      openView(keep, { instant: true });
     } else {                                                                // to a computer: the open window stays, centred
       VIEWS.forEach(k => { if (wins[k]) { wins[k].placed = false; } });
       const keep = active || HOME;
       VIEWS.forEach(k => { if (wins[k] && wins[k].open && k !== keep) wins[k].open = false; });
-      openView(keep);
+      openView(keep, { instant: true });
     }
   });
 
@@ -360,7 +420,7 @@ export function initWindows(hooks) {
   // first view: the hash if it names a window (a shared link), otherwise the home window
   const first = fromHash() || HOME;
   VIEWS.forEach(k => { if (wins[k]) wins[k].open = k === first; });
-  openView(first, { moveFocus: false });
+  openView(first, { moveFocus: false, instant: true });
   if (first === 'terminal') {                                              // a link straight to the terminal puts the cursor in its prompt; the browser's own
     const f = () => setTimeout(() => focusInside('terminal'), 0);          // jump to #terminal clears the focus after load, so wait for that
     if (document.readyState === 'complete') f(); else window.addEventListener('load', f);
