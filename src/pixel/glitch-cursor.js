@@ -1,7 +1,9 @@
 /* The glitch cursor, from glitch-cursor-kit/glitch-cursor.js (the kit is kept unchanged at the repo root; it is excluded from deploys).
-   Two small changes so it fits this site: (1) the layer is styled by the class .glitch-cursor in pixel-desktop.css instead of
+   Three small changes so it fits this site: (1) the layer is styled by the class .glitch-cursor in pixel-desktop.css instead of
    layer.style.cssText, because the site's Content-Security-Policy has no 'unsafe-inline' for styles; (2) while the cursor is shown the
-   class gc-on sits on <html>, so links and buttons (which set their own cursor) do not bring the system arrow back on top of it.
+   class gc-on sits on <html>, so links and buttons (which set their own cursor) do not bring the system arrow back on top of it;
+   (3) pointerover is handled like pointermove, so a pointer that jumps straight into a demo <iframe> (inside a [data-native-cursor]
+   box, see player.js) hands the cursor back to the system at once: the page gets no pointermove once the pointer is inside the frame.
    Everything else (the sprite, the glitch band on fast moves and on click, the corner pulses, light/dark by data-theme, touch,
    reduced motion, data-native-cursor and form fields keeping the system cursor) is the kit as delivered. */
 
@@ -148,7 +150,7 @@ export function installGlitchCursor(target) {
     ctx.restore()
     if(pulses.length || glitch) schedule()
   }
-  listen(target,'pointermove',enter);listen(target,'pointerenter',enter)
+  listen(target,'pointermove',enter);listen(target,'pointerenter',enter);listen(target,'pointerover',enter)
   listen(target,'pointerdown',pulse);listen(target,'pointerleave',clear)
   listen(window,'pointerup',release);listen(window,'pointercancel',clear);listen(window,'blur',clear)
   listen(window,'scroll',clear);listen(window,'resize',size);listen(reduced,'change',clear)

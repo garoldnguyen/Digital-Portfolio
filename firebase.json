@@ -28,7 +28,7 @@
           "headers": [
             {
               "key": "Content-Security-Policy",
-              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com https://www.googletagmanager.com; style-src 'self'; font-src 'self'; img-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com https://www.googletagmanager.com; style-src 'self'; font-src 'self'; frame-src https://garoldnguyen.github.io https://music-note-detector.fly.dev; img-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
             },
             {
               "key": "Strict-Transport-Security",
@@ -174,7 +174,7 @@
           "headers": [
             {
               "key": "Content-Security-Policy",
-              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com https://www.googletagmanager.com; style-src 'self'; font-src 'self'; img-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
+              "value": "default-src 'self'; script-src 'self' https://www.gstatic.com https://www.googletagmanager.com; style-src 'self'; font-src 'self'; frame-src https://garoldnguyen.github.io https://music-note-detector.fly.dev; img-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; connect-src 'self' https://*.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://www.googletagmanager.com https://firebaseinstallations.googleapis.com https://firebase.googleapis.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'; upgrade-insecure-requests"
             },
             {
               "key": "Strict-Transport-Security",

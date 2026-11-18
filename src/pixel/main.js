@@ -1,6 +1,6 @@
 /* Entry point: the pixel desktop. Everything is plain DOM code; the pages work without it (every window is a real
    section, every icon a real link), it only adds the window manager, the terminal, the START menu, the boot screen, the
-   sound effects, the theme switch, the copy buttons and the glitch cursor. */
+   sound effects, the theme switch, the copy buttons, the glitch cursor and the in-window demo player. */
 import { initWindows } from './windows.js';
 import { initTheme } from './theme.js';
 import { initSfx } from './sfx.js';
@@ -12,6 +12,7 @@ import { installGlitchCursor } from './glitch-cursor.js';
 import { initCopy } from './copy.js';
 import { initAccordions } from './accordions.js';
 import { initLang } from './i18n.js';
+import { initPlayer } from './player.js';
 
 const theme = initTheme();
 const sfx = initSfx();
@@ -31,5 +32,6 @@ installGlitchCursor(document.body);
 initCopy();
 initAccordions();
 initLang();
+initPlayer(desk);
 // motion is switched on only after the first screen is up (two frames), so the first window and the page itself never animate on load
 requestAnimationFrame(() => requestAnimationFrame(() => document.documentElement.classList.add('motion')));

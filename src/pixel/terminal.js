@@ -61,7 +61,7 @@ export function initTerminal(desk, ctl) {
   const jobs = () => $$('#career article.card').map(a => ({ title: text($('.job-t', a)), co: text($('.job-co', a)), when: text($('.chip', a)) }));
   const certs = () => $$('#credentials article.cred').map(a => ({ abbr: text($('.abbr', a)), name: text($('.cert', a)), issued: text($('.muted', a)), href: ($('a.lnk', a) || {}).href }));
   const groups = () => $$('#expertise .cols > section').map(s => ({ title: text($('.col-t', s)), items: $$('li', s).map(text) }));
-  const works = () => $$('#works article.card').map(a => ({ title: text($('.w-t', a)), stack: text($('.muted', a)), links: $$('a.lnk', a).map(l => ({ label: text(l), href: l.href })) }));
+  const works = () => $$('#works article.card').map(a => ({ title: text($('.w-t', a)), stack: text($('.muted', a)), links: $$('a.lnk', a).filter((l, i, all) => all.findIndex(x => x.href === l.href) === i).map(l => ({ label: text(l), href: l.href })) }));
   const honours = () => $$('#honours details.acc').map(d => ({ when: text($('.chip', d)), title: text($('.acc-t b', d)), by: text($('.acc-t span', d)) }));
   const contactInfo = () => ({
     mail: text($('#contact .c-mail')), tel: text($('#contact .c-tel')), where: text($('#contact .muted')),

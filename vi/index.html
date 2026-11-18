@@ -32,7 +32,7 @@
 <link rel="preload" href="/assets/fonts/nunito-latin-ba344451.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/nunito-vietnamese-61e5958c.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="/assets/fonts/silkscreen-latin-e6c72ea4.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="/assets/css/pixel-desktop.css?v=e0835fb7">
+<link rel="stylesheet" href="/assets/css/pixel-desktop.css?v=6c2fb402">
 <script src="/assets/js/theme-init.js?v=01258494"></script>
 <script type="application/ld+json">
 {
@@ -233,22 +233,33 @@
             <p class="kicker"><span class="chip">ÂM NHẠC</span></p>
             <h3 class="w-t">Music Note Detector</h3>
             <p class="muted">Python, Flask, Librosa</p>
-            <p class="links"><a class="lnk" href="https://music-note-detector.fly.dev/" target="_blank" rel="noopener">Xem demo</a><a class="lnk" href="https://github.com/garoldnguyen/Music-Note-Detector-Flask" target="_blank" rel="noopener">Mã nguồn</a></p>
+            <p class="links"><a class="lnk" data-play href="https://music-note-detector.fly.dev/" target="_blank" rel="noopener">Chơi tại đây</a><a class="lnk" href="https://music-note-detector.fly.dev/" target="_blank" rel="noopener">Mở trong thẻ mới</a><a class="lnk" href="https://github.com/garoldnguyen/Music-Note-Detector-Flask" target="_blank" rel="noopener">Mã nguồn</a></p>
           </article>
           <article class="card">
             <div class="tile t3"><img class="px" data-sprite="works/timer" src="/assets/pixel/works/timer.png?v=8ce84663" width="32" height="32" alt=""></div>
             <p class="kicker"><span class="chip">NĂNG SUẤT</span></p>
             <h3 class="w-t">Fokus Pomodoro</h3>
             <p class="muted">TypeScript, Vite, Web Audio API</p>
-            <p class="links"><a class="lnk" href="https://garoldnguyen.github.io/fokus-pomodoro/" target="_blank" rel="noopener">Xem demo</a><a class="lnk" href="https://github.com/garoldnguyen/fokus-pomodoro" target="_blank" rel="noopener">Mã nguồn</a></p>
+            <p class="links"><a class="lnk" data-play href="https://garoldnguyen.github.io/fokus-pomodoro/" target="_blank" rel="noopener">Chơi tại đây</a><a class="lnk" href="https://garoldnguyen.github.io/fokus-pomodoro/" target="_blank" rel="noopener">Mở trong thẻ mới</a><a class="lnk" href="https://github.com/garoldnguyen/fokus-pomodoro" target="_blank" rel="noopener">Mã nguồn</a></p>
           </article>
           <article class="card">
             <div class="tile t2"><img class="px" data-sprite="works/gomoku" src="/assets/pixel/works/gomoku.png?v=b08f2866" width="32" height="32" alt=""></div>
             <p class="kicker"><span class="chip">TRÒ CHƠI</span></p>
             <h3 class="w-t">Gomoku Tales</h3>
             <p class="muted">JavaScript, Three.js, Cloudflare Workers</p>
-            <p class="links"><a class="lnk" href="https://gomoku-tales.programmerquannguyen.workers.dev/" target="_blank" rel="noopener">Chơi</a><a class="lnk" href="https://github.com/garoldnguyen/gomoku-tales" target="_blank" rel="noopener">Mã nguồn</a></p>
+            <p class="links"><a class="lnk" href="https://gomoku-tales.programmerquannguyen.workers.dev/" target="_blank" rel="noopener">Mở trong thẻ mới</a><a class="lnk" href="https://github.com/garoldnguyen/gomoku-tales" target="_blank" rel="noopener">Mã nguồn</a></p>
           </article>
+        </div>
+        <div class="player" id="player" hidden>
+          <div class="player-bar">
+            <button type="button" class="btn sm" data-player-back>Quay lại dự án</button>
+            <button type="button" class="btn sm" data-player-reload>Tải lại</button>
+            <p class="player-t" id="player-t"></p>
+            <a class="lnk player-ext" id="player-ext" target="_blank" rel="noopener">Mở trong thẻ mới</a>
+          </div>
+          <div class="player-frame" data-native-cursor>
+            <p class="player-load muted">Đang tải…</p>
+          </div>
         </div>
       </div>
     </section>
@@ -468,7 +479,7 @@
 </div>
 
 <script type="application/json" id="i18n">{"sfx.on":"Âm thanh: bật","sfx.off":"Âm thanh: tắt","theme.light":"Giao diện sáng","theme.dark":"Giao diện tối","win.restore":"Khôi phục cửa sổ","win.maximise":"Phóng to cửa sổ","win.minimise":"Thu nhỏ cửa sổ","copy.done":"Đã sao chép","copy.fail":"Không sao chép được, hãy bôi đen văn bản"}</script>
-<script src="/assets/js/pixel-desktop.js?v=ad243034" defer></script>
+<script src="/assets/js/pixel-desktop.js?v=66e6a339" defer></script>
 
 <!-- Firebase Analytics: same project and config as before, in its own file; it skips localhost -->
 <script type="module" src="/assets/js/analytics.js?v=a843f794"></script>

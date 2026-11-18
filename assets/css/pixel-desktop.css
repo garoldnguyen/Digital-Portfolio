@@ -169,6 +169,19 @@ html:not(.js) .win { width: min(var(--w, 1000px), calc(100% - 28px)); margin: 0 
 .works .muted { margin-top: 6px; font-size: 15px; }
 .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 16px; }
 
+/* A demo playing inside the Works window (src/pixel/player.js): the cards give way to a bar and one frame that fills the window. */
+.player { display: flex; flex-direction: column; gap: 12px; flex: 1 1 auto; min-height: 0; }
+.player[hidden] { display: none; }
+.js #works.is-playing .body { display: flex; flex-direction: column; padding: 14px 16px 16px; }
+#works.is-playing .h2, #works.is-playing .works { display: none; }
+.player-bar { flex: none; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.player-t { flex: 1 1 140px; min-width: 0; font-size: 18px; font-weight: 800; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.player-ext { flex: none; }
+.player-frame { position: relative; flex: 1 1 auto; min-height: 280px; background: var(--card); border: 2px solid var(--line); }
+.player-load { position: absolute; inset: 0; display: grid; place-items: center; font-weight: 700; }
+.player-frame.is-loaded .player-load { display: none; }
+.player-iframe { position: absolute; inset: 0; display: block; width: 100%; height: 100%; border: 0; }
+
 /* ---------- research ---------- */
 .paper-t { margin-bottom: 0; font-size: 40px; }
 .paper-s { margin-top: 10px; font-size: 19px; line-height: 1.4; font-weight: 700; }
@@ -378,6 +391,8 @@ html.gc-on, html.gc-on * { cursor: none !important; }
   .x { width: 34px; height: 34px; }
   .x::before, .x::after { width: 16px; margin: -1px 0 0 -8px; }
   .body { overflow: visible; }
+  .player { flex: none; }
+  .player-frame { flex: none; height: max(380px, calc(100vh - 250px)); height: max(380px, calc(100svh - 250px)); }   /* the window is as tall as its content here, so the frame needs a height of its own */
   .js .icons { position: static; order: 2; display: grid; grid-template-columns: repeat(auto-fill, minmax(78px, 1fr)); grid-template-rows: none; grid-auto-flow: row; gap: 18px 6px; width: 100%; max-width: 780px; margin: 0 auto; padding: 22px 12px 8px; justify-content: stretch; align-content: start; }
   html:not([data-view="profile"]) .icons { display: none; }
   .icon { width: auto; font-size: 13px; }
